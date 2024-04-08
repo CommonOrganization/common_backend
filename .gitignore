@@ -4,6 +4,10 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+!**/src/main/resources/application.properties
+!**/src/test/resources/application.properties
+src/main/resources/application.properties
+src/test/resources/application.properties
 
 ### STS ###
 .apt_generated
@@ -26,6 +30,8 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
+
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -35,9 +41,3 @@ out/
 
 ### VS Code ###
 .vscode/
-
-!**/src/main/resources/application.properties
-!**/src/test/resources/application.properties
-
-src/main/resources/application.properties
-src/test/resources/application.properties
