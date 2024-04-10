@@ -1,6 +1,5 @@
 package com.junghun.common.domain.user.dto;
 
-import jakarta.persistence.Column;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +11,7 @@ import java.util.Map;
 @Getter
 @Setter
 @Builder
-public class UserRegisterDto {
+public class RegisterDto {
     private String email;
     private String name;
     private String password;

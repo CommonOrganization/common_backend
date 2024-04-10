@@ -1,10 +1,12 @@
 package com.junghun.common.domain.user.service;
 
 
-import com.junghun.common.domain.user.dto.UserRegisterDto;
+import com.junghun.common.domain.user.dto.InformationDto;
+import com.junghun.common.domain.user.dto.RegisterDto;
 import com.junghun.common.domain.user.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,6 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -28,11 +29,8 @@ class UserServiceTest {
     @Autowired
     UserService service;
 
-    static int testId = 0;
-
     @BeforeEach
     void setUser(){
-        testId++;
 
         Map<String,Object> userPlace = new HashMap<>();
         userPlace.put("city","세종");
@@ -44,30 +42,37 @@ class UserServiceTest {
         interestCategory.add("language");
         interestCategory.add("game");
 
-        UserRegisterDto registerDto =  UserRegisterDto.builder()
-                .email("test"+testId+"@naver.com")
-                .name("test"+testId)
+        RegisterDto registerDto =  RegisterDto.builder()
+                .email("test@naver.com")
+                .name("test")
                 .password("password")
                 .gender("남성")
-                .birthday(LocalDate.of(1999,testId,16))
+                .birthday(LocalDate.of(1999,1,16))
                 .userPlace(userPlace)
                 .interestCategory(interestCategory)
                 .profileImage("image")
                 .information("information")
                 .build();
 
-        service.registerUser(registerDto);
+        service.register(registerDto);
+    }
+
+    @AfterEach
+    void clearUser(){
+        service.resetPassword("test@naver.com","password");
+        User user = service.login("test@naver.com","password");
+        service.deleteById(user.getId());
     }
 
 
     @Test
     void loginAndUpdateUser() {
 
-        User loginUser = service.loginUser("test1@naver.com","password");
+        User loginUser = service.login("test@naver.com","password");
 
         service.updatePassword(loginUser.getId(),"password2");
 
-        User updatedUser = service.findUserById(loginUser.getId()).get();
+        User updatedUser = service.findById(loginUser.getId()).get();
 
         Assertions.assertThat(loginUser.getId()).isEqualTo(updatedUser.getId());
 
@@ -77,15 +82,25 @@ class UserServiceTest {
     @Test
     void resetPassword() {
 
-        service.resetPassword("test1@naver.com","password123");
+        service.resetPassword("test@naver.com","password123");
 
-        User loginUser = service.loginUser("test1@naver.com","password123");
+        User loginFailedUser = service.login("test@naver.com","password");
 
-        Assertions.assertThat(loginUser).isNotNull();
+        Assertions.assertThat(loginFailedUser).isNull();
 
-        Assertions.assertThat(loginUser.getPassword()).isNotEqualTo("password");
+        User loginSuccessUser = service.login("test@naver.com","password123");
 
-        Assertions.assertThat(loginUser.getId()).isEqualTo(1L);
+        Assertions.assertThat(loginSuccessUser.getName()).isEqualTo("test");
+    }
+
+    @Test
+    void getInformation(){
+
+        User user = service.login("test@naver.com","password");
+
+        InformationDto informationDto = service.findInformationById(user.getId()).get();
+
+        Assertions.assertThat(informationDto.getName()).isEqualTo("test");
     }
 }
 

@@ -1,7 +1,8 @@
 package com.junghun.common.domain.user.controller;
 
-import com.junghun.common.domain.user.dto.UserLoginDto;
-import com.junghun.common.domain.user.dto.UserRegisterDto;
+import com.junghun.common.domain.user.dto.InformationDto;
+import com.junghun.common.domain.user.dto.LoginDto;
+import com.junghun.common.domain.user.dto.RegisterDto;
 import com.junghun.common.domain.user.entity.User;
 import com.junghun.common.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,14 +21,14 @@ public class UserController {
     private final UserService userService;
 
     @PutMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody UserRegisterDto userRegisterDto) {
-        User registeredUser = userService.registerUser(userRegisterDto);
+    public ResponseEntity<User> register(@RequestBody RegisterDto registerDto) {
+        User registeredUser = userService.register(registerDto);
         return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<User> loginUser(@RequestBody UserLoginDto userLoginDto) {
-        User loggedInUser = userService.loginUser(userLoginDto.getEmail(), userLoginDto.getPassword());
+    public ResponseEntity<User> login(@RequestBody LoginDto loginDto) {
+        User loggedInUser = userService.login(loginDto.getEmail(), loginDto.getPassword());
         if (loggedInUser != null) {
             return new ResponseEntity<>(loggedInUser, HttpStatus.OK);
         } else {
@@ -69,11 +70,22 @@ public class UserController {
     }
 
     @PatchMapping("/reset/password")
-    public ResponseEntity<User> resetPassword(
-            @RequestBody UserLoginDto userLoginDto) {
-        User updatedUser = userService.resetPassword(userLoginDto.getEmail(), userLoginDto.getPassword());
+    public ResponseEntity<Void> resetPassword(
+            @RequestBody LoginDto loginDto) {
+        userService.resetPassword(loginDto.getEmail(), loginDto.getPassword());
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/{userId}/information")
+    public ResponseEntity<User> updateUserInformation(
+            @PathVariable Long userId,
+            @RequestBody InformationDto informationDto) {
+        User updatedUser = userService.updateInformation(userId, informationDto);
         return ResponseEntity.ok(updatedUser);
     }
 
-
+    @GetMapping("/hello")
+    public String go(){
+        return "hello";
+    }
 }
