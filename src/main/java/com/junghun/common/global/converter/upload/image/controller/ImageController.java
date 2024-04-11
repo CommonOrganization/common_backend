@@ -1,7 +1,8 @@
-package com.junghun.common.global.upload.image.controller;
+package com.junghun.common.global.converter.upload.image.controller;
 
-import com.junghun.common.global.upload.image.service.ImageService;
-import com.junghun.common.global.upload.image.exception.NotSavedFileTypeException;
+import com.junghun.common.domain.user.dto.LoginDto;
+import com.junghun.common.global.converter.upload.image.service.ImageService;
+import com.junghun.common.global.converter.upload.image.exception.NotSavedFileTypeException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -9,6 +10,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.nio.file.*;
+import java.util.List;
 
 
 @RestController

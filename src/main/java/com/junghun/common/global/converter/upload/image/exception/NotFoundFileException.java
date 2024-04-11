@@ -1,4 +1,4 @@
-package com.junghun.common.global.upload.image.exception;
+package com.junghun.common.global.converter.upload.image.exception;
 
 public class NotFoundFileException extends RuntimeException{
 

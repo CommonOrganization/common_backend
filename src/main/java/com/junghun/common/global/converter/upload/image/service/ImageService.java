@@ -1,7 +1,7 @@
-package com.junghun.common.global.upload.image.service;
+package com.junghun.common.global.converter.upload.image.service;
 
-import com.junghun.common.global.upload.image.exception.NotFoundFileException;
-import com.junghun.common.global.upload.image.exception.NotSavedFileTypeException;
+import com.junghun.common.global.converter.upload.image.exception.NotFoundFileException;
+import com.junghun.common.global.converter.upload.image.exception.NotSavedFileTypeException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
