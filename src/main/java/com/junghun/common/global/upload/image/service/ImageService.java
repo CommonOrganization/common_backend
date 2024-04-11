@@ -20,7 +20,7 @@ public class ImageService {
     @Value("${UPLOAD_DIR}")
     private String UPLOAD_DIR;
 
-    @Value("HOST")
+    @Value("${HOST}")
     private String HOST;
 
     public String uploadImage(MultipartFile file, String path) {
