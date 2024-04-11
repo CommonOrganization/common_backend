@@ -1,9 +1,10 @@
-package com.junghun.common.global.upload.image.service;
+package com.junghun.common.global.converter.upload.image.service;
 
-import com.junghun.common.global.upload.image.exception.NotFoundFileException;
-import com.junghun.common.global.upload.image.exception.NotSavedFileTypeException;
+import com.junghun.common.global.converter.upload.image.exception.NotFoundFileException;
+import com.junghun.common.global.converter.upload.image.exception.NotSavedFileTypeException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,7 +17,11 @@ import java.util.*;
 @RequiredArgsConstructor
 @Slf4j
 public class ImageService {
-    private static final String UPLOAD_DIR = "src/main/resources/static/images/";
+    @Value("${UPLOAD_DIR}")
+    private String UPLOAD_DIR;
+
+    @Value("HOST")
+    private String HOST;
 
     public String uploadImage(MultipartFile file, String path) {
         try {
@@ -37,7 +42,7 @@ public class ImageService {
                 stream.write(imageBytes);
             }
 
-            String resultPath = "http://localhost:8080/images/"+path+"/"+fileName;
+            String resultPath = HOST+"api/image/" + path + "/" + fileName;
 
             log.info("이미지 저장 완료 " + resultPath);
             // 업로드된 파일의 절대 경로를 반환
@@ -48,28 +53,13 @@ public class ImageService {
         }
     }
 
-    public List<String> uploadMultipleImages(List<MultipartFile> files, String path) {
+    public byte[] getImage(String path, String imageName) {
         try {
-            List<String> fileUrls = new ArrayList<>();
-
-            Path uploadPath = Paths.get(UPLOAD_DIR + path);
-            Files.createDirectories(uploadPath);
-
-            for (MultipartFile file : files) {
-                // 원본 파일명 가져오기
-                String originalFilename = file.getOriginalFilename();
-
-                // 파일을 업로드 디렉토리에 저장
-                Path filePath = uploadPath.resolve(originalFilename);
-                file.transferTo(filePath);
-
-                // 업로드된 파일의 절대 경로를 리스트에 추가
-                fileUrls.add(filePath.toString());
-            }
-
-            return fileUrls;
+            Path imagePath = Paths.get("src/main/resources/static/images/" + path + "/" + imageName);
+            byte[] imageBytes = Files.readAllBytes(imagePath);
+            return imageBytes;
         } catch (IOException exception) {
-            throw new NotSavedFileTypeException("잘못된 타입의 파일입니다.");
+            throw new NotFoundFileException("존재하지 않는 파일입니다.");
         }
     }
 }

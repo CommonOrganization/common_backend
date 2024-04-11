@@ -1,6 +1,7 @@
 package com.junghun.common.domain.user.service;
 
 
+import com.junghun.common.config.MainConfig;
 import com.junghun.common.domain.user.dto.InformationDto;
 import com.junghun.common.domain.user.dto.RegisterDto;
 import com.junghun.common.domain.user.entity.User;
@@ -21,7 +22,6 @@ import java.util.*;
 
 @SpringBootTest
 @Slf4j
-@ContextConfiguration(classes = TestConfig.class)
 class UserServiceTest {
 
     @Autowired
@@ -101,14 +101,5 @@ class UserServiceTest {
         InformationDto informationDto = service.findInformationById(user.getId()).get();
 
         Assertions.assertThat(informationDto.getName()).isEqualTo("test");
-    }
-}
-
-@TestConfiguration
-class TestConfig {
-
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 }
