@@ -8,16 +8,15 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class MainConfig implements WebMvcConfigurer {
+public class MainConfig implements WebMvcConfigurer{
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    public void addResourceHandlers(ResourceHandlerRegistry registry){
         registry.addResourceHandler("/images/**")
-                .addResourceLocations("classpath:/static/images/");
+                .addResourceLocations("/Users/yunjeonghun/Desktop/DevelopProject/SpringProject/common_backend/src/main/resources/static/images/");
     }
-
 }
