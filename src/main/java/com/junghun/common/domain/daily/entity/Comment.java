@@ -12,6 +12,7 @@ import java.util.List;
 @Table(name = "comments")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Comment {

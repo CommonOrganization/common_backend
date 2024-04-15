@@ -22,17 +22,18 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     // READ
-    public Optional<User> findById(Long id) {
-        return repository.findById(id);
+    public User findById(Long id) {
+        User user = repository.findById(id).orElseThrow(()->new NotFoundUserException(id + "을(를) 가진 User 가 존재하지 않습니다."));
+        return user;
     }
 
-    public Optional<InformationDto> findInformationById(Long id) {
+    public InformationDto findInformationById(Long id) {
         User user = repository.findById(id).orElseThrow(() -> new NotFoundUserException(id + "을(를) 가진 User 가 존재하지 않습니다."));
         InformationDto informationDto = new InformationDto();
         informationDto.setName(user.getName());
         informationDto.setInformation(user.getInformation());
         informationDto.setProfileImage(user.getProfileImage());
-        return Optional.of(informationDto);
+        return informationDto;
     }
 
     // CREATE
