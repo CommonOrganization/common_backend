@@ -4,7 +4,7 @@ import com.junghun.common.domain.user.dto.InformationDto;
 import com.junghun.common.domain.user.dto.RegisterDto;
 import com.junghun.common.domain.user.entity.User;
 import com.junghun.common.domain.user.exception.DuplicatedEmailException;
-import com.junghun.common.domain.user.exception.NotExistUserException;
+import com.junghun.common.domain.user.exception.NotFoundUserException;
 import com.junghun.common.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,7 +27,7 @@ public class UserService {
     }
 
     public Optional<InformationDto> findInformationById(Long id) {
-        User user = repository.findById(id).orElseThrow(() -> new NotExistUserException(id + "을(를) 가진 User 가 존재하지 않습니다."));
+        User user = repository.findById(id).orElseThrow(() -> new NotFoundUserException(id + "을(를) 가진 User 가 존재하지 않습니다."));
         InformationDto informationDto = new InformationDto();
         informationDto.setName(user.getName());
         informationDto.setInformation(user.getInformation());
@@ -65,7 +65,7 @@ public class UserService {
 
     public User login(String email, String password) {
 
-        User user = repository.findByEmail(email).orElseThrow(() -> new NotExistUserException(email + "을(를) 가진 User 가 존재하지 않습니다."));
+        User user = repository.findByEmail(email).orElseThrow(() -> new NotFoundUserException(email + "을(를) 가진 User 가 존재하지 않습니다."));
         // 사용자가 존재하고 비밀번호가 일치하면 사용자 반환
         if (user != null && passwordEncoder.matches(password, user.getPassword())) {
             return user;
@@ -81,7 +81,7 @@ public class UserService {
         String encryptedPassword = passwordEncoder.encode(newPassword);
 
         User existingUser = repository.findByEmail(email)
-                .orElseThrow(() -> new NotExistUserException(email + "을(를) 가진 User 가 존재하지 않습니다."));
+                .orElseThrow(() -> new NotFoundUserException(email + "을(를) 가진 User 가 존재하지 않습니다."));
 
         existingUser.setPassword(encryptedPassword);
 
@@ -93,7 +93,7 @@ public class UserService {
         String encryptedPassword = passwordEncoder.encode(newPassword);
 
         User existingUser = repository.findById(userId)
-                .orElseThrow(() -> new NotExistUserException(userId + "을(를) 가진 User 가 존재하지 않습니다."));
+                .orElseThrow(() -> new NotFoundUserException(userId + "을(를) 가진 User 가 존재하지 않습니다."));
 
         existingUser.setPassword(encryptedPassword);
 
@@ -102,7 +102,7 @@ public class UserService {
 
     public User updateNotificationToken(Long userId, String newNotificationToken) {
         User existingUser = repository.findById(userId)
-                .orElseThrow(() -> new NotExistUserException(userId + "을(를) 가진 User 가 존재하지 않습니다."));
+                .orElseThrow(() -> new NotFoundUserException(userId + "을(를) 가진 User 가 존재하지 않습니다."));
 
         existingUser.setNotificationToken(newNotificationToken);
 
@@ -111,7 +111,7 @@ public class UserService {
 
     public User updateInterestCategory(Long userId, List<String> newInterestCategory) {
         User existingUser = repository.findById(userId)
-                .orElseThrow(() -> new NotExistUserException(userId + "을(를) 가진 User 가 존재하지 않습니다."));
+                .orElseThrow(() -> new NotFoundUserException(userId + "을(를) 가진 User 가 존재하지 않습니다."));
 
         existingUser.setInterestCategory(newInterestCategory);
 
@@ -120,7 +120,7 @@ public class UserService {
 
     public User updateUserPlace(Long userId, Map<String, Object> newUserPlace) {
         User existingUser = repository.findById(userId)
-                .orElseThrow(() -> new NotExistUserException(userId + "을(를) 가진 User 가 존재하지 않습니다."));
+                .orElseThrow(() -> new NotFoundUserException(userId + "을(를) 가진 User 가 존재하지 않습니다."));
 
         existingUser.setUserPlace(newUserPlace);
 
@@ -130,7 +130,7 @@ public class UserService {
     public User updateInformation(Long userId, InformationDto informationDto) {
 
         User user = repository.findById(userId)
-                .orElseThrow(() -> new NotExistUserException(userId + "을(를) 가진 User 가 존재하지 않습니다."));
+                .orElseThrow(() -> new NotFoundUserException(userId + "을(를) 가진 User 가 존재하지 않습니다."));
 
         user.setName(informationDto.getName());
         user.setProfileImage(informationDto.getProfileImage());

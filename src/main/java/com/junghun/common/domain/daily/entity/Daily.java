@@ -16,6 +16,7 @@ import java.util.List;
 @Table(name = "daily")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Daily {

@@ -1,0 +1,80 @@
+package com.junghun.common.domain.daily.controller;
+
+import com.junghun.common.domain.daily.dto.DailyUpdateDto;
+import com.junghun.common.domain.daily.dto.DailyUploadDto;
+import com.junghun.common.domain.daily.entity.Daily;
+import com.junghun.common.domain.daily.repository.DailyRepository;
+import com.junghun.common.domain.daily.service.DailyService;
+import com.junghun.common.domain.user.dto.InformationDto;
+import com.junghun.common.domain.user.dto.LoginDto;
+import com.junghun.common.domain.user.dto.RegisterDto;
+import com.junghun.common.domain.user.entity.User;
+import com.junghun.common.domain.user.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/daily")
+@RequiredArgsConstructor
+public class DailyController {
+    private final DailyService service;
+
+    @GetMapping
+    public ResponseEntity<List<Daily>> findAll() {
+        List<Daily> dailyList = service.findAll();
+        return ResponseEntity.ok(dailyList);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Daily> findById(@PathVariable Long id) {
+        Daily daily = service.findById(id);
+        return ResponseEntity.ok(daily);
+    }
+
+    @GetMapping("/writer/{writerId}")
+    public ResponseEntity<List<Daily>> findByWriterId(@PathVariable Long writerId) {
+        List<Daily> dailyList = service.findByWriterId(writerId);
+        return ResponseEntity.ok(dailyList);
+    }
+
+    @GetMapping("/gathering/{clubGatheringId}")
+    public ResponseEntity<List<Daily>> findByClubGatheringId(@PathVariable Long clubGatheringId) {
+        List<Daily> dailyList = service.findByClubGatheringId(clubGatheringId);
+        return ResponseEntity.ok(dailyList);
+    }
+
+    @GetMapping("/keyword/{keyword}")
+    public ResponseEntity<List<Daily>> findByKeyword(@PathVariable String keyword) {
+        List<Daily> dailyList = service.findByKeyword(keyword);
+        return ResponseEntity.ok(dailyList);
+    }
+
+    @GetMapping("/category/{category}")
+    public ResponseEntity<List<Daily>> findByCategory(@PathVariable String category) {
+        List<Daily> dailyList = service.findByCategory(category);
+        return ResponseEntity.ok(dailyList);
+    }
+
+    @PutMapping("/upload")
+    public ResponseEntity<Daily> upload(@RequestBody DailyUploadDto dailyUploadDto) {
+        Daily daily = service.upload(dailyUploadDto);
+        return new ResponseEntity<>(daily, HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Daily> update(@PathVariable Long id, @RequestBody DailyUpdateDto dailyUpdateDto) {
+        Daily daily = service.update(id, dailyUpdateDto);
+        return new ResponseEntity<>(daily, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        service.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
+}
