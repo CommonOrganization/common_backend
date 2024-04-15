@@ -3,10 +3,11 @@ package com.junghun.common;
 import com.junghun.common.config.MainConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
-@Import(MainConfig.class)
+@Import( MainConfig.class)
 public class CommonApplication {
 
 	public static void main(String[] args) {

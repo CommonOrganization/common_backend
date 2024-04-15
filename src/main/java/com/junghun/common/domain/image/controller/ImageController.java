@@ -1,7 +1,7 @@
-package com.junghun.common.global.upload.image.controller;
+package com.junghun.common.domain.image.controller;
 
-import com.junghun.common.global.upload.image.service.ImageService;
-import com.junghun.common.global.upload.image.exception.NotSavedFileTypeException;
+import com.junghun.common.domain.image.exception.NotSavedFileTypeException;
+import com.junghun.common.domain.image.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;

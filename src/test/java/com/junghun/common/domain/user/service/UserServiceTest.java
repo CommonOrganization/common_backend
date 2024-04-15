@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -22,6 +24,7 @@ import java.util.*;
 
 @SpringBootTest
 @Slf4j
+@Import(MainConfig.class)
 class UserServiceTest {
 
     @Autowired
@@ -103,3 +106,4 @@ class UserServiceTest {
         Assertions.assertThat(informationDto.getName()).isEqualTo("test");
     }
 }
+
