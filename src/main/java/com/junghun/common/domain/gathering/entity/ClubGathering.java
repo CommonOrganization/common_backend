@@ -14,7 +14,6 @@ import java.util.List;
 @Entity
 @Table(name = "club_gathering")
 @Getter
-@Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor

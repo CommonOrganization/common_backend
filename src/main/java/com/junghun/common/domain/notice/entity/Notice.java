@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "notice")
 @Getter
-@Setter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Notice {
@@ -29,4 +29,7 @@ public class Notice {
     @Column(name = "content",length = 1000)
     private String content;
 
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

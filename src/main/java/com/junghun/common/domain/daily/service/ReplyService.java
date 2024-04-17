@@ -13,6 +13,10 @@ import com.junghun.common.domain.daily.repository.CommentRepository;
 import com.junghun.common.domain.daily.repository.ReplyRepository;
 import com.junghun.common.domain.user.entity.User;
 import com.junghun.common.domain.user.service.UserService;
+import jakarta.persistence.Column;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +56,9 @@ public class ReplyService {
         Reply reply = repository.findById(replyId)
                 .orElseThrow(()->new NotFoundCommentException(replyId+"을(를) 가진 Reply 가 존재하지 않습니다."));
 
+        LocalDateTime writeDate = LocalDateTime.now();
+
+        reply.setTimeStamp(writeDate);
         reply.setContent(replyUpdateDto.getContent());
 
         return repository.save(reply);

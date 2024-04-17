@@ -11,6 +11,7 @@ import com.junghun.common.domain.daily.exception.NotFoundDailyException;
 import com.junghun.common.domain.daily.repository.CommentRepository;
 import com.junghun.common.domain.daily.repository.DailyRepository;
 import com.junghun.common.domain.gathering.entity.ClubGathering;
+import com.junghun.common.domain.gathering.service.ClubGatheringService;
 import com.junghun.common.domain.user.entity.User;
 import com.junghun.common.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class DailyService {
     private final DailyRepository repository;
 
     private final UserService userService;
+    private final ClubGatheringService clubGatheringService;
 
     public Daily upload(DailyUploadDto dailyUploadDto) {
         User writer = userService.findById(dailyUploadDto.getWriterId());
@@ -78,7 +80,9 @@ public class DailyService {
     public Daily update(Long id, DailyUpdateDto dailyUpdateDto) {
         Daily daily = repository.findById(id).orElseThrow(() -> new NotFoundDailyException(id + "을(를) 가진 Daily 가 존재하지 않습니다."));
 
-        ClubGathering clubGathering = new ClubGathering();
+        ClubGathering clubGathering = clubGatheringService.findById(dailyUpdateDto.getClubGatheringId());
+
+        LocalDateTime writeDate = LocalDateTime.now();
 
         daily.setCategory(dailyUpdateDto.getCategory());
         daily.setDetailCategory(dailyUpdateDto.getDetailCategory());
@@ -88,6 +92,7 @@ public class DailyService {
         daily.setImageList(dailyUpdateDto.getImageList());
         daily.setContent(dailyUpdateDto.getContent());
         daily.setTagList(dailyUpdateDto.getTagList());
+        daily.setTimeStamp(writeDate);
 
         return repository.save(daily);
     }
@@ -97,8 +102,6 @@ public class DailyService {
         System.out.println("이거 진행되나?");
         repository.deleteById(id);
     }
-
-
 
 
 }

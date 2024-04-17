@@ -16,7 +16,6 @@ import java.util.Map;
 @Entity
 @Table(name = "one_day_gathering")
 @Getter
-@Setter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -56,4 +55,6 @@ public class OneDayGathering extends Gathering {
 
     @OneToMany(mappedBy = "reportedOneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Report> reportedList = new ArrayList<>();
+
+
 }

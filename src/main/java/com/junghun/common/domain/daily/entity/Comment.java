@@ -11,7 +11,6 @@ import java.util.List;
 @Entity
 @Table(name = "comments")
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -32,9 +31,17 @@ public class Comment {
     @Column(name = "time_stamp")
     private LocalDateTime timeStamp;
 
-    @Column(name = "content")
+    @Column(name = "content",length = 1000)
     private String content;
 
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reply> replyList = new ArrayList<>();
+
+    public void setTimeStamp(LocalDateTime timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

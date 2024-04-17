@@ -24,7 +24,6 @@ import java.util.Map;
 @Table(name = "users")
 @Builder
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class User {
@@ -98,4 +97,32 @@ public class User {
 
     @OneToMany(mappedBy = "reportedUser", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Report> reportedList = new ArrayList<>();
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setUserPlace(Map<String, Object> userPlace) {
+        this.userPlace = userPlace;
+    }
+
+    public void setInterestCategory(List<String> interestCategory) {
+        this.interestCategory = interestCategory;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
+    }
+
+    public void setInformation(String information) {
+        this.information = information;
+    }
+
+    public void setNotificationToken(String notificationToken) {
+        this.notificationToken = notificationToken;
+    }
 }

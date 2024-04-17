@@ -3,6 +3,7 @@ package com.junghun.common.domain.gathering.service;
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUploadDto;
 import com.junghun.common.domain.gathering.entity.ClubGathering;
 import com.junghun.common.domain.gathering.entity.OneDayGathering;
+import com.junghun.common.domain.gathering.exception.NotFoundGatheringException;
 import com.junghun.common.domain.gathering.repository.OneDayGatheringRepository;
 import com.junghun.common.domain.user.dto.RegisterDto;
 import com.junghun.common.domain.user.entity.User;
@@ -27,6 +28,15 @@ public class OneDayGatheringService {
         User manager = userService.findById(oneDayGatheringUploadDto.getManagerId());
         LocalDateTime writeDate = LocalDateTime.now();
 
+        ClubGathering clubGathering = null;
+        if(oneDayGatheringUploadDto.getClubGatheringId() != null){
+            try{
+                clubGathering = clubGatheringService.findById(oneDayGatheringUploadDto.getClubGatheringId());
+            }catch (NotFoundGatheringException exception){
+                clubGathering = null;
+            }
+        }
+
         OneDayGathering gathering =  OneDayGathering.builder()
                 .manager(manager)
                 .category(oneDayGatheringUploadDto.getCategory())
@@ -45,13 +55,11 @@ public class OneDayGatheringService {
                 .place(oneDayGatheringUploadDto.getPlace())
                 .haveEntryFee(oneDayGatheringUploadDto.isHaveEntryFee())
                 .entryFee(oneDayGatheringUploadDto.getEntryFee())
+                .clubGathering(clubGathering)
                 .showAllThePeople(oneDayGatheringUploadDto.isShowAllThePeople())
                 .build();
 
-        if(oneDayGatheringUploadDto.getClubGatheringId() != null){
-            ClubGathering clubGathering = clubGatheringService.findById(oneDayGatheringUploadDto.getClubGatheringId());
-            gathering.setClubGathering(clubGathering);
-        }
+
 
         return repository.save(gathering);
     }

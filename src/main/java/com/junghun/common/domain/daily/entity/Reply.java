@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "reply")
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -30,7 +29,16 @@ public class Reply {
     @Column(name = "time_stamp")
     private LocalDateTime timeStamp;
 
-    @Column(name = "content",nullable = false)
+    @Column(name = "content",length = 1000)
     private String content;
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setTimeStamp(LocalDateTime timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
 
 }

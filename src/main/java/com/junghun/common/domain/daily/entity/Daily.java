@@ -15,7 +15,6 @@ import java.util.List;
 @Entity
 @Table(name = "daily")
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -29,13 +28,13 @@ public class Daily {
     @JoinColumn(name = "writer_id", referencedColumnName = "id")
     private User writer;
 
-    @Column(name = "category",length = 30)
+    @Column(name = "category", length = 30)
     private String category;
 
-    @Column(name = "detail_category",length = 30)
+    @Column(name = "detail_category", length = 30)
     private String detailCategory;
 
-    @Column(name = "daily_type",length = 30)
+    @Column(name = "daily_type", length = 30)
     private String dailyType;
 
     @ManyToOne
@@ -49,7 +48,7 @@ public class Daily {
     @Column(name = "image_list")
     private List<String> imageList;
 
-    @Column(name = "content",length = 1000)
+    @Column(name = "content", length = 1000)
     private String content;
 
     @Convert(converter = ListConverter.class)
@@ -67,4 +66,40 @@ public class Daily {
 
     @OneToMany(mappedBy = "reportedDaily", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Report> reportedList = new ArrayList<>();
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setTimeStamp(LocalDateTime timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public void setDetailCategory(String detailCategory) {
+        this.detailCategory = detailCategory;
+    }
+
+    public void setDailyType(String dailyType) {
+        this.dailyType = dailyType;
+    }
+
+    public void setClubGathering(ClubGathering clubGathering) {
+        this.clubGathering = clubGathering;
+    }
+
+    public void setMainImage(String mainImage) {
+        this.mainImage = mainImage;
+    }
+
+    public void setImageList(List<String> imageList) {
+        this.imageList = imageList;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setTagList(List<String> tagList) {
+        this.tagList = tagList;
+    }
 }

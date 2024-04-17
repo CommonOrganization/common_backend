@@ -8,6 +8,7 @@ import com.junghun.common.domain.daily.exception.NotFoundCommentException;
 import com.junghun.common.domain.daily.repository.CommentRepository;
 import com.junghun.common.domain.user.entity.User;
 import com.junghun.common.domain.user.service.UserService;
+import jakarta.persistence.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +46,9 @@ public class CommentService {
         Comment comment = repository.findById(commentId)
                 .orElseThrow(()->new NotFoundCommentException(commentId+"을(를) 가진 Comment 가 존재하지 않습니다."));
 
+        LocalDateTime writeDate = LocalDateTime.now();
+
+        comment.setTimeStamp(writeDate);
         comment.setContent(commentUpdateDto.getContent());
 
         return repository.save(comment);
