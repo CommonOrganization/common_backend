@@ -5,7 +5,6 @@ import com.junghun.common.domain.daily.dto.CommentUploadDto;
 import com.junghun.common.domain.daily.entity.Comment;
 import com.junghun.common.domain.daily.entity.Daily;
 import com.junghun.common.domain.daily.exception.NotFoundCommentException;
-import com.junghun.common.domain.daily.exception.NotFoundDailyException;
 import com.junghun.common.domain.daily.repository.CommentRepository;
 import com.junghun.common.domain.user.entity.User;
 import com.junghun.common.domain.user.service.UserService;
@@ -13,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -39,9 +37,8 @@ public class CommentService {
     }
 
     public Comment findById(Long commentId){
-        Comment comment = repository.findById(commentId)
+        return repository.findById(commentId)
                 .orElseThrow(()->new NotFoundCommentException(commentId+"을(를) 가진 Comment 가 존재하지 않습니다."));
-        return comment;
     }
 
     public Comment update(Long commentId,CommentUpdateDto commentUpdateDto) {

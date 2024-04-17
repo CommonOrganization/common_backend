@@ -1,11 +1,12 @@
 package com.junghun.common.domain.gathering.entity;
 
 import com.junghun.common.domain.daily.entity.Daily;
-import com.junghun.common.domain.likeobject.entity.LikeObject;
+import com.junghun.common.domain.like.entity.LikeClubGathering;
 import com.junghun.common.domain.report.entity.Report;
 import com.junghun.common.global.converter.ListConverter;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 @Table(name = "club_gathering")
 @Getter
 @Setter
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClubGathering extends Gathering {
@@ -39,7 +41,7 @@ public class ClubGathering extends Gathering {
     private List<RecruitAnswer> recruitAnswerList = new ArrayList<>();
 
     @OneToMany(mappedBy = "clubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<LikeObject> likeObjectList = new ArrayList<>();
+    private List<LikeClubGathering> likeList = new ArrayList<>();
 
     @OneToMany(mappedBy = "reportedClubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Report> reportedList = new ArrayList<>();

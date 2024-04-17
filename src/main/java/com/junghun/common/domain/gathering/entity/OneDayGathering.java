@@ -1,10 +1,12 @@
 package com.junghun.common.domain.gathering.entity;
 
-import com.junghun.common.domain.likeobject.entity.LikeObject;
+import com.junghun.common.domain.like.entity.LikeOneDayGathering;
 import com.junghun.common.domain.report.entity.Report;
+import com.junghun.common.domain.user.entity.User;
 import com.junghun.common.global.converter.MapConverter;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import java.util.Map;
 @Table(name = "one_day_gathering")
 @Getter
 @Setter
+@SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class OneDayGathering extends Gathering {
@@ -49,7 +52,7 @@ public class OneDayGathering extends Gathering {
     private List<RecruitAnswer> recruitAnswerList = new ArrayList<>();
 
     @OneToMany(mappedBy = "oneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<LikeObject> likeObjectList = new ArrayList<>();
+    private List<LikeOneDayGathering> likeList = new ArrayList<>();
 
     @OneToMany(mappedBy = "reportedOneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Report> reportedList = new ArrayList<>();

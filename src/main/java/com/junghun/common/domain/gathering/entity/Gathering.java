@@ -4,14 +4,17 @@ import com.junghun.common.domain.user.entity.User;
 import com.junghun.common.global.converter.ListConverter;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Data
+@SuperBuilder
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public abstract class Gathering {
 
     @Id

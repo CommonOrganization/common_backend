@@ -75,7 +75,7 @@ class UserServiceTest {
 
         service.updatePassword(loginUser.getId(),"password2");
 
-        User updatedUser = service.findById(loginUser.getId()).get();
+        User updatedUser = service.findById(loginUser.getId());
 
         Assertions.assertThat(loginUser.getId()).isEqualTo(updatedUser.getId());
 
@@ -101,7 +101,7 @@ class UserServiceTest {
 
         User user = service.login("test@naver.com","password");
 
-        InformationDto informationDto = service.findInformationById(user.getId()).get();
+        InformationDto informationDto = service.findInformationById(user.getId());
 
         Assertions.assertThat(informationDto.getName()).isEqualTo("test");
     }

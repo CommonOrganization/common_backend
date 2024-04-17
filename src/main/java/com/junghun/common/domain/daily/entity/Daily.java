@@ -1,7 +1,7 @@
 package com.junghun.common.domain.daily.entity;
 
 import com.junghun.common.domain.gathering.entity.ClubGathering;
-import com.junghun.common.domain.likeobject.entity.LikeObject;
+import com.junghun.common.domain.like.entity.LikeDaily;
 import com.junghun.common.domain.report.entity.Report;
 import com.junghun.common.domain.user.entity.User;
 import com.junghun.common.global.converter.ListConverter;
@@ -63,7 +63,7 @@ public class Daily {
     private List<Comment> commentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "daily", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<LikeObject> likeObjectList = new ArrayList<>();
+    private List<LikeDaily> likeList = new ArrayList<>();
 
     @OneToMany(mappedBy = "reportedDaily", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Report> reportedList = new ArrayList<>();
