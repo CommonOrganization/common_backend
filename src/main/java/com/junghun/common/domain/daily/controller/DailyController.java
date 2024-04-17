@@ -1,25 +1,17 @@
 package com.junghun.common.domain.daily.controller;
 
-import com.junghun.common.domain.daily.dto.CommentUpdateDto;
-import com.junghun.common.domain.daily.dto.CommentUploadDto;
-import com.junghun.common.domain.daily.dto.DailyUpdateDto;
-import com.junghun.common.domain.daily.dto.DailyUploadDto;
+import com.junghun.common.domain.daily.dto.*;
 import com.junghun.common.domain.daily.entity.Comment;
 import com.junghun.common.domain.daily.entity.Daily;
-import com.junghun.common.domain.daily.repository.DailyRepository;
+import com.junghun.common.domain.daily.entity.Reply;
+import com.junghun.common.domain.daily.service.CommentService;
 import com.junghun.common.domain.daily.service.DailyService;
-import com.junghun.common.domain.user.dto.InformationDto;
-import com.junghun.common.domain.user.dto.LoginDto;
-import com.junghun.common.domain.user.dto.RegisterDto;
-import com.junghun.common.domain.user.entity.User;
-import com.junghun.common.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/daily")
@@ -69,6 +61,12 @@ public class DailyController {
         return ResponseEntity.ok(dailyList);
     }
 
+    @GetMapping("/{dailyId}/comments")
+    public ResponseEntity<List<Comment>> findCommentsById(@PathVariable Long dailyId) {
+        Daily daily = service.findById(dailyId);
+        return ResponseEntity.ok(daily.getCommentList());
+    }
+
     @PatchMapping("/{id}")
     public ResponseEntity<Daily> update(@PathVariable Long id, @RequestBody DailyUpdateDto dailyUpdateDto) {
         Daily daily = service.update(id, dailyUpdateDto);
@@ -78,31 +76,6 @@ public class DailyController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         service.deleteById(id);
-        return ResponseEntity.ok().build();
-    }
-
-
-    @PutMapping("/{dailyId}/comment/upload")
-    public ResponseEntity<Comment> upload(@PathVariable Long dailyId,@RequestBody CommentUploadDto commentUploadDto) {
-        Comment comment = service.uploadComment(dailyId,commentUploadDto);
-        return new ResponseEntity<>(comment, HttpStatus.CREATED);
-    }
-
-    @GetMapping("/{dailyId}/comment")
-    public ResponseEntity<List<Comment>> findAll(@PathVariable Long dailyId) {
-        List<Comment> commentList = service.findAllComment(dailyId);
-        return ResponseEntity.ok(commentList);
-    }
-
-    @PatchMapping("/{dailyId}/comment/{commentId}")
-    public ResponseEntity<Comment> update(@PathVariable Long dailyId,@PathVariable Long commentId,@RequestBody CommentUpdateDto commentUpdateDto) {
-        Comment comment = service.updateComment(dailyId,commentId,commentUpdateDto);
-        return ResponseEntity.ok(comment);
-    }
-
-    @DeleteMapping("/{dailyId}/comment/{commentId}")
-    public ResponseEntity<Comment> delete(@PathVariable Long dailyId,@PathVariable Long commentId) {
-        service.deleteCommentById(dailyId,commentId);
         return ResponseEntity.ok().build();
     }
 }

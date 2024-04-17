@@ -5,10 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CommentUploadDto {
-
-    private Long writerId;
-    private Long dailyId;
+public class ReplyUpdateDto {
     private String content;
-
 }

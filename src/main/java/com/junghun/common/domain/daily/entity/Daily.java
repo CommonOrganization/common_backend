@@ -63,9 +63,6 @@ public class Daily {
     private List<Comment> commentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "daily", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> replyList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "daily", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LikeObject> likeObjectList = new ArrayList<>();
 
     @OneToMany(mappedBy = "reportedDaily", cascade = CascadeType.ALL, orphanRemoval = true)

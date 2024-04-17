@@ -12,22 +12,19 @@ import com.junghun.common.domain.daily.repository.CommentRepository;
 import com.junghun.common.domain.daily.repository.DailyRepository;
 import com.junghun.common.domain.gathering.entity.ClubGathering;
 import com.junghun.common.domain.user.entity.User;
-import com.junghun.common.domain.user.exception.DuplicatedEmailException;
-import com.junghun.common.domain.user.exception.NotFoundUserException;
 import com.junghun.common.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class DailyService {
 
     private final DailyRepository repository;
-    private final CommentRepository commentRepository;
+
     private final UserService userService;
 
     public Daily upload(DailyUploadDto dailyUploadDto) {
@@ -101,45 +98,7 @@ public class DailyService {
         repository.deleteById(id);
     }
 
-    public Comment uploadComment(Long dailyId, CommentUploadDto commentUploadDto) {
-        User writer = userService.findById(commentUploadDto.getWriterId());
-        LocalDateTime writeDate = LocalDateTime.now();
-        Daily daily = findById(dailyId);
 
-        Comment comment = Comment.builder()
-                .daily(daily)
-                .writer(writer)
-                .content(commentUploadDto.getContent())
-                .timeStamp(writeDate)
-                .build();
-
-        return commentRepository.save(comment);
-    }
-
-    public List<Comment> findAllComment(Long dailyId) {
-        return commentRepository.findByDailyIdOrderByTimeStampDesc(dailyId);
-    }
-
-    public Comment updateComment(Long dailyId, Long commentId, CommentUpdateDto commentUpdateDto) {
-        Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(()->new NotFoundCommentException(commentId+"을(를) 가진 Comment 가 존재하지 않습니다."));
-        if(!comment.getDaily().getId().equals(dailyId)){
-            throw new NotFoundDailyException(dailyId+"을(를) 가진 Daily 가 존재하지 않습니다.");
-        }
-
-        comment.setContent(commentUpdateDto.getContent());
-
-        return commentRepository.save(comment);
-    }
-
-    public void deleteCommentById(Long dailyId,Long commentId) {
-        Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(()->new NotFoundCommentException(commentId+"을(를) 가진 Comment 가 존재하지 않습니다."));
-        if(!comment.getDaily().getId().equals(dailyId)){
-            throw new NotFoundDailyException(dailyId+"을(를) 가진 Daily 가 존재하지 않습니다.");
-        }
-        repository.deleteById(commentId);
-    }
 
 
 }
