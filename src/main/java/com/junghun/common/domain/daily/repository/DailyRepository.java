@@ -13,11 +13,11 @@ public interface DailyRepository extends JpaRepository<Daily, Long> {
 
     List<Daily> findByOrderByTimeStampDesc();
     List<Daily> findByWriterIdOrderByTimeStampDesc(Long writerId);
-    List<Daily> findByClubGatheringId(Long clubGatheringId);
-    List<Daily> findByCategory(String category);
+    List<Daily> findByClubGatheringIdByTimeStampDesc(Long clubGatheringId);
+    List<Daily> findByCategoryByTimeStampDesc(String category);
     @Query("SELECT d FROM Daily d WHERE d.tagList LIKE %:keyword% " +
             "OR d.detailCategory LIKE %:keyword% " +
             "OR d.content LIKE %:keyword% "+
             "ORDER BY d.timeStamp DESC")
-    List<Daily> findByKeyword(@Param("keyword") String keyword);
+    List<Daily> findByKeywordByTimeStampDesc(@Param("keyword") String keyword);
 }
