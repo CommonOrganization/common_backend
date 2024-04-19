@@ -23,7 +23,7 @@ public class LikeDaily {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "daily_id", referencedColumnName = "id")
     private Daily daily;
 

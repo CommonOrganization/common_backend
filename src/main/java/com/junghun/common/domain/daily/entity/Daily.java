@@ -46,26 +46,26 @@ public class Daily {
 
     @Convert(converter = ListConverter.class)
     @Column(name = "image_list")
-    private List<String> imageList;
+    private final List<String> imageList = new ArrayList<>();
 
     @Column(name = "content", length = 1000)
     private String content;
 
     @Convert(converter = ListConverter.class)
     @Column(name = "tag_list")
-    private List<String> tagList;
+    private final List<String> tagList = new ArrayList<>();
 
     @Column(name = "time_stamp")
     private LocalDateTime timeStamp;
 
     @OneToMany(mappedBy = "daily", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> commentList = new ArrayList<>();
+    private final List<Comment> commentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "daily", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<LikeDaily> likeList = new ArrayList<>();
+    private final List<LikeDaily> likeList = new ArrayList<>();
 
     @OneToMany(mappedBy = "reportedDaily", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Report> reportedList = new ArrayList<>();
+    private final List<Report> reportedList = new ArrayList<>();
 
     public void setCategory(String category) {
         this.category = category;
@@ -92,7 +92,8 @@ public class Daily {
     }
 
     public void setImageList(List<String> imageList) {
-        this.imageList = imageList;
+        this.imageList.clear();
+        this.imageList.addAll(imageList);
     }
 
     public void setContent(String content) {
@@ -100,6 +101,7 @@ public class Daily {
     }
 
     public void setTagList(List<String> tagList) {
-        this.tagList = tagList;
+        this.tagList.clear();
+        this.tagList.addAll(tagList);
     }
 }

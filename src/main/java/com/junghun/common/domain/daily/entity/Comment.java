@@ -31,11 +31,11 @@ public class Comment {
     @Column(name = "time_stamp")
     private LocalDateTime timeStamp;
 
-    @Column(name = "content",length = 1000)
+    @Column(name = "content", length = 1000)
     private String content;
 
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Reply> replyList = new ArrayList<>();
+    private final List<Reply> replyList = new ArrayList<>();
 
     public void setTimeStamp(LocalDateTime timeStamp) {
         this.timeStamp = timeStamp;

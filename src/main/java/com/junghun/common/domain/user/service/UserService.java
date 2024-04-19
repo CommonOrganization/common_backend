@@ -61,10 +61,11 @@ public class UserService{
                 .gender(registerDto.getGender())
                 .birthday(registerDto.getBirthday())
                 .userPlace(registerDto.getUserPlace())
-                .interestCategory(registerDto.getInterestCategory())
                 .profileImage(registerDto.getProfileImage())
                 .information(registerDto.getInformation())
                 .build();
+        
+        user.setInterestCategory(registerDto.getInterestCategory());
 
         return repository.save(user);
     }

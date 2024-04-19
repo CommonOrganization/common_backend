@@ -25,23 +25,23 @@ public class ClubGathering extends Gathering {
 
     @Convert(converter = ListConverter.class)
     @Column(name = "city")
-    private List<String> cityList;
+    private final List<String> cityList = new ArrayList<>();
 
     @OneToMany(mappedBy = "clubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OneDayGathering> oneGatheringList = new ArrayList<>();
+    private final List<OneDayGathering> oneGatheringList = new ArrayList<>();
 
     @OneToMany(mappedBy = "clubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Daily> dailyList = new ArrayList<>();
+    private final List<Daily> dailyList = new ArrayList<>();
 
     @OneToMany(mappedBy = "clubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<GatheringApplyStatus> applyStatusList = new ArrayList<>();
+    private final List<GatheringApplyStatus> applyStatusList = new ArrayList<>();
 
     @OneToMany(mappedBy = "clubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RecruitAnswer> recruitAnswerList = new ArrayList<>();
+    private final List<RecruitAnswer> recruitAnswerList = new ArrayList<>();
 
     @OneToMany(mappedBy = "clubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<LikeClubGathering> likeList = new ArrayList<>();
+    private final List<LikeClubGathering> likeList = new ArrayList<>();
 
     @OneToMany(mappedBy = "reportedClubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Report> reportedList = new ArrayList<>();
+    private final List<Report> reportedList = new ArrayList<>();
 }

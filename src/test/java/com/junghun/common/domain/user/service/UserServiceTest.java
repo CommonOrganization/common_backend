@@ -185,5 +185,28 @@ class UserServiceTest {
 
         Assertions.assertThatThrownBy(()->service.register(registerDto)).isInstanceOf(DuplicatedEmailException.class);
     }
+
+    @Test
+    @DisplayName("관심 카테고리 수정 테스트")
+    void updateInterestCategory() {
+
+        User loginUser = service.login("test@naver.com","password");
+
+        List<String> newInterestCategory = new ArrayList<>();
+        newInterestCategory.add("sports");
+        newInterestCategory.add("language");
+        newInterestCategory.add("game");
+        newInterestCategory.add("coffee");
+        newInterestCategory.add("music");
+
+        service.updateInterestCategory(loginUser.getId(),newInterestCategory);
+
+        User updatedUser = service.login("test@naver.com","password");
+
+        Assertions.assertThat(updatedUser.getInterestCategory()).containsExactly("sports","language","game","coffee","music");
+
+        Assertions.assertThat(updatedUser.getInterestCategory().size()).isEqualTo(5);
+
+    }
 }
 

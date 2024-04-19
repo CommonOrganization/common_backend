@@ -23,7 +23,7 @@ public class LikeOneDayGathering {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "one_day_gathering_id", referencedColumnName = "id")
     private OneDayGathering oneDayGathering;
 

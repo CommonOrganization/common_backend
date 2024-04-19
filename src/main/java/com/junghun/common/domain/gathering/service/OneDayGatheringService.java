@@ -28,15 +28,6 @@ public class OneDayGatheringService {
         User manager = userService.findById(oneDayGatheringUploadDto.getManagerId());
         LocalDateTime writeDate = LocalDateTime.now();
 
-        ClubGathering clubGathering = null;
-        if(oneDayGatheringUploadDto.getClubGatheringId() != null){
-            try{
-                clubGathering = clubGatheringService.findById(oneDayGatheringUploadDto.getClubGatheringId());
-            }catch (NotFoundGatheringException exception){
-                clubGathering = null;
-            }
-        }
-
         OneDayGathering gathering =  OneDayGathering.builder()
                 .manager(manager)
                 .category(oneDayGatheringUploadDto.getCategory())
@@ -44,22 +35,29 @@ public class OneDayGatheringService {
                 .title(oneDayGatheringUploadDto.getTitle())
                 .content(oneDayGatheringUploadDto.getContent())
                 .mainImage(oneDayGatheringUploadDto.getMainImage())
-                .imageList(oneDayGatheringUploadDto.getImageList())
                 .recruitWay(oneDayGatheringUploadDto.getRecruitWay())
                 .recruitQuestion(oneDayGatheringUploadDto.getRecruitQuestion())
                 .capacity(oneDayGatheringUploadDto.getCapacity())
-                .tagList(oneDayGatheringUploadDto.getTagList())
                 .timeStamp(writeDate)
                 .type(oneDayGatheringUploadDto.getType())
                 .openingDate(oneDayGatheringUploadDto.getOpeningDate())
                 .place(oneDayGatheringUploadDto.getPlace())
                 .haveEntryFee(oneDayGatheringUploadDto.isHaveEntryFee())
                 .entryFee(oneDayGatheringUploadDto.getEntryFee())
-                .clubGathering(clubGathering)
                 .showAllThePeople(oneDayGatheringUploadDto.isShowAllThePeople())
                 .build();
 
+        gathering.setTagList(oneDayGatheringUploadDto.getTagList());
+        gathering.setImageList(oneDayGatheringUploadDto.getImageList());
 
+        if(oneDayGatheringUploadDto.getClubGatheringId() != null){
+            try{
+                ClubGathering clubGathering = clubGatheringService.findById(oneDayGatheringUploadDto.getClubGatheringId());
+                gathering.setClubGathering(clubGathering);
+            }catch (NotFoundGatheringException exception){
+                throw new NotFoundGatheringException(oneDayGatheringUploadDto.getClubGatheringId()+" 을(를) 가진 Gathering 이 존재하지 않습니다.");
+            }
+        }
 
         return repository.save(gathering);
     }

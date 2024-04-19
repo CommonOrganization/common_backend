@@ -53,7 +53,7 @@ public class User {
 
     @Convert(converter = ListConverter.class)
     @Column(name = "interest_category")
-    private List<String> interestCategory;
+    private final List<String> interestCategory = new ArrayList<>();
 
     @Column(name = "profile_image")
     private String profileImage;
@@ -66,37 +66,37 @@ public class User {
 
     // 모임 관련 JOIN 컬럼
     @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OneDayGathering> oneDayGatheringList = new ArrayList<>();
+    private final List<OneDayGathering> oneDayGatheringList = new ArrayList<>();
 
     @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ClubGathering> clubGatheringList = new ArrayList<>();
+    private final List<ClubGathering> clubGatheringList = new ArrayList<>();
 
     // 데일리, 댓글, 대댓글 관련 JOIN 컬럼
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Daily> dailyList = new ArrayList<>();
+    private final List<Daily> dailyList = new ArrayList<>();
 
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> commentList = new ArrayList<>();
+    private final List<Comment> commentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Reply> replyList = new ArrayList<>();
+    private final List<Reply> replyList = new ArrayList<>();
 
     // 즐겨찾기 관련 JOIN 컬럼
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<LikeOneDayGathering> likeOneDayGatheringList = new ArrayList<>();
+    private final List<LikeOneDayGathering> likeOneDayGatheringList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<LikeClubGathering> likeClubGatheringList = new ArrayList<>();
+    private final List<LikeClubGathering> likeClubGatheringList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<LikeDaily> likeDailyList = new ArrayList<>();
+    private final List<LikeDaily> likeDailyList = new ArrayList<>();
 
     // 신고 관련 JOIN 컬럼
     @OneToMany(mappedBy = "reporter", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Report> reportList = new ArrayList<>();
+    private final List<Report> reportList = new ArrayList<>();
 
     @OneToMany(mappedBy = "reportedUser", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Report> reportedList = new ArrayList<>();
+    private final List<Report> reportedList = new ArrayList<>();
 
     public void setName(String name) {
         this.name = name;
@@ -111,7 +111,8 @@ public class User {
     }
 
     public void setInterestCategory(List<String> interestCategory) {
-        this.interestCategory = interestCategory;
+        this.interestCategory.clear();
+        this.interestCategory.addAll(interestCategory);
     }
 
     public void setProfileImage(String profileImage) {

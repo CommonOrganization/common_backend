@@ -8,6 +8,7 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @SuperBuilder
@@ -42,7 +43,7 @@ public abstract class Gathering {
 
     @Convert(converter = ListConverter.class)
     @Column(name = "image_list")
-    private List<String> imageList;
+    private final List<String> imageList = new ArrayList<>();
 
     @Column(name = "recruit_way", length = 30)
     private String recruitWay;
@@ -55,8 +56,19 @@ public abstract class Gathering {
 
     @Convert(converter = ListConverter.class)
     @Column(name = "tag_list")
-    private List<String> tagList;
+    private final List<String> tagList = new ArrayList<>();
 
     @Column(name = "time_stamp")
     private LocalDateTime timeStamp;
+
+
+    public void setImageList(List<String> imageList) {
+        this.imageList.clear();
+        this.imageList.addAll(imageList);
+    }
+
+    public void setTagList(List<String> tagList) {
+        this.tagList.clear();
+        this.tagList.addAll(tagList);
+    }
 }

@@ -31,11 +31,11 @@ public class RecruitAnswer {
     @Column(name = "time_stamp", nullable = false)
     private LocalDateTime timeStamp;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_gathering_id", referencedColumnName = "id")
     private ClubGathering clubGathering;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "one_day_gathering_id", referencedColumnName = "id")
     private OneDayGathering oneDayGathering;
 }

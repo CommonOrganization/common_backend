@@ -36,7 +36,7 @@ public class OneDayGathering extends Gathering {
     @Column(name = "entry_fee", columnDefinition = "int default 0")
     private int entryFee;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_gathering_id", referencedColumnName = "id")
     private ClubGathering clubGathering;
 
@@ -44,16 +44,18 @@ public class OneDayGathering extends Gathering {
     private boolean showAllThePeople;
 
     @OneToMany(mappedBy = "oneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<GatheringApplyStatus> applyStatusList = new ArrayList<>();
+    private final List<GatheringApplyStatus> applyStatusList = new ArrayList<>();
 
     @OneToMany(mappedBy = "oneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RecruitAnswer> recruitAnswerList = new ArrayList<>();
+    private final List<RecruitAnswer> recruitAnswerList = new ArrayList<>();
 
     @OneToMany(mappedBy = "oneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<LikeOneDayGathering> likeList = new ArrayList<>();
+    private final List<LikeOneDayGathering> likeList = new ArrayList<>();
 
     @OneToMany(mappedBy = "reportedOneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Report> reportedList = new ArrayList<>();
+    private final List<Report> reportedList = new ArrayList<>();
 
-
+    public void setClubGathering(ClubGathering clubGathering){
+        this.clubGathering = clubGathering;
+    }
 }

@@ -23,7 +23,7 @@ public class LikeClubGathering {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_gathering_id", referencedColumnName = "id")
     private ClubGathering clubGathering;
 

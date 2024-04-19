@@ -11,6 +11,7 @@ import com.junghun.common.domain.daily.exception.NotFoundDailyException;
 import com.junghun.common.domain.daily.repository.CommentRepository;
 import com.junghun.common.domain.daily.repository.DailyRepository;
 import com.junghun.common.domain.gathering.entity.ClubGathering;
+import com.junghun.common.domain.gathering.exception.NotFoundGatheringException;
 import com.junghun.common.domain.gathering.service.ClubGatheringService;
 import com.junghun.common.domain.user.entity.User;
 import com.junghun.common.domain.user.service.UserService;
@@ -34,21 +35,27 @@ public class DailyService {
 
         LocalDateTime writeDate = LocalDateTime.now();
 
-        // TODO 이곳에서 GatheringService 의 getClubGathering 이 완료되면 이곳에서 바꿔주기
-        ClubGathering clubGathering = null;
         Daily daily = Daily.builder()
                 .writer(writer)
                 .category(dailyUploadDto.getCategory())
                 .detailCategory(dailyUploadDto.getDetailCategory())
                 .dailyType(dailyUploadDto.getDailyType())
-                .clubGathering(clubGathering)
                 .mainImage(dailyUploadDto.getMainImage())
-                .imageList(dailyUploadDto.getImageList())
                 .content(dailyUploadDto.getContent())
-                .tagList(dailyUploadDto.getTagList())
                 .timeStamp(writeDate)
                 .build();
 
+        if(dailyUploadDto.getClubGatheringId() != null){
+            try{
+                ClubGathering clubGathering = clubGatheringService.findById(dailyUploadDto.getClubGatheringId());
+                daily.setClubGathering(clubGathering);
+            }catch (NotFoundGatheringException exception){
+                throw new NotFoundGatheringException(dailyUploadDto.getClubGatheringId()+" 을(를) 가진 Gathering 이 존재하지 않습니다.");
+            }
+        }
+
+        daily.setImageList(dailyUploadDto.getImageList());
+        daily.setTagList(dailyUploadDto.getTagList());
         return repository.save(daily);
     }
 
@@ -80,14 +87,20 @@ public class DailyService {
     public Daily update(Long id, DailyUpdateDto dailyUpdateDto) {
         Daily daily = repository.findById(id).orElseThrow(() -> new NotFoundDailyException(id + "을(를) 가진 Daily 가 존재하지 않습니다."));
 
-        ClubGathering clubGathering = clubGatheringService.findById(dailyUpdateDto.getClubGatheringId());
-
         LocalDateTime writeDate = LocalDateTime.now();
 
+        if(dailyUpdateDto.getClubGatheringId() != null){
+            try{
+                ClubGathering clubGathering = clubGatheringService.findById(dailyUpdateDto.getClubGatheringId());
+                daily.setClubGathering(clubGathering);
+            }catch (NotFoundGatheringException exception){
+                throw new NotFoundGatheringException(dailyUpdateDto.getClubGatheringId()+" 을(를) 가진 Gathering 이 존재하지 않습니다.");
+            }
+        }
         daily.setCategory(dailyUpdateDto.getCategory());
         daily.setDetailCategory(dailyUpdateDto.getDetailCategory());
         daily.setDailyType(dailyUpdateDto.getDailyType());
-        daily.setClubGathering(clubGathering);
+
         daily.setMainImage(dailyUpdateDto.getMainImage());
         daily.setImageList(dailyUpdateDto.getImageList());
         daily.setContent(dailyUpdateDto.getContent());
@@ -99,7 +112,6 @@ public class DailyService {
 
     public void deleteById(Long id) {
         repository.findById(id).orElseThrow(() -> new NotFoundDailyException(id + "을(를) 가진 Daily 가 존재하지 않습니다."));
-        System.out.println("이거 진행되나?");
         repository.deleteById(id);
     }
 
