@@ -97,10 +97,10 @@ public class DailyService {
                 throw new NotFoundGatheringException(dailyUpdateDto.getClubGatheringId()+" 을(를) 가진 Gathering 이 존재하지 않습니다.");
             }
         }
+
         daily.setCategory(dailyUpdateDto.getCategory());
         daily.setDetailCategory(dailyUpdateDto.getDetailCategory());
         daily.setDailyType(dailyUpdateDto.getDailyType());
-
         daily.setMainImage(dailyUpdateDto.getMainImage());
         daily.setImageList(dailyUpdateDto.getImageList());
         daily.setContent(dailyUpdateDto.getContent());
