@@ -35,7 +35,7 @@ public class DailyService {
         LocalDateTime writeDate = LocalDateTime.now();
 
         // TODO 이곳에서 GatheringService 의 getClubGathering 이 완료되면 이곳에서 바꿔주기
-        ClubGathering clubGathering = new ClubGathering();
+        ClubGathering clubGathering = null;
         Daily daily = Daily.builder()
                 .writer(writer)
                 .category(dailyUploadDto.getCategory())

@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserService{
 
     private final UserRepository repository;
     private final BCryptPasswordEncoder passwordEncoder;
@@ -24,6 +24,11 @@ public class UserService {
     // READ
     public User findById(Long id) {
         User user = repository.findById(id).orElseThrow(()->new NotFoundUserException(id + "을(를) 가진 User 가 존재하지 않습니다."));
+        return user;
+    }
+
+    public User findByEmail(String email) {
+        User user = repository.findByEmail(email).orElseThrow(()->new NotFoundUserException(email + "을(를) 가진 User 가 존재하지 않습니다."));
         return user;
     }
 

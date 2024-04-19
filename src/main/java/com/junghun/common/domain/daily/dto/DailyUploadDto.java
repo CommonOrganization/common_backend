@@ -13,7 +13,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@Builder
 public class DailyUploadDto {
     private Long writerId;
     private String category;

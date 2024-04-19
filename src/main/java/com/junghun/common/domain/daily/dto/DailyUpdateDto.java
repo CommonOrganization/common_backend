@@ -9,7 +9,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@Builder
 public class DailyUpdateDto {
     private String category;
     private String detailCategory;

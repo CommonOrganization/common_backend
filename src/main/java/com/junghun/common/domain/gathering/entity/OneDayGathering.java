@@ -20,7 +20,6 @@ import java.util.Map;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class OneDayGathering extends Gathering {
-
     @Column(name = "type", length = 30)
     private String type;
 

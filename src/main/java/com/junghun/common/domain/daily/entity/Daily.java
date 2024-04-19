@@ -37,7 +37,7 @@ public class Daily {
     @Column(name = "daily_type", length = 30)
     private String dailyType;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_gathering_id", referencedColumnName = "id")
     private ClubGathering clubGathering;
 
