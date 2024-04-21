@@ -1,6 +1,6 @@
 package com.junghun.common.domain.user.entity;
 
-import com.junghun.common.domain.daily.entity.Comments;
+import com.junghun.common.domain.daily.entity.Comment;
 import com.junghun.common.domain.daily.entity.Daily;
 import com.junghun.common.domain.daily.entity.Reply;
 import com.junghun.common.domain.gathering.entity.ClubGathering;
@@ -75,7 +75,7 @@ public class User {
     private final List<Daily> dailyList = new ArrayList<>();
 
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<Comments> commentList = new ArrayList<>();
+    private final List<Comment> commentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Reply> replyList = new ArrayList<>();

@@ -68,7 +68,7 @@ public class DailyService {
     }
 
     public List<Daily> findByClubGatheringId(Long gatheringId) {
-        return repository.findByClubGatheringIdByTimeStampDesc(gatheringId);
+        return repository.findByClubGatheringIdOrderByTimeStampDesc(gatheringId);
     }
 
     public List<Daily> findByKeyword(String keyword) {
@@ -76,7 +76,7 @@ public class DailyService {
     }
 
     public List<Daily> findByCategory(String category) {
-        return repository.findByCategoryByTimeStampDesc(category);
+        return repository.findByCategoryOrderByTimeStampDesc(category);
     }
 
     public Daily update(Long id, DailyUpdateDto dailyUpdateDto) {

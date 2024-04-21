@@ -13,8 +13,8 @@ public interface DailyRepository extends JpaRepository<Daily, Long> {
 
     List<Daily> findByOrderByTimeStampDesc();
     List<Daily> findByWriterIdOrderByTimeStampDesc(Long writerId);
-    List<Daily> findByClubGatheringIdByTimeStampDesc(Long clubGatheringId);
-    List<Daily> findByCategoryByTimeStampDesc(String category);
+    List<Daily> findByClubGatheringIdOrderByTimeStampDesc(Long clubGatheringId);
+    List<Daily> findByCategoryOrderByTimeStampDesc(String category);
     @Query("SELECT d FROM Daily d WHERE d.tagList LIKE %:keyword% " +
             "OR d.detailCategory LIKE %:keyword% " +
             "OR d.content LIKE %:keyword% "+
