@@ -2,7 +2,7 @@ package com.junghun.common.domain.daily.service;
 
 import com.junghun.common.domain.daily.dto.ReplyUpdateDto;
 import com.junghun.common.domain.daily.dto.ReplyUploadDto;
-import com.junghun.common.domain.daily.entity.Comments;
+import com.junghun.common.domain.daily.entity.Comment;
 import com.junghun.common.domain.daily.entity.Reply;
 import com.junghun.common.domain.daily.exception.NotFoundCommentsException;
 import com.junghun.common.domain.daily.exception.NotFoundReplyException;
@@ -19,13 +19,13 @@ import java.time.LocalDateTime;
 public class ReplyService {
 
     private final ReplyRepository repository;
-    private final CommentsService commentService;
+    private final CommentService commentService;
     private final UserService userService;
 
     public Reply upload(ReplyUploadDto replyUploadDto) {
         User writer = userService.findById(replyUploadDto.getWriterId());
         LocalDateTime writeDate = LocalDateTime.now();
-        Comments comment = commentService.findById(replyUploadDto.getCommentId());
+        Comment comment = commentService.findById(replyUploadDto.getCommentId());
 
         Reply reply = Reply.builder()
                 .writer(writer)

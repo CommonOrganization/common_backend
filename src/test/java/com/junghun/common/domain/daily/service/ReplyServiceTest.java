@@ -31,7 +31,7 @@ class ReplyServiceTest {
     UserService userService;
 
     @Autowired
-    CommentsService commentService;
+    CommentService commentService;
     Long dailyId;
     User user;
 

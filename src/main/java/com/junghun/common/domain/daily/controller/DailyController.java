@@ -1,7 +1,7 @@
 package com.junghun.common.domain.daily.controller;
 
 import com.junghun.common.domain.daily.dto.*;
-import com.junghun.common.domain.daily.entity.Comments;
+import com.junghun.common.domain.daily.entity.Comment;
 import com.junghun.common.domain.daily.entity.Daily;
 import com.junghun.common.domain.daily.service.DailyService;
 import lombok.RequiredArgsConstructor;
@@ -60,7 +60,7 @@ public class DailyController {
     }
 
     @GetMapping("/{dailyId}/comments")
-    public ResponseEntity<List<Comments>> findCommentsById(@PathVariable Long dailyId) {
+    public ResponseEntity<List<Comment>> findCommentsById(@PathVariable Long dailyId) {
         Daily daily = service.findById(dailyId);
         return ResponseEntity.ok(daily.getCommentList());
     }

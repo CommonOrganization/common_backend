@@ -3,7 +3,7 @@ package com.junghun.common.domain.daily.service;
 import com.junghun.common.domain.daily.dto.CommentUpdateDto;
 import com.junghun.common.domain.daily.dto.CommentUploadDto;
 import com.junghun.common.domain.daily.dto.DailyUploadDto;
-import com.junghun.common.domain.daily.entity.Comments;
+import com.junghun.common.domain.daily.entity.Comment;
 import com.junghun.common.domain.daily.entity.Daily;
 import com.junghun.common.domain.daily.exception.NotFoundCommentsException;
 import com.junghun.common.domain.user.dto.RegisterDto;
@@ -29,7 +29,7 @@ import java.util.Map;
 class CommentsServiceTest {
 
     @Autowired
-    CommentsService service;
+    CommentService service;
 
     @Autowired
     DailyService dailyService;
@@ -105,9 +105,9 @@ class CommentsServiceTest {
         commentUploadDto.setDailyId(daily.getId());
         commentUploadDto.setContent("여기는 댓글입니다.");
 
-        Comments uploadComment = service.upload(commentUploadDto);
+        Comment uploadComment = service.upload(commentUploadDto);
 
-        Comments comment = service.findById(uploadComment.getId());
+        Comment comment = service.findById(uploadComment.getId());
 
         Assertions.assertThat(comment.getContent()).isEqualTo(uploadComment.getContent());
         Assertions.assertThat(comment.getWriter().getId()).isEqualTo(user.getId());
@@ -121,12 +121,12 @@ class CommentsServiceTest {
         commentUploadDto.setDailyId(daily.getId());
         commentUploadDto.setContent("여기는 댓글입니다.");
 
-        Comments uploadComment = service.upload(commentUploadDto);
+        Comment uploadComment = service.upload(commentUploadDto);
 
         CommentUpdateDto commentUpdateDto = new CommentUpdateDto();
         commentUpdateDto.setContent("이건 새로운 댓글입니다.");
 
-        Comments updateComment = service.update(uploadComment.getId(),commentUpdateDto);
+        Comment updateComment = service.update(uploadComment.getId(),commentUpdateDto);
 
         Assertions.assertThat(uploadComment.getContent()).isNotEqualTo(updateComment.getContent());
         Assertions.assertThat(uploadComment.getWriter().getId()).isEqualTo(updateComment.getId());
@@ -140,7 +140,7 @@ class CommentsServiceTest {
         commentUploadDto.setDailyId(daily.getId());
         commentUploadDto.setContent("여기는 댓글입니다.");
 
-        Comments uploadComment = service.upload(commentUploadDto);
+        Comment uploadComment = service.upload(commentUploadDto);
 
         service.deleteById(uploadComment.getId());
 
