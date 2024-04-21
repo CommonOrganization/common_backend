@@ -26,7 +26,7 @@ import java.util.Map;
 
 @SpringBootTest
 @Slf4j
-class CommentsServiceTest {
+class CommentServiceTest {
 
     @Autowired
     CommentService service;

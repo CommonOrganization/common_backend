@@ -1,13 +1,20 @@
 package com.junghun.common.domain.daily.service;
 
-import com.junghun.common.domain.daily.dto.DailyUploadDto;
+import com.junghun.common.domain.daily.dto.*;
+import com.junghun.common.domain.daily.entity.Comment;
 import com.junghun.common.domain.daily.entity.Daily;
+import com.junghun.common.domain.daily.entity.Reply;
+import com.junghun.common.domain.daily.exception.NotFoundCommentsException;
+import com.junghun.common.domain.daily.exception.NotFoundReplyException;
 import com.junghun.common.domain.user.dto.RegisterDto;
 import com.junghun.common.domain.user.entity.User;
 import com.junghun.common.domain.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -34,6 +41,7 @@ class ReplyServiceTest {
     CommentService commentService;
     Long dailyId;
     User user;
+    Comment comment;
 
     @BeforeEach
     void setComment() {
@@ -81,6 +89,14 @@ class ReplyServiceTest {
         dailyUploadDto.setTagList(tagList);
 
         dailyId = dailyService.upload(dailyUploadDto).getId();
+
+        CommentUploadDto commentUploadDto = new CommentUploadDto();
+        commentUploadDto.setWriterId(user.getId());
+        commentUploadDto.setDailyId(dailyId);
+        commentUploadDto.setContent("여기는 댓글입니다.");
+
+        comment = commentService.upload(commentUploadDto);
+
     }
 
     @AfterEach
@@ -93,6 +109,56 @@ class ReplyServiceTest {
 
         User user = userService.findByEmail("test@naver.com");
         userService.deleteById(user.getId());
+    }
+
+    @Test
+    @DisplayName("대댓글 등록하기 테스트")
+    void uploadComment(){
+        ReplyUploadDto replyUploadDto = new ReplyUploadDto();
+        replyUploadDto.setWriterId(user.getId());
+        replyUploadDto.setCommentId(comment.getId());
+        replyUploadDto.setContent("여기는 대댓글입니다.");
+
+        Reply uploadReply = service.upload(replyUploadDto);
+
+        Reply reply = service.findById(uploadReply.getId());
+
+        Assertions.assertThat(reply.getContent()).isEqualTo("여기는 대댓글입니다.");
+        Assertions.assertThat(reply.getWriter().getId()).isEqualTo(user.getId());
+    }
+
+    @Test
+    @DisplayName("대댓글 수정하기 테스트")
+    void updateComment(){
+        ReplyUploadDto replyUploadDto = new ReplyUploadDto();
+        replyUploadDto.setWriterId(user.getId());
+        replyUploadDto.setCommentId(comment.getId());
+        replyUploadDto.setContent("여기는 대댓글입니다.");
+
+        Reply uploadReply = service.upload(replyUploadDto);
+
+        ReplyUpdateDto replyUpdateDto = new ReplyUpdateDto();
+        replyUpdateDto.setContent("이건 새로운 대댓글입니다.");
+
+        Reply updateReply = service.update(uploadReply.getId(),replyUpdateDto);
+
+        Assertions.assertThat(uploadReply.getContent()).isNotEqualTo(updateReply.getContent());
+        Assertions.assertThat(uploadReply.getId()).isEqualTo(updateReply.getId());
+    }
+
+    @Test
+    @DisplayName("대댓글 삭제하기 테스트")
+    void deleteComment(){
+        ReplyUploadDto replyUploadDto = new ReplyUploadDto();
+        replyUploadDto.setWriterId(user.getId());
+        replyUploadDto.setCommentId(comment.getId());
+        replyUploadDto.setContent("여기는 대댓글입니다.");
+
+        Reply uploadReply = service.upload(replyUploadDto);
+
+        service.deleteById(uploadReply.getId());
+
+        Assertions.assertThatThrownBy(()->service.findById(uploadReply.getId())).isInstanceOf(NotFoundReplyException.class);
     }
 
 }
