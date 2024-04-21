@@ -1,6 +1,6 @@
 package com.junghun.common.domain.user.entity;
 
-import com.junghun.common.domain.daily.entity.Comment;
+import com.junghun.common.domain.daily.entity.Comments;
 import com.junghun.common.domain.daily.entity.Daily;
 import com.junghun.common.domain.daily.entity.Reply;
 import com.junghun.common.domain.gathering.entity.ClubGathering;
@@ -11,7 +11,6 @@ import com.junghun.common.domain.like.entity.LikeOneDayGathering;
 import com.junghun.common.domain.report.entity.Report;
 import com.junghun.common.global.converter.ListConverter;
 import com.junghun.common.global.converter.MapConverter;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -76,7 +75,7 @@ public class User {
     private final List<Daily> dailyList = new ArrayList<>();
 
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<Comment> commentList = new ArrayList<>();
+    private final List<Comments> commentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Reply> replyList = new ArrayList<>();

@@ -1,14 +1,9 @@
 package com.junghun.common.domain.daily.service;
 
-import com.junghun.common.domain.daily.dto.CommentUpdateDto;
-import com.junghun.common.domain.daily.dto.CommentUploadDto;
 import com.junghun.common.domain.daily.dto.DailyUpdateDto;
 import com.junghun.common.domain.daily.dto.DailyUploadDto;
-import com.junghun.common.domain.daily.entity.Comment;
 import com.junghun.common.domain.daily.entity.Daily;
-import com.junghun.common.domain.daily.exception.NotFoundCommentException;
 import com.junghun.common.domain.daily.exception.NotFoundDailyException;
-import com.junghun.common.domain.daily.repository.CommentRepository;
 import com.junghun.common.domain.daily.repository.DailyRepository;
 import com.junghun.common.domain.gathering.entity.ClubGathering;
 import com.junghun.common.domain.gathering.exception.NotFoundGatheringException;

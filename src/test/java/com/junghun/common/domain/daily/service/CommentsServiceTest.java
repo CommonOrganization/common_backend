@@ -1,13 +1,20 @@
 package com.junghun.common.domain.daily.service;
 
+import com.junghun.common.domain.daily.dto.CommentUpdateDto;
+import com.junghun.common.domain.daily.dto.CommentUploadDto;
 import com.junghun.common.domain.daily.dto.DailyUploadDto;
+import com.junghun.common.domain.daily.entity.Comments;
 import com.junghun.common.domain.daily.entity.Daily;
+import com.junghun.common.domain.daily.exception.NotFoundCommentsException;
 import com.junghun.common.domain.user.dto.RegisterDto;
 import com.junghun.common.domain.user.entity.User;
 import com.junghun.common.domain.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -19,24 +26,20 @@ import java.util.Map;
 
 @SpringBootTest
 @Slf4j
-class ReplyServiceTest {
+class CommentsServiceTest {
 
     @Autowired
-    ReplyService service;
+    CommentsService service;
 
     @Autowired
     DailyService dailyService;
 
     @Autowired
     UserService userService;
-
-    @Autowired
-    CommentsService commentService;
-    Long dailyId;
+    Daily daily;
     User user;
-
     @BeforeEach
-    void setComment() {
+    void setDaily() {
 
         Map<String, Object> userPlace = new HashMap<>();
         userPlace.put("city", "세종");
@@ -61,7 +64,7 @@ class ReplyServiceTest {
                 .information("information")
                 .build();
 
-        user = userService.register(registerDto);
+        user =  userService.register(registerDto);
 
         DailyUploadDto dailyUploadDto = new DailyUploadDto();
 
@@ -80,9 +83,8 @@ class ReplyServiceTest {
         dailyUploadDto.setContent("여기는 데일리 설명이 들어갑니다 / 1번 데일리:)");
         dailyUploadDto.setTagList(tagList);
 
-        dailyId = dailyService.upload(dailyUploadDto).getId();
+        daily = dailyService.upload(dailyUploadDto);
     }
-
     @AfterEach
     void clearDaily() {
         List<Daily> dailyList = dailyService.findAll();
@@ -93,6 +95,56 @@ class ReplyServiceTest {
 
         User user = userService.findByEmail("test@naver.com");
         userService.deleteById(user.getId());
+    }
+
+    @Test
+    @DisplayName("댓글 등록하기 테스트")
+    void uploadComment(){
+        CommentUploadDto commentUploadDto = new CommentUploadDto();
+        commentUploadDto.setWriterId(user.getId());
+        commentUploadDto.setDailyId(daily.getId());
+        commentUploadDto.setContent("여기는 댓글입니다.");
+
+        Comments uploadComment = service.upload(commentUploadDto);
+
+        Comments comment = service.findById(uploadComment.getId());
+
+        Assertions.assertThat(comment.getContent()).isEqualTo(uploadComment.getContent());
+        Assertions.assertThat(comment.getWriter().getId()).isEqualTo(user.getId());
+    }
+
+    @Test
+    @DisplayName("댓글 수정하기 테스트")
+    void updateComment(){
+        CommentUploadDto commentUploadDto = new CommentUploadDto();
+        commentUploadDto.setWriterId(user.getId());
+        commentUploadDto.setDailyId(daily.getId());
+        commentUploadDto.setContent("여기는 댓글입니다.");
+
+        Comments uploadComment = service.upload(commentUploadDto);
+
+        CommentUpdateDto commentUpdateDto = new CommentUpdateDto();
+        commentUpdateDto.setContent("이건 새로운 댓글입니다.");
+
+        Comments updateComment = service.update(uploadComment.getId(),commentUpdateDto);
+
+        Assertions.assertThat(uploadComment.getContent()).isNotEqualTo(updateComment.getContent());
+        Assertions.assertThat(uploadComment.getWriter().getId()).isEqualTo(updateComment.getId());
+    }
+
+    @Test
+    @DisplayName("댓글 삭제하기 테스트")
+    void deleteComment(){
+        CommentUploadDto commentUploadDto = new CommentUploadDto();
+        commentUploadDto.setWriterId(user.getId());
+        commentUploadDto.setDailyId(daily.getId());
+        commentUploadDto.setContent("여기는 댓글입니다.");
+
+        Comments uploadComment = service.upload(commentUploadDto);
+
+        service.deleteById(uploadComment.getId());
+
+        Assertions.assertThatThrownBy(()->service.findById(uploadComment.getId())).isInstanceOf(NotFoundCommentsException.class);
     }
 
 }

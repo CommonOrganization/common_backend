@@ -30,69 +30,10 @@ class DailyServiceTest {
     @Autowired
     UserService userService;
 
+    User user;
+
     @BeforeEach
     void setDaily() {
-
-        User writer = setUser();
-
-        DailyUploadDto dailyUploadDto1 = new DailyUploadDto();
-
-        List<String> imageList1 = new ArrayList<>();
-        List<String> tagList1 = new ArrayList<>();
-
-        tagList1.add("배드민턴");
-        tagList1.add("첫마을클럽");
-
-        dailyUploadDto1.setWriterId(writer.getId());
-        dailyUploadDto1.setCategory("sports");
-        dailyUploadDto1.setDailyType("gathering");
-        dailyUploadDto1.setClubGatheringId(null);
-        dailyUploadDto1.setMainImage("image");
-        dailyUploadDto1.setImageList(imageList1);
-        dailyUploadDto1.setContent("여기는 데일리 설명이 들어갑니다 / 1번 데일리:)");
-        dailyUploadDto1.setTagList(tagList1);
-
-        DailyUploadDto dailyUploadDto2 = new DailyUploadDto();
-
-        List<String> imageList2 = new ArrayList<>();
-        List<String> tagList2 = new ArrayList<>();
-
-        tagList2.add("카공");
-        tagList2.add("공부");
-
-        dailyUploadDto2.setWriterId(writer.getId());
-        dailyUploadDto2.setCategory("study");
-        dailyUploadDto2.setDailyType("gathering");
-        dailyUploadDto2.setClubGatheringId(null);
-        dailyUploadDto2.setMainImage("image");
-        dailyUploadDto2.setImageList(imageList2);
-        dailyUploadDto2.setContent("여기는 데일리 설명이 들어갑니다 / 2번 데일리:)");
-        dailyUploadDto2.setTagList(tagList2);
-
-        DailyUploadDto dailyUploadDto3 = new DailyUploadDto();
-
-        List<String> imageList3 = new ArrayList<>();
-        List<String> tagList3 = new ArrayList<>();
-
-        tagList3.add("카페");
-        tagList3.add("수다");
-        tagList3.add("세종맘");
-
-        dailyUploadDto3.setWriterId(writer.getId());
-        dailyUploadDto3.setCategory("coffee");
-        dailyUploadDto3.setDailyType("own");
-        dailyUploadDto3.setClubGatheringId(null);
-        dailyUploadDto3.setMainImage("image");
-        dailyUploadDto3.setImageList(imageList3);
-        dailyUploadDto3.setContent("여기는 데일리 설명이 들어갑니다 / 3번 데일리:)");
-        dailyUploadDto3.setTagList(tagList3);
-
-        service.upload(dailyUploadDto1);
-        service.upload(dailyUploadDto2);
-        service.upload(dailyUploadDto3);
-    }
-
-    User setUser() {
 
         Map<String, Object> userPlace = new HashMap<>();
         userPlace.put("city", "세종");
@@ -117,11 +58,63 @@ class DailyServiceTest {
                 .information("information")
                 .build();
 
-        return userService.register(registerDto);
-    }
+        user =  userService.register(registerDto);
 
-    User loginUser() {
-        return userService.login("test@naver.com", "password");
+        DailyUploadDto dailyUploadDto1 = new DailyUploadDto();
+
+        List<String> imageList1 = new ArrayList<>();
+        List<String> tagList1 = new ArrayList<>();
+
+        tagList1.add("배드민턴");
+        tagList1.add("첫마을클럽");
+
+        dailyUploadDto1.setWriterId(user.getId());
+        dailyUploadDto1.setCategory("sports");
+        dailyUploadDto1.setDailyType("gathering");
+        dailyUploadDto1.setClubGatheringId(null);
+        dailyUploadDto1.setMainImage("image");
+        dailyUploadDto1.setImageList(imageList1);
+        dailyUploadDto1.setContent("여기는 데일리 설명이 들어갑니다 / 1번 데일리:)");
+        dailyUploadDto1.setTagList(tagList1);
+
+        DailyUploadDto dailyUploadDto2 = new DailyUploadDto();
+
+        List<String> imageList2 = new ArrayList<>();
+        List<String> tagList2 = new ArrayList<>();
+
+        tagList2.add("카공");
+        tagList2.add("공부");
+
+        dailyUploadDto2.setWriterId(user.getId());
+        dailyUploadDto2.setCategory("study");
+        dailyUploadDto2.setDailyType("gathering");
+        dailyUploadDto2.setClubGatheringId(null);
+        dailyUploadDto2.setMainImage("image");
+        dailyUploadDto2.setImageList(imageList2);
+        dailyUploadDto2.setContent("여기는 데일리 설명이 들어갑니다 / 2번 데일리:)");
+        dailyUploadDto2.setTagList(tagList2);
+
+        DailyUploadDto dailyUploadDto3 = new DailyUploadDto();
+
+        List<String> imageList3 = new ArrayList<>();
+        List<String> tagList3 = new ArrayList<>();
+
+        tagList3.add("카페");
+        tagList3.add("수다");
+        tagList3.add("세종맘");
+
+        dailyUploadDto3.setWriterId(user.getId());
+        dailyUploadDto3.setCategory("coffee");
+        dailyUploadDto3.setDailyType("own");
+        dailyUploadDto3.setClubGatheringId(null);
+        dailyUploadDto3.setMainImage("image");
+        dailyUploadDto3.setImageList(imageList3);
+        dailyUploadDto3.setContent("여기는 데일리 설명이 들어갑니다 / 3번 데일리:)");
+        dailyUploadDto3.setTagList(tagList3);
+
+        service.upload(dailyUploadDto1);
+        service.upload(dailyUploadDto2);
+        service.upload(dailyUploadDto3);
     }
 
     @AfterEach
@@ -147,8 +140,7 @@ class DailyServiceTest {
     @Test
     @DisplayName("작성자 ID로 작성자가 작성한 데일리 불러오기")
     void findByWriterId() {
-        User writer = loginUser();
-        List<Daily> dailyList = service.findByWriterId(writer.getId());
+        List<Daily> dailyList = service.findByWriterId(user.getId());
 
         Assertions.assertThat(dailyList.size()).isEqualTo(3);
     }
@@ -174,8 +166,7 @@ class DailyServiceTest {
     @Test
     @DisplayName("데일리 불러와서 수정하기")
     void findDailyAndUpdateTagList() {
-        User writer = loginUser();
-        List<Daily> dailyList = service.findByWriterId(writer.getId());
+        List<Daily> dailyList = service.findByWriterId(user.getId());
 
         Daily daily = dailyList.get(0);
 

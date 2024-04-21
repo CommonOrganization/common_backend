@@ -59,7 +59,7 @@ public class Daily {
     private LocalDateTime timeStamp;
 
     @OneToMany(mappedBy = "daily", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<Comment> commentList = new ArrayList<>();
+    private final List<Comments> commentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "daily", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<LikeDaily> likeList = new ArrayList<>();

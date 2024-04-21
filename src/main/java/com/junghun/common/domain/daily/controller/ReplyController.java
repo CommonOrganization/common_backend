@@ -1,12 +1,8 @@
 package com.junghun.common.domain.daily.controller;
 
-import com.junghun.common.domain.daily.dto.CommentUpdateDto;
-import com.junghun.common.domain.daily.dto.CommentUploadDto;
 import com.junghun.common.domain.daily.dto.ReplyUpdateDto;
 import com.junghun.common.domain.daily.dto.ReplyUploadDto;
-import com.junghun.common.domain.daily.entity.Comment;
 import com.junghun.common.domain.daily.entity.Reply;
-import com.junghun.common.domain.daily.service.CommentService;
 import com.junghun.common.domain.daily.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
