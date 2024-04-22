@@ -29,18 +29,20 @@ public class OneDayGathering extends Gathering {
     @Column(name = "place")
     private Map<String, Object> place;
 
-    @Column(name = "have_entry_fee", columnDefinition = "boolean default true")
-    private boolean haveEntryFee;
+    @Builder.Default
+    @Column(name = "have_entry_fee")
+    private boolean haveEntryFee = true;
 
-    @Column(name = "entry_fee", columnDefinition = "int default 0")
-    private int entryFee;
+    @Builder.Default
+    @Column(name = "entry_fee")
+    private int entryFee = 0;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_gathering_id", referencedColumnName = "id")
     private ClubGathering clubGathering;
 
     @Column(name = "show_all_the_people")
-    private boolean showAllThePeople;
+    private boolean showAllThePeople = false;
 
     @Builder.Default
     @OneToMany(mappedBy = "oneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)

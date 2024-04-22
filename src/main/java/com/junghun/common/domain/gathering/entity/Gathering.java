@@ -52,8 +52,9 @@ public abstract class Gathering {
     @Column(name = "recruit_question")
     private String recruitQuestion;
 
-    @Column(name = "capacity", columnDefinition = "int default 10")
-    private int capacity;
+    @Builder.Default
+    @Column(name = "capacity")
+    private int capacity = 10;
 
     @Builder.Default
     @Convert(converter = ListConverter.class)
