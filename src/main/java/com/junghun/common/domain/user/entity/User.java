@@ -8,7 +8,10 @@ import com.junghun.common.domain.gathering.entity.OneDayGathering;
 import com.junghun.common.domain.like.entity.LikeClubGathering;
 import com.junghun.common.domain.like.entity.LikeDaily;
 import com.junghun.common.domain.like.entity.LikeOneDayGathering;
-import com.junghun.common.domain.report.entity.Report;
+import com.junghun.common.domain.report.entity.ReportClubGathering;
+import com.junghun.common.domain.report.entity.ReportDaily;
+import com.junghun.common.domain.report.entity.ReportOneDayGathering;
+import com.junghun.common.domain.report.entity.ReportUser;
 import com.junghun.common.global.converter.ListConverter;
 import com.junghun.common.global.converter.MapConverter;
 import jakarta.persistence.*;
@@ -34,13 +37,13 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "name",length = 30)
+    @Column(name = "name", length = 30)
     private String name;
 
-    @Column(name = "password",length = 100)
+    @Column(name = "password", length = 100)
     private String password;
 
-    @Column(name = "gender",length = 10)
+    @Column(name = "gender", length = 10)
     private String gender;
 
     @Column(name = "birthday")
@@ -50,9 +53,10 @@ public class User {
     @Column(name = "user_place")
     private Map<String, Object> userPlace;
 
+    @Builder.Default
     @Convert(converter = ListConverter.class)
     @Column(name = "interest_category")
-    private final List<String> interestCategory = new ArrayList<>();
+    private List<String> interestCategory = new ArrayList<>();
 
     @Column(name = "profile_image")
     private String profileImage;
@@ -60,69 +64,59 @@ public class User {
     @Column(name = "information")
     private String information;
 
-    @Column(name = "notification_token")
-    private String notificationToken;
-
     // 모임 관련 JOIN 컬럼
+    @Builder.Default
     @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<OneDayGathering> oneDayGatheringList = new ArrayList<>();
+    private List<OneDayGathering> oneDayGatheringList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<ClubGathering> clubGatheringList = new ArrayList<>();
+    private List<ClubGathering> clubGatheringList = new ArrayList<>();
 
     // 데일리, 댓글, 대댓글 관련 JOIN 컬럼
+    @Builder.Default
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<Daily> dailyList = new ArrayList<>();
+    private List<Daily> dailyList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<Comment> commentList = new ArrayList<>();
+    private List<Comment> commentList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<Reply> replyList = new ArrayList<>();
+    private List<Reply> replyList = new ArrayList<>();
 
     // 즐겨찾기 관련 JOIN 컬럼
+    @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<LikeOneDayGathering> likeOneDayGatheringList = new ArrayList<>();
+    private List<LikeOneDayGathering> likeOneDayGatheringList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<LikeClubGathering> likeClubGatheringList = new ArrayList<>();
+    private List<LikeClubGathering> likeClubGatheringList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<LikeDaily> likeDailyList = new ArrayList<>();
+    private List<LikeDaily> likeDailyList = new ArrayList<>();
 
     // 신고 관련 JOIN 컬럼
+    @Builder.Default
     @OneToMany(mappedBy = "reporter", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<Report> reportList = new ArrayList<>();
+    private List<ReportUser> reportUserList = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "reporter", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReportOneDayGathering> reportOneDayGatheringList = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "reporter", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReportClubGathering> reportClubGatheringList = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "reporter", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReportDaily> reportDailyList = new ArrayList<>();
+
+    @Builder.Default
     @OneToMany(mappedBy = "reportedUser", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<Report> reportedList = new ArrayList<>();
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setUserPlace(Map<String, Object> userPlace) {
-        this.userPlace = userPlace;
-    }
-
-    public void setInterestCategory(List<String> interestCategory) {
-        this.interestCategory.clear();
-        this.interestCategory.addAll(interestCategory);
-    }
-
-    public void setProfileImage(String profileImage) {
-        this.profileImage = profileImage;
-    }
-
-    public void setInformation(String information) {
-        this.information = information;
-    }
-
-    public void setNotificationToken(String notificationToken) {
-        this.notificationToken = notificationToken;
-    }
+    private List<ReportUser> reportedList = new ArrayList<>();
 }

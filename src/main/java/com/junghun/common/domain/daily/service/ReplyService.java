@@ -43,16 +43,21 @@ public class ReplyService {
         return reply;
     }
 
-    public Reply update(Long replyId, ReplyUpdateDto replyUpdateDto) {
-        Reply reply = repository.findById(replyId)
-                .orElseThrow(()->new NotFoundCommentsException(replyId+"을(를) 가진 Reply 가 존재하지 않습니다."));
+    public Reply update(Long id, ReplyUpdateDto replyUpdateDto) {
+        Reply reply = repository.findById(id)
+                .orElseThrow(()->new NotFoundCommentsException(id+"을(를) 가진 Reply 가 존재하지 않습니다."));
 
         LocalDateTime writeDate = LocalDateTime.now();
 
-        reply.setTimeStamp(writeDate);
-        reply.setContent(replyUpdateDto.getContent());
+        Reply updateReply = Reply.builder()
+                .id(id)
+                .writer(reply.getWriter())
+                .content(replyUpdateDto.getContent())
+                .comment(reply.getComment())
+                .timeStamp(writeDate)
+                .build();
 
-        return repository.save(reply);
+        return repository.save(updateReply);
     }
 
     public void deleteById(Long replyId) {

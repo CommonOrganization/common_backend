@@ -41,9 +41,10 @@ public abstract class Gathering {
     @Column(name = "main_image")
     private String mainImage;
 
+    @Builder.Default
     @Convert(converter = ListConverter.class)
     @Column(name = "image_list")
-    private final List<String> imageList = new ArrayList<>();
+    private List<String> imageList = new ArrayList<>();
 
     @Column(name = "recruit_way", length = 30)
     private String recruitWay;
@@ -54,21 +55,12 @@ public abstract class Gathering {
     @Column(name = "capacity", columnDefinition = "int default 10")
     private int capacity;
 
+    @Builder.Default
     @Convert(converter = ListConverter.class)
     @Column(name = "tag_list")
-    private final List<String> tagList = new ArrayList<>();
+    private List<String> tagList = new ArrayList<>();
 
     @Column(name = "time_stamp")
     private LocalDateTime timeStamp;
 
-
-    public void setImageList(List<String> imageList) {
-        this.imageList.clear();
-        this.imageList.addAll(imageList);
-    }
-
-    public void setTagList(List<String> tagList) {
-        this.tagList.clear();
-        this.tagList.addAll(tagList);
-    }
 }

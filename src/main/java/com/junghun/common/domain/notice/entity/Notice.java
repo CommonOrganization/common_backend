@@ -28,8 +28,4 @@ public class Notice {
 
     @Column(name = "content",length = 1000)
     private String content;
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 }

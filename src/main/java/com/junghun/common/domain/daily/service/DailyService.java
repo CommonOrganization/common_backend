@@ -30,6 +30,15 @@ public class DailyService {
 
         LocalDateTime writeDate = LocalDateTime.now();
 
+        ClubGathering clubGathering = null;
+        if(dailyUploadDto.getClubGatheringId() != null){
+            try{
+                clubGathering = clubGatheringService.findById(dailyUploadDto.getClubGatheringId());
+            }catch (NotFoundGatheringException exception){
+                throw new NotFoundGatheringException(dailyUploadDto.getClubGatheringId()+" 을(를) 가진 Gathering 이 존재하지 않습니다.");
+            }
+        }
+
         Daily daily = Daily.builder()
                 .writer(writer)
                 .category(dailyUploadDto.getCategory())
@@ -38,19 +47,11 @@ public class DailyService {
                 .mainImage(dailyUploadDto.getMainImage())
                 .content(dailyUploadDto.getContent())
                 .timeStamp(writeDate)
+                .imageList(dailyUploadDto.getImageList())
+                .tagList(dailyUploadDto.getTagList())
+                .clubGathering(clubGathering)
                 .build();
 
-        if(dailyUploadDto.getClubGatheringId() != null){
-            try{
-                ClubGathering clubGathering = clubGatheringService.findById(dailyUploadDto.getClubGatheringId());
-                daily.setClubGathering(clubGathering);
-            }catch (NotFoundGatheringException exception){
-                throw new NotFoundGatheringException(dailyUploadDto.getClubGatheringId()+" 을(를) 가진 Gathering 이 존재하지 않습니다.");
-            }
-        }
-
-        daily.setImageList(dailyUploadDto.getImageList());
-        daily.setTagList(dailyUploadDto.getTagList());
         return repository.save(daily);
     }
 
@@ -84,25 +85,30 @@ public class DailyService {
 
         LocalDateTime writeDate = LocalDateTime.now();
 
+        ClubGathering clubGathering = null;
         if(dailyUpdateDto.getClubGatheringId() != null){
             try{
-                ClubGathering clubGathering = clubGatheringService.findById(dailyUpdateDto.getClubGatheringId());
-                daily.setClubGathering(clubGathering);
+                clubGathering = clubGatheringService.findById(dailyUpdateDto.getClubGatheringId());
             }catch (NotFoundGatheringException exception){
                 throw new NotFoundGatheringException(dailyUpdateDto.getClubGatheringId()+" 을(를) 가진 Gathering 이 존재하지 않습니다.");
             }
         }
 
-        daily.setCategory(dailyUpdateDto.getCategory());
-        daily.setDetailCategory(dailyUpdateDto.getDetailCategory());
-        daily.setDailyType(dailyUpdateDto.getDailyType());
-        daily.setMainImage(dailyUpdateDto.getMainImage());
-        daily.setImageList(dailyUpdateDto.getImageList());
-        daily.setContent(dailyUpdateDto.getContent());
-        daily.setTagList(dailyUpdateDto.getTagList());
-        daily.setTimeStamp(writeDate);
+        Daily updateDaily = Daily.builder()
+                .id(id)
+                .writer(daily.getWriter())
+                .category(dailyUpdateDto.getCategory())
+                .detailCategory(dailyUpdateDto.getDetailCategory())
+                .dailyType(dailyUpdateDto.getDailyType())
+                .mainImage(dailyUpdateDto.getMainImage())
+                .content(dailyUpdateDto.getContent())
+                .imageList(dailyUpdateDto.getImageList())
+                .tagList(dailyUpdateDto.getTagList())
+                .timeStamp(writeDate)
+                .clubGathering(clubGathering)
+                .build();
 
-        return repository.save(daily);
+        return repository.save(updateDaily);
     }
 
     public void deleteById(Long id) {

@@ -47,10 +47,15 @@ public class CommentService {
 
         LocalDateTime writeDate = LocalDateTime.now();
 
-        comment.setTimeStamp(writeDate);
-        comment.setContent(commentUpdateDto.getContent());
+        Comment updatedComment = Comment.builder()
+                .id(commentId)
+                .writer(comment.getWriter())
+                .timeStamp(writeDate)
+                .daily(comment.getDaily())
+                .content(commentUpdateDto.getContent())
+                .build();
 
-        return repository.save(comment);
+        return repository.save(updatedComment);
     }
 
     public void deleteById(Long commentId) {

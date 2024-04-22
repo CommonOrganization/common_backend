@@ -36,15 +36,6 @@ public class UserController {
         }
     }
 
-    @PatchMapping("/{userId}/notificationToken")
-    public ResponseEntity<User> updateNotificationToken(
-            @PathVariable Long userId,
-            @RequestBody String newNotificationToken) {
-        User updatedUser = service.updateNotificationToken(userId, newNotificationToken);
-        return ResponseEntity.ok(updatedUser);
-    }
-
-
     @PatchMapping("/{userId}/interestCategory")
     public ResponseEntity<User> updateInterestCategory(
             @PathVariable Long userId,

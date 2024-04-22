@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "recruit_answer")
 @Getter
-@Setter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class RecruitAnswer {

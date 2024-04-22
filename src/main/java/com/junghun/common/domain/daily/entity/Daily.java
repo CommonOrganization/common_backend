@@ -2,7 +2,7 @@ package com.junghun.common.domain.daily.entity;
 
 import com.junghun.common.domain.gathering.entity.ClubGathering;
 import com.junghun.common.domain.like.entity.LikeDaily;
-import com.junghun.common.domain.report.entity.Report;
+import com.junghun.common.domain.report.entity.ReportDaily;
 import com.junghun.common.domain.user.entity.User;
 import com.junghun.common.global.converter.ListConverter;
 import jakarta.persistence.*;
@@ -44,64 +44,31 @@ public class Daily {
     @Column(name = "main_image")
     private String mainImage;
 
+    @Builder.Default
     @Convert(converter = ListConverter.class)
     @Column(name = "image_list")
-    private final List<String> imageList = new ArrayList<>();
+    private List<String> imageList = new ArrayList<>();
 
     @Column(name = "content", length = 1000)
     private String content;
 
+    @Builder.Default
     @Convert(converter = ListConverter.class)
     @Column(name = "tag_list")
-    private final List<String> tagList = new ArrayList<>();
+    private List<String> tagList = new ArrayList<>();
 
     @Column(name = "time_stamp")
     private LocalDateTime timeStamp;
 
+    @Builder.Default
     @OneToMany(mappedBy = "daily", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<Comment> commentList = new ArrayList<>();
+    private List<Comment> commentList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "daily", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<LikeDaily> likeList = new ArrayList<>();
+    private List<LikeDaily> likeList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "reportedDaily", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<Report> reportedList = new ArrayList<>();
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public void setTimeStamp(LocalDateTime timeStamp) {
-        this.timeStamp = timeStamp;
-    }
-
-    public void setDetailCategory(String detailCategory) {
-        this.detailCategory = detailCategory;
-    }
-
-    public void setDailyType(String dailyType) {
-        this.dailyType = dailyType;
-    }
-
-    public void setClubGathering(ClubGathering clubGathering) {
-        this.clubGathering = clubGathering;
-    }
-
-    public void setMainImage(String mainImage) {
-        this.mainImage = mainImage;
-    }
-
-    public void setImageList(List<String> imageList) {
-        this.imageList.clear();
-        this.imageList.addAll(imageList);
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setTagList(List<String> tagList) {
-        this.tagList.clear();
-        this.tagList.addAll(tagList);
-    }
+    private List<ReportDaily> reportedList = new ArrayList<>();
 }

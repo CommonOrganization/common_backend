@@ -34,14 +34,7 @@ public class Comment {
     @Column(name = "content", length = 1000)
     private String content;
 
+    @Builder.Default
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<Reply> replyList = new ArrayList<>();
-
-    public void setTimeStamp(LocalDateTime timeStamp) {
-        this.timeStamp = timeStamp;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
+    private  List<Reply> replyList = new ArrayList<>();
 }

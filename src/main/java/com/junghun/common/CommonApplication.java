@@ -6,11 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
-@Import( MainConfig.class)
+@Import(MainConfig.class)
 public class CommonApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(CommonApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(CommonApplication.class, args);
+    }
 
 }

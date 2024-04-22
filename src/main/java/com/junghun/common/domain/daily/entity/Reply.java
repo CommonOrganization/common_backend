@@ -32,13 +32,4 @@ public class Reply {
     @Column(name = "content",length = 1000)
     private String content;
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setTimeStamp(LocalDateTime timeStamp) {
-        this.timeStamp = timeStamp;
-    }
-
-
 }

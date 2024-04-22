@@ -7,7 +7,7 @@ import lombok.*;
 @Entity
 @Table(name = "gathering_apply_status")
 @Getter
-@Setter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class GatheringApplyStatus {

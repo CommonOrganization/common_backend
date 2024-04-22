@@ -28,6 +28,15 @@ public class OneDayGatheringService {
         User manager = userService.findById(oneDayGatheringUploadDto.getManagerId());
         LocalDateTime writeDate = LocalDateTime.now();
 
+        ClubGathering clubGathering = null;
+        if(oneDayGatheringUploadDto.getClubGatheringId() != null){
+            try{
+                clubGathering = clubGatheringService.findById(oneDayGatheringUploadDto.getClubGatheringId());
+            }catch (NotFoundGatheringException exception){
+                throw new NotFoundGatheringException(oneDayGatheringUploadDto.getClubGatheringId()+" 을(를) 가진 Gathering 이 존재하지 않습니다.");
+            }
+        }
+
         OneDayGathering gathering =  OneDayGathering.builder()
                 .manager(manager)
                 .category(oneDayGatheringUploadDto.getCategory())
@@ -45,19 +54,11 @@ public class OneDayGatheringService {
                 .haveEntryFee(oneDayGatheringUploadDto.isHaveEntryFee())
                 .entryFee(oneDayGatheringUploadDto.getEntryFee())
                 .showAllThePeople(oneDayGatheringUploadDto.isShowAllThePeople())
+                .tagList(oneDayGatheringUploadDto.getTagList())
+                .imageList(oneDayGatheringUploadDto.getImageList())
+                .clubGathering(clubGathering)
                 .build();
 
-        gathering.setTagList(oneDayGatheringUploadDto.getTagList());
-        gathering.setImageList(oneDayGatheringUploadDto.getImageList());
-
-        if(oneDayGatheringUploadDto.getClubGatheringId() != null){
-            try{
-                ClubGathering clubGathering = clubGatheringService.findById(oneDayGatheringUploadDto.getClubGatheringId());
-                gathering.setClubGathering(clubGathering);
-            }catch (NotFoundGatheringException exception){
-                throw new NotFoundGatheringException(oneDayGatheringUploadDto.getClubGatheringId()+" 을(를) 가진 Gathering 이 존재하지 않습니다.");
-            }
-        }
 
         return repository.save(gathering);
     }

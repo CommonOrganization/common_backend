@@ -2,7 +2,7 @@ package com.junghun.common.domain.gathering.entity;
 
 import com.junghun.common.domain.daily.entity.Daily;
 import com.junghun.common.domain.like.entity.LikeClubGathering;
-import com.junghun.common.domain.report.entity.Report;
+import com.junghun.common.domain.report.entity.ReportClubGathering;
 import com.junghun.common.global.converter.ListConverter;
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,25 +23,32 @@ public class ClubGathering extends Gathering {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Builder.Default
     @Convert(converter = ListConverter.class)
     @Column(name = "city")
-    private final List<String> cityList = new ArrayList<>();
+    private List<String> cityList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "clubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<OneDayGathering> oneGatheringList = new ArrayList<>();
+    private List<OneDayGathering> oneGatheringList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "clubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<Daily> dailyList = new ArrayList<>();
+    private List<Daily> dailyList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "clubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<GatheringApplyStatus> applyStatusList = new ArrayList<>();
+    private List<GatheringApplyStatus> applyStatusList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "clubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<RecruitAnswer> recruitAnswerList = new ArrayList<>();
+    private List<RecruitAnswer> recruitAnswerList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "clubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<LikeClubGathering> likeList = new ArrayList<>();
+    private List<LikeClubGathering> likeList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "reportedClubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<Report> reportedList = new ArrayList<>();
+    private List<ReportClubGathering> reportedList = new ArrayList<>();
 }

@@ -63,9 +63,8 @@ public class UserService{
                 .userPlace(registerDto.getUserPlace())
                 .profileImage(registerDto.getProfileImage())
                 .information(registerDto.getInformation())
+                .interestCategory(registerDto.getInterestCategory())
                 .build();
-        
-        user.setInterestCategory(registerDto.getInterestCategory());
 
         return repository.save(user);
     }
@@ -87,63 +86,109 @@ public class UserService{
 
         String encryptedPassword = passwordEncoder.encode(newPassword);
 
-        User existingUser = repository.findByEmail(email)
+        User user = repository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundUserException(email + "을(를) 가진 User 가 존재하지 않습니다."));
 
-        existingUser.setPassword(encryptedPassword);
+        User updateUser = User.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .name(user.getName())
+                .password(encryptedPassword)
+                .gender(user.getGender())
+                .birthday(user.getBirthday())
+                .userPlace(user.getUserPlace())
+                .profileImage(user.getProfileImage())
+                .information(user.getInformation())
+                .interestCategory(user.getInterestCategory())
+                .build();
 
-        repository.save(existingUser);
+
+        repository.save(updateUser);
     }
 
-    public User updatePassword(Long userId, String newPassword) {
+    public User updatePassword(Long id, String newPassword) {
 
         String encryptedPassword = passwordEncoder.encode(newPassword);
 
-        User existingUser = repository.findById(userId)
-                .orElseThrow(() -> new NotFoundUserException(userId + "을(를) 가진 User 가 존재하지 않습니다."));
+        User user = repository.findById(id)
+                .orElseThrow(() -> new NotFoundUserException(id + "을(를) 가진 User 가 존재하지 않습니다."));
 
-        existingUser.setPassword(encryptedPassword);
+        User updateUser = User.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .name(user.getName())
+                .password(encryptedPassword)
+                .gender(user.getGender())
+                .birthday(user.getBirthday())
+                .userPlace(user.getUserPlace())
+                .profileImage(user.getProfileImage())
+                .information(user.getInformation())
+                .interestCategory(user.getInterestCategory())
+                .build();
 
-        return repository.save(existingUser);
+        return repository.save(updateUser);
     }
 
-    public User updateNotificationToken(Long userId, String newNotificationToken) {
-        User existingUser = repository.findById(userId)
-                .orElseThrow(() -> new NotFoundUserException(userId + "을(를) 가진 User 가 존재하지 않습니다."));
+    public User updateInterestCategory(Long id, List<String> newInterestCategory) {
 
-        existingUser.setNotificationToken(newNotificationToken);
+        User user = repository.findById(id)
+                .orElseThrow(() -> new NotFoundUserException(id + "을(를) 가진 User 가 존재하지 않습니다."));
 
-        return repository.save(existingUser);
+        User updateUser = User.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .name(user.getName())
+                .password(user.getPassword())
+                .gender(user.getGender())
+                .birthday(user.getBirthday())
+                .userPlace(user.getUserPlace())
+                .profileImage(user.getProfileImage())
+                .information(user.getInformation())
+                .interestCategory(newInterestCategory)
+                .build();
+
+        return repository.save(updateUser);
     }
 
-    public User updateInterestCategory(Long userId, List<String> newInterestCategory) {
-        User existingUser = repository.findById(userId)
-                .orElseThrow(() -> new NotFoundUserException(userId + "을(를) 가진 User 가 존재하지 않습니다."));
+    public User updateUserPlace(Long id, Map<String, Object> newUserPlace) {
+        User user = repository.findById(id)
+                .orElseThrow(() -> new NotFoundUserException(id + "을(를) 가진 User 가 존재하지 않습니다."));
 
-        existingUser.setInterestCategory(newInterestCategory);
+        User updateUser = User.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .name(user.getName())
+                .password(user.getPassword())
+                .gender(user.getGender())
+                .birthday(user.getBirthday())
+                .userPlace(newUserPlace)
+                .profileImage(user.getProfileImage())
+                .information(user.getInformation())
+                .interestCategory(user.getInterestCategory())
+                .build();
 
-        return repository.save(existingUser);
+        return repository.save(updateUser);
     }
 
-    public User updateUserPlace(Long userId, Map<String, Object> newUserPlace) {
-        User existingUser = repository.findById(userId)
-                .orElseThrow(() -> new NotFoundUserException(userId + "을(를) 가진 User 가 존재하지 않습니다."));
+    public User updateInformation(Long id, InformationDto informationDto) {
 
-        existingUser.setUserPlace(newUserPlace);
+        User user = repository.findById(id)
+                .orElseThrow(() -> new NotFoundUserException(id + "을(를) 가진 User 가 존재하지 않습니다."));
 
-        return repository.save(existingUser);
-    }
+        User updateUser = User.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .name(informationDto.getName())
+                .password(user.getPassword())
+                .gender(user.getGender())
+                .birthday(user.getBirthday())
+                .userPlace(user.getUserPlace())
+                .profileImage(informationDto.getProfileImage())
+                .information(informationDto.getInformation())
+                .interestCategory(user.getInterestCategory())
+                .build();
 
-    public User updateInformation(Long userId, InformationDto informationDto) {
-
-        User user = repository.findById(userId)
-                .orElseThrow(() -> new NotFoundUserException(userId + "을(를) 가진 User 가 존재하지 않습니다."));
-
-        user.setName(informationDto.getName());
-        user.setProfileImage(informationDto.getProfileImage());
-        user.setInformation(informationDto.getInformation());
-
-        return repository.save(user);
+        return repository.save(updateUser);
     }
 
     // DELETE

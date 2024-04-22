@@ -1,8 +1,7 @@
 package com.junghun.common.domain.gathering.entity;
 
 import com.junghun.common.domain.like.entity.LikeOneDayGathering;
-import com.junghun.common.domain.report.entity.Report;
-import com.junghun.common.domain.user.entity.User;
+import com.junghun.common.domain.report.entity.ReportOneDayGathering;
 import com.junghun.common.global.converter.MapConverter;
 import jakarta.persistence.*;
 import lombok.*;
@@ -43,19 +42,19 @@ public class OneDayGathering extends Gathering {
     @Column(name = "show_all_the_people")
     private boolean showAllThePeople;
 
+    @Builder.Default
     @OneToMany(mappedBy = "oneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<GatheringApplyStatus> applyStatusList = new ArrayList<>();
+    private List<GatheringApplyStatus> applyStatusList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "oneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<RecruitAnswer> recruitAnswerList = new ArrayList<>();
+    private List<RecruitAnswer> recruitAnswerList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "oneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<LikeOneDayGathering> likeList = new ArrayList<>();
+    private List<LikeOneDayGathering> likeList = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "reportedOneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<Report> reportedList = new ArrayList<>();
-
-    public void setClubGathering(ClubGathering clubGathering){
-        this.clubGathering = clubGathering;
-    }
+    private List<ReportOneDayGathering> reportedList = new ArrayList<>();
 }
