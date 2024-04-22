@@ -20,8 +20,9 @@ public class GatheringApplyStatus {
     @JoinColumn(name = "applier_id", referencedColumnName = "id")
     private User applier;
 
-    @Column(name = "status",columnDefinition = "boolean default false")
-    private boolean status;
+    @Builder.Default
+    @Column(name = "status")
+    private boolean status = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_gathering_id", referencedColumnName = "id")
