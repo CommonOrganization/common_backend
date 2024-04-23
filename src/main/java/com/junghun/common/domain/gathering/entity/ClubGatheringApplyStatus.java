@@ -5,12 +5,12 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "gathering_apply_status")
+@Table(name = "club_gathering_apply_status")
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class GatheringApplyStatus {
+public class ClubGatheringApplyStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,8 +27,4 @@ public class GatheringApplyStatus {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_gathering_id", referencedColumnName = "id")
     private ClubGathering clubGathering;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "one_day_gathering_id", referencedColumnName = "id")
-    private OneDayGathering oneDayGathering;
 }

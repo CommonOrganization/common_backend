@@ -38,9 +38,8 @@ public class ReplyService {
     }
 
     public Reply findById(Long replyId){
-        Reply reply = repository.findById(replyId)
+        return repository.findById(replyId)
                 .orElseThrow(()->new NotFoundReplyException(replyId+"을(를) 가진 Reply 가 존재하지 않습니다."));
-        return reply;
     }
 
     public Reply update(Long id, ReplyUpdateDto replyUpdateDto) {

@@ -25,6 +25,7 @@ public class DailyService {
     private final UserService userService;
     private final ClubGatheringService clubGatheringService;
 
+    // CREATE
     public Daily upload(DailyUploadDto dailyUploadDto) {
         User writer = userService.findById(dailyUploadDto.getWriterId());
 
@@ -55,13 +56,13 @@ public class DailyService {
         return repository.save(daily);
     }
 
+    // READ
     public List<Daily> findAll() {
         return repository.findByOrderByTimeStampDesc();
     }
 
     public Daily findById(Long id) {
-        Daily daily = repository.findById(id).orElseThrow(() -> new NotFoundDailyException(id + "을(를) 가진 Daily 가 존재하지 않습니다."));
-        return daily;
+        return repository.findById(id).orElseThrow(() -> new NotFoundDailyException(id + "을(를) 가진 Daily 가 존재하지 않습니다."));
     }
 
     public List<Daily> findByWriterId(Long writerId) {
@@ -80,6 +81,7 @@ public class DailyService {
         return repository.findByCategoryOrderByTimeStampDesc(category);
     }
 
+    // UPDATE
     public Daily update(Long id, DailyUpdateDto dailyUpdateDto) {
         Daily daily = repository.findById(id).orElseThrow(() -> new NotFoundDailyException(id + "을(를) 가진 Daily 가 존재하지 않습니다."));
 
@@ -111,6 +113,7 @@ public class DailyService {
         return repository.save(updateDaily);
     }
 
+    // DELETE
     public void deleteById(Long id) {
         repository.findById(id).orElseThrow(() -> new NotFoundDailyException(id + "을(를) 가진 Daily 가 존재하지 않습니다."));
         repository.deleteById(id);

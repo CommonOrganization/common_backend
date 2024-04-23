@@ -4,7 +4,9 @@ import com.junghun.common.domain.daily.entity.Comment;
 import com.junghun.common.domain.daily.entity.Daily;
 import com.junghun.common.domain.daily.entity.Reply;
 import com.junghun.common.domain.gathering.entity.ClubGathering;
+import com.junghun.common.domain.gathering.entity.ClubGatheringApplyStatus;
 import com.junghun.common.domain.gathering.entity.OneDayGathering;
+import com.junghun.common.domain.gathering.entity.OneDayGatheringApplyStatus;
 import com.junghun.common.domain.like.entity.LikeClubGathering;
 import com.junghun.common.domain.like.entity.LikeDaily;
 import com.junghun.common.domain.like.entity.LikeOneDayGathering;
@@ -98,25 +100,4 @@ public class User {
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LikeDaily> likeDailyList = new ArrayList<>();
-
-    // 신고 관련 JOIN 컬럼
-    @Builder.Default
-    @OneToMany(mappedBy = "reporter", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ReportUser> reportUserList = new ArrayList<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "reporter", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ReportOneDayGathering> reportOneDayGatheringList = new ArrayList<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "reporter", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ReportClubGathering> reportClubGatheringList = new ArrayList<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "reporter", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ReportDaily> reportDailyList = new ArrayList<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "reportedUser", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ReportUser> reportedList = new ArrayList<>();
 }
