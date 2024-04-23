@@ -35,15 +35,15 @@ public class OneDayGatheringService {
         LocalDateTime writeDate = LocalDateTime.now();
 
         ClubGathering clubGathering = null;
-        if(oneDayGatheringUploadDto.getClubGatheringId() != null){
-            try{
+        if (oneDayGatheringUploadDto.getClubGatheringId() != null) {
+            try {
                 clubGathering = clubGatheringService.findById(oneDayGatheringUploadDto.getClubGatheringId());
-            }catch (NotFoundGatheringException exception){
-                throw new NotFoundGatheringException(oneDayGatheringUploadDto.getClubGatheringId()+" 을(를) 가진 Gathering 이 존재하지 않습니다.");
+            } catch (NotFoundGatheringException exception) {
+                throw new NotFoundGatheringException(oneDayGatheringUploadDto.getClubGatheringId() + " 을(를) 가진 Gathering 이 존재하지 않습니다.");
             }
         }
 
-        OneDayGathering gathering =  OneDayGathering.builder()
+        OneDayGathering gathering = OneDayGathering.builder()
                 .manager(manager)
                 .category(oneDayGatheringUploadDto.getCategory())
                 .detailCategory(oneDayGatheringUploadDto.getDetailCategory())
@@ -69,12 +69,12 @@ public class OneDayGatheringService {
     }
 
     // READ
-    public OneDayGathering findById(Long id){
+    public OneDayGathering findById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new NotFoundGatheringException(id + "을(를) 가진 Gathering 이 존재하지 않습니다."));
     }
 
-    public List<OneDayGathering> findByManagerId(Long managerId){
+    public List<OneDayGathering> findByManagerId(Long managerId) {
         return repository.findByManagerId(managerId);
     }
 
@@ -85,8 +85,10 @@ public class OneDayGatheringService {
     public List<OneDayGathering> findByApplierId(Long applierId) {
         return repository.findByApplierId(applierId);
     }
+
+
     // UPDATE
-    public OneDayGathering update(Long id,OneDayGatheringUpdateDto oneDayGatheringUpdateDto) {
+    public OneDayGathering update(Long id, OneDayGatheringUpdateDto oneDayGatheringUpdateDto) {
 
         OneDayGathering gathering = repository.findById(id)
                 .orElseThrow(() -> new NotFoundGatheringException(id + "을(를) 가진 Gathering 이 존재하지 않습니다."));
@@ -94,15 +96,15 @@ public class OneDayGatheringService {
         LocalDateTime writeDate = LocalDateTime.now();
 
         ClubGathering clubGathering = null;
-        if(oneDayGatheringUpdateDto.getClubGatheringId() != null){
-            try{
+        if (oneDayGatheringUpdateDto.getClubGatheringId() != null) {
+            try {
                 clubGathering = clubGatheringService.findById(oneDayGatheringUpdateDto.getClubGatheringId());
-            }catch (NotFoundGatheringException exception){
-                throw new NotFoundGatheringException(oneDayGatheringUpdateDto.getClubGatheringId()+" 을(를) 가진 Gathering 이 존재하지 않습니다.");
+            } catch (NotFoundGatheringException exception) {
+                throw new NotFoundGatheringException(oneDayGatheringUpdateDto.getClubGatheringId() + " 을(를) 가진 Gathering 이 존재하지 않습니다.");
             }
         }
 
-        OneDayGathering updateGathering =  OneDayGathering.builder()
+        OneDayGathering updateGathering = OneDayGathering.builder()
                 .id(id)
                 .manager(gathering.getManager())
                 .category(oneDayGatheringUpdateDto.getCategory())
@@ -129,7 +131,7 @@ public class OneDayGatheringService {
     }
 
     // DELETE
-    public void deleteById(Long id){
+    public void deleteById(Long id) {
         repository.deleteById(id);
     }
 }

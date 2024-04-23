@@ -35,35 +35,63 @@ class OneDayGatheringServiceTest {
     ClubGatheringService clubGatheringService;
 
     @Autowired
+    OneDayGatheringApplyStatusService oneDayGatheringApplyStatusService;
+
+    @Autowired
     UserService userService;
-    User user;
+    User manager;
+    User applier;
 
     @BeforeEach
     void setOneDayGathering() {
-        Map<String, Object> userPlace = new HashMap<>();
-        userPlace.put("city", "세종");
-        userPlace.put("county", "한솔동");
-        userPlace.put("dong", "전체");
+        Map<String, Object> managerPlace = new HashMap<>();
+        managerPlace.put("city", "세종");
+        managerPlace.put("county", "한솔동");
+        managerPlace.put("dong", "전체");
 
-        List<String> interestCategory = new ArrayList<>();
-        interestCategory.add("sports");
-        interestCategory.add("language");
-        interestCategory.add("game");
+        List<String> managerInterestCategory = new ArrayList<>();
+        managerInterestCategory.add("sports");
+        managerInterestCategory.add("language");
+        managerInterestCategory.add("game");
 
 
-        RegisterDto registerDto = RegisterDto.builder()
-                .email("test@naver.com")
-                .name("test")
+        RegisterDto managerRegisterDto = RegisterDto.builder()
+                .email("manager@naver.com")
+                .name("manager")
                 .password("password")
                 .gender("남성")
                 .birthday(LocalDate.of(1999, 1, 16))
-                .userPlace(userPlace)
-                .interestCategory(interestCategory)
+                .userPlace(managerPlace)
+                .interestCategory(managerInterestCategory)
                 .profileImage("image")
                 .information("information")
                 .build();
 
-        user =  userService.register(registerDto);
+        Map<String, Object> applierPlace = new HashMap<>();
+        applierPlace.put("city", "세종");
+        applierPlace.put("county", "한솔동");
+        applierPlace.put("dong", "전체");
+
+        List<String> applierInterestCategory = new ArrayList<>();
+        applierInterestCategory.add("sports");
+        applierInterestCategory.add("language");
+        applierInterestCategory.add("game");
+
+
+        RegisterDto applierRegisterDto = RegisterDto.builder()
+                .email("applier@naver.com")
+                .name("applier")
+                .password("password")
+                .gender("남성")
+                .birthday(LocalDate.of(1999, 1, 16))
+                .userPlace(applierPlace)
+                .interestCategory(applierInterestCategory)
+                .profileImage("image")
+                .information("information")
+                .build();
+
+        manager =  userService.register(managerRegisterDto);
+        applier =  userService.register(applierRegisterDto);
 
         OneDayGatheringUploadDto oneDayGatheringUploadDto = new OneDayGatheringUploadDto();
 
@@ -78,7 +106,7 @@ class OneDayGatheringServiceTest {
         place.put("detail","카페 소담아");
         place.put("dong","전체");
 
-        oneDayGatheringUploadDto.setManagerId(user.getId());
+        oneDayGatheringUploadDto.setManagerId(manager.getId());
         oneDayGatheringUploadDto.setCategory("coffee");
         oneDayGatheringUploadDto.setDetailCategory("카페");
         oneDayGatheringUploadDto.setTitle("금요일에 마산가는데 카페 갈사람?!");
@@ -102,19 +130,20 @@ class OneDayGatheringServiceTest {
 
     @AfterEach
     void clearOneDayGathering() {
-        List<OneDayGathering> oneDayGatheringList = service.findByManagerId(user.getId());
+        List<OneDayGathering> oneDayGatheringList = service.findByManagerId(manager.getId());
 
         for(OneDayGathering oneDayGathering : oneDayGatheringList){
             service.deleteById(oneDayGathering.getId());
         }
 
-        userService.deleteById(user.getId());
+        userService.deleteById(manager.getId());
+        userService.deleteById(applier.getId());
     }
 
     @Test
     @DisplayName("매니저 ID로 검색하기")
     void findByManagerId() {
-        List<OneDayGathering> oneDayGatheringList = service.findByManagerId(user.getId());
+        List<OneDayGathering> oneDayGatheringList = service.findByManagerId(manager.getId());
 
         Assertions.assertThat(oneDayGatheringList.size()).isEqualTo(1);
     }
@@ -122,8 +151,13 @@ class OneDayGatheringServiceTest {
     @Test
     @DisplayName("지원자 ID로 검색하기")
     void findByApplierId() {
-        List<OneDayGathering> oneDayGatheringList = service.findByApplierId(user.getId());
 
-        Assertions.assertThat(oneDayGatheringList.size()).isEqualTo(0);
+        List<OneDayGathering> gatheringList = service.findByManagerId(manager.getId());
+
+        oneDayGatheringApplyStatusService.applyGathering(applier.getId(),gatheringList.get(0).getId());
+
+        List<OneDayGathering> oneDayGatheringList = service.findByApplierId(applier.getId());
+
+        Assertions.assertThat(oneDayGatheringList.size()).isEqualTo(1);
     }
 }

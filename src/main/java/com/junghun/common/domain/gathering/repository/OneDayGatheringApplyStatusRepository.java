@@ -10,4 +10,5 @@ import java.util.List;
 public interface OneDayGatheringApplyStatusRepository extends JpaRepository<OneDayGatheringApplyStatus, Long> {
 
     List<OneDayGatheringApplyStatus> findByApplierId(Long applierId);
+    List<OneDayGatheringApplyStatus> findByApplierIdAndOneDayGatheringId(Long applierId,Long oneDayGatheringId);
 }
