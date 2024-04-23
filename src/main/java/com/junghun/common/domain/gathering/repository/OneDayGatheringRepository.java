@@ -10,10 +10,11 @@ import java.util.List;
 @Repository
 public interface OneDayGatheringRepository extends JpaRepository<OneDayGathering, Long> {
 
-    List<OneDayGathering> findByClubGatheringId(Long id);
+    List<OneDayGathering> findByManagerId(Long managerId);
+    List<OneDayGathering> findByClubGatheringId(Long clubGatheringId);
 
     @Query("SELECT o FROM OneDayGathering o " +
             "JOIN OneDayGatheringApplyStatus oa on o.id = oa.oneDayGathering.id " +
-            "WHERE oa.applier.id = :id")
-    List<OneDayGathering> findByApplierId(Long id);
+            "WHERE oa.applier.id = :applierId")
+    List<OneDayGathering> findByApplierId(Long applierId);
 }

@@ -74,6 +74,10 @@ public class OneDayGatheringService {
                 .orElseThrow(() -> new NotFoundGatheringException(id + "을(를) 가진 Gathering 이 존재하지 않습니다."));
     }
 
+    public List<OneDayGathering> findByManagerId(Long managerId){
+        return repository.findByManagerId(managerId);
+    }
+
     public List<OneDayGathering> findByClubGatheringId(Long clubGatheringId) {
         return repository.findByClubGatheringId(clubGatheringId);
     }

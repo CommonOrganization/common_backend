@@ -34,6 +34,12 @@ public class OneDayGatheringController {
         return ResponseEntity.ok(gathering);
     }
 
+    @GetMapping("/manager/{managerId}")
+    public ResponseEntity<List<OneDayGathering>> findByManagerId(@PathVariable Long managerId) {
+        List<OneDayGathering> gatheringList = service.findByManagerId(managerId);
+        return ResponseEntity.ok(gatheringList);
+    }
+
     @GetMapping("/clubGathering/{clubGatheringId}")
     public ResponseEntity<List<OneDayGathering>> findByClubGatheringId(@PathVariable Long clubGatheringId) {
         List<OneDayGathering> gatheringList = service.findByClubGatheringId(clubGatheringId);
