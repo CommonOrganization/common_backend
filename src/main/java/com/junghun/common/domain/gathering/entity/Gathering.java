@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuperBuilder
+@Getter
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
