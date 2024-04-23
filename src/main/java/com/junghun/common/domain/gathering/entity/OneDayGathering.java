@@ -41,12 +41,13 @@ public class OneDayGathering extends Gathering {
     @JoinColumn(name = "club_gathering_id", referencedColumnName = "id")
     private ClubGathering clubGathering;
 
+    @Builder.Default
     @Column(name = "show_all_the_people")
     private boolean showAllThePeople = false;
 
     @Builder.Default
     @OneToMany(mappedBy = "oneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<GatheringApplyStatus> applyStatusList = new ArrayList<>();
+    private List<OneDayGatheringApplyStatus> applyStatusList = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "oneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -21,9 +21,8 @@ public class ReportOneDayGathering {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reporter_id", referencedColumnName = "id")
-    private User reporter;
+    @Column(name = "reporter_id")
+    private Long reporterId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reported_one_day_gathering_id", referencedColumnName = "id")
