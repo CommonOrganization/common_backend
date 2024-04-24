@@ -11,4 +11,6 @@ import java.util.List;
 public interface ClubGatheringApplyStatusRepository extends JpaRepository<ClubGatheringApplyStatus, Long> {
 
     List<ClubGatheringApplyStatus> findByApplierId(Long applierId);
+
+    List<ClubGatheringApplyStatus> findByApplierIdAndClubGatheringId(Long applierId,Long clubGatheringId);
 }
