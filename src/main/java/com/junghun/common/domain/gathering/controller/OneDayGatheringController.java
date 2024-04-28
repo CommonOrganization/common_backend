@@ -52,6 +52,12 @@ public class OneDayGatheringController {
         return ResponseEntity.ok(gatheringList);
     }
 
+    @GetMapping("/applier/{applierId}/true")
+    public ResponseEntity<List<OneDayGathering>> findParticipateInGatheringByApplierId(@PathVariable Long applierId) {
+        List<OneDayGathering> gatheringList = service.findParticipateInGatheringByApplierId(applierId);
+        return ResponseEntity.ok(gatheringList);
+    }
+
     @PatchMapping("/{id}")
     public ResponseEntity<OneDayGathering> update(@PathVariable Long id, @RequestBody OneDayGatheringUpdateDto oneDayGatheringUpdateDto) {
         OneDayGathering gathering = service.update(id,oneDayGatheringUpdateDto);

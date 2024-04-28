@@ -19,15 +19,21 @@ import java.util.List;
 public class OneDayGatheringApplyStatusController {
     private final OneDayGatheringApplyStatusService service;
 
-    @PutMapping("/apply/{id}")
-    public ResponseEntity<Void> applyGathering(@PathVariable Long id,@RequestParam Long applierId) {
-        service.applyGathering(applierId,id);
+    @PutMapping("/apply/{oneDayGatheringId}")
+    public ResponseEntity<Void> applyGathering(@PathVariable Long oneDayGatheringId,@RequestParam Long applierId) {
+        service.applyGathering(applierId,oneDayGatheringId);
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/approve/{id}")
-    public ResponseEntity<Void> approveGathering(@PathVariable Long id,@RequestParam Long applierId) {
-        service.approveGathering(applierId,id);
+    @GetMapping("/{statusId}")
+    public ResponseEntity<OneDayGatheringApplyStatus> getStatus(@PathVariable Long statusId) {
+        OneDayGatheringApplyStatus status = service.findById(statusId);
+        return new ResponseEntity<>(status, HttpStatus.OK);
+    }
+
+    @PatchMapping("/approve/{oneDayGatheringId}")
+    public ResponseEntity<Void> approveGathering(@PathVariable Long oneDayGatheringId,@RequestParam Long applierId) {
+        service.approveGathering(applierId,oneDayGatheringId);
         return ResponseEntity.ok().build();
     }
 

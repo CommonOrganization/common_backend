@@ -1,8 +1,11 @@
 package com.junghun.common.domain.gathering.controller;
 
+import com.junghun.common.domain.gathering.entity.ClubGatheringApplyStatus;
+import com.junghun.common.domain.gathering.entity.OneDayGatheringApplyStatus;
 import com.junghun.common.domain.gathering.service.ClubGatheringApplyStatusService;
 import com.junghun.common.domain.gathering.service.OneDayGatheringApplyStatusService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,15 +15,21 @@ import org.springframework.web.bind.annotation.*;
 public class ClubGatheringApplyStatusController {
     private final ClubGatheringApplyStatusService service;
 
-    @PutMapping("/apply/{id}")
-    public ResponseEntity<Void> applyGathering(@PathVariable Long id,@RequestParam Long applierId) {
-        service.applyGathering(applierId,id);
+    @PutMapping("/apply/{clubGatheringId}")
+    public ResponseEntity<Void> applyGathering(@PathVariable Long clubGatheringId,@RequestParam Long applierId) {
+        service.applyGathering(applierId,clubGatheringId);
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/approve/{id}")
-    public ResponseEntity<Void> approveGathering(@PathVariable Long id,@RequestParam Long applierId) {
-        service.approveGathering(applierId,id);
+    @GetMapping("/{statusId}")
+    public ResponseEntity<ClubGatheringApplyStatus> getStatus(@PathVariable Long statusId) {
+        ClubGatheringApplyStatus status = service.findById(statusId);
+        return new ResponseEntity<>(status, HttpStatus.OK);
+    }
+
+    @PatchMapping("/approve/{clubGatheringId}")
+    public ResponseEntity<Void> approveGathering(@PathVariable Long clubGatheringId,@RequestParam Long applierId) {
+        service.approveGathering(applierId,clubGatheringId);
         return ResponseEntity.ok().build();
     }
 

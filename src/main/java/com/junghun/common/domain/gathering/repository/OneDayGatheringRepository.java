@@ -17,4 +17,10 @@ public interface OneDayGatheringRepository extends JpaRepository<OneDayGathering
             "JOIN OneDayGatheringApplyStatus oa on o.id = oa.oneDayGathering.id " +
             "WHERE oa.applier.id = :applierId")
     List<OneDayGathering> findByApplierId(Long applierId);
+
+    @Query("SELECT o FROM OneDayGathering o " +
+            "JOIN OneDayGatheringApplyStatus oa on o.id = oa.oneDayGathering.id " +
+            "WHERE oa.applier.id = :applierId "+
+            "and oa.status = true")
+    List<OneDayGathering> findParticipateInGatheringByApplierId(Long applierId);
 }

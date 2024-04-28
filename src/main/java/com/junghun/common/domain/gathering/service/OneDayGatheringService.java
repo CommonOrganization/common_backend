@@ -86,6 +86,10 @@ public class OneDayGatheringService {
         return repository.findByApplierId(applierId);
     }
 
+    public List<OneDayGathering> findParticipateInGatheringByApplierId(Long applierId) {
+        return repository.findParticipateInGatheringByApplierId(applierId);
+    }
+
 
     // UPDATE
     public OneDayGathering update(Long id, OneDayGatheringUpdateDto oneDayGatheringUpdateDto) {
