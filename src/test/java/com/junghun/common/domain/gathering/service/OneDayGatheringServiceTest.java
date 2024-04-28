@@ -113,7 +113,7 @@ class OneDayGatheringServiceTest {
         oneDayGatheringUploadDto.setContent("금요일에 일있어서 마산가는데 오후에 시간이 비어요ㅠㅠ같이 카페나 어디 놀러갈사람 있을까요?!");
         oneDayGatheringUploadDto.setMainImage("https://firebasestorage.googleapis.com/v0/b/common-2fea2.appspot.com/o/gathering%2F1698587984940784?alt=media&token=39a0e6db-8baa-49cf-b0ee-cec47765a327");
         oneDayGatheringUploadDto.setImageList(imageList);
-        oneDayGatheringUploadDto.setRecruitWay("firstCome");
+        oneDayGatheringUploadDto.setRecruitWay("approval");
         oneDayGatheringUploadDto.setRecruitQuestion("");
         oneDayGatheringUploadDto.setCapacity(4);
         oneDayGatheringUploadDto.setTagList(tagList);
@@ -159,5 +159,26 @@ class OneDayGatheringServiceTest {
         List<OneDayGathering> oneDayGatheringList = service.findByApplierId(applier.getId());
 
         Assertions.assertThat(oneDayGatheringList.size()).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("지원자 승인 후 조회하기")
+    void findParticipateInGatheringByApplierId() {
+
+        List<OneDayGathering> gatheringList = service.findByManagerId(manager.getId());
+        // 지원 후에
+        oneDayGatheringApplyStatusService.applyGathering(applier.getId(),gatheringList.get(0).getId());
+
+        List<OneDayGathering> preApprovedOneDayGatheringList = service.findParticipateInGatheringByApplierId(applier.getId());
+        // 승인되기 이전에는 승인된 Gathering 존재 X
+        Assertions.assertThat(preApprovedOneDayGatheringList.size()).isEqualTo(0);
+        // 승인 후에
+        oneDayGatheringApplyStatusService.approveGathering(applier.getId(),gatheringList.get(0).getId());
+
+        List<OneDayGathering> afterApprovedOneDayGatheringList = service.findParticipateInGatheringByApplierId(applier.getId());
+        // 승인된 Gathering 1개 존재
+        Assertions.assertThat(afterApprovedOneDayGatheringList.size()).isEqualTo(1);
+
+
     }
 }

@@ -3,10 +3,12 @@ package com.junghun.common.domain.gathering.service;
 import com.junghun.common.domain.gathering.entity.OneDayGathering;
 import com.junghun.common.domain.gathering.entity.OneDayGatheringApplyStatus;
 import com.junghun.common.domain.gathering.exception.AlreadyApplyGatheringException;
+import com.junghun.common.domain.gathering.exception.NotFoundGatheringApplyStatusException;
 import com.junghun.common.domain.gathering.exception.NotFoundGatheringException;
 import com.junghun.common.domain.gathering.repository.OneDayGatheringApplyStatusRepository;
 import com.junghun.common.domain.gathering.repository.OneDayGatheringRepository;
 import com.junghun.common.domain.user.entity.User;
+import com.junghun.common.domain.user.exception.NotFoundUserException;
 import com.junghun.common.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,6 +41,10 @@ public class OneDayGatheringApplyStatusService {
                 .build();
 
          repository.save(oneDayGatheringApplyStatus);
+    }
+
+    public OneDayGatheringApplyStatus findById(Long statusId) {
+        return repository.findById(statusId).orElseThrow(() -> new NotFoundGatheringApplyStatusException(statusId + "을(를) 가진 OneDayGatheringApplyStatus 가 존재하지 않습니다."));
     }
 
     public void approveGathering(Long applierId,Long oneDayGatheringId) {

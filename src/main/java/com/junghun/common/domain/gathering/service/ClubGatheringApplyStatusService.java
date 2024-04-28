@@ -2,7 +2,9 @@ package com.junghun.common.domain.gathering.service;
 
 import com.junghun.common.domain.gathering.entity.ClubGathering;
 import com.junghun.common.domain.gathering.entity.ClubGatheringApplyStatus;
+import com.junghun.common.domain.gathering.entity.OneDayGatheringApplyStatus;
 import com.junghun.common.domain.gathering.exception.AlreadyApplyGatheringException;
+import com.junghun.common.domain.gathering.exception.NotFoundGatheringApplyStatusException;
 import com.junghun.common.domain.gathering.repository.ClubGatheringApplyStatusRepository;
 
 import com.junghun.common.domain.user.entity.User;
@@ -38,6 +40,10 @@ public class ClubGatheringApplyStatusService {
                 .build();
 
          repository.save(clubGatheringApplyStatus);
+    }
+
+    public ClubGatheringApplyStatus findById(Long statusId) {
+        return repository.findById(statusId).orElseThrow(() -> new NotFoundGatheringApplyStatusException(statusId + "을(를) 가진 ClubGatheringApplyStatus 가 존재하지 않습니다."));
     }
 
     public void approveGathering(Long applierId,Long clubGatheringId) {
