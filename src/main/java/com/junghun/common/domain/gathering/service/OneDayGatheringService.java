@@ -2,12 +2,15 @@ package com.junghun.common.domain.gathering.service;
 
 import com.junghun.common.domain.daily.entity.Daily;
 import com.junghun.common.domain.daily.exception.NotFoundDailyException;
+import com.junghun.common.domain.gathering.dto.OneDayGatheringPlaceDto;
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUpdateDto;
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUploadDto;
 import com.junghun.common.domain.gathering.entity.ClubGathering;
 import com.junghun.common.domain.gathering.entity.OneDayGathering;
 import com.junghun.common.domain.gathering.entity.OneDayGatheringApplyStatus;
+import com.junghun.common.domain.gathering.entity.OneDayGatheringPlace;
 import com.junghun.common.domain.gathering.exception.NotFoundGatheringException;
+import com.junghun.common.domain.gathering.repository.OneDayGatheringPlaceRepository;
 import com.junghun.common.domain.gathering.repository.OneDayGatheringRepository;
 import com.junghun.common.domain.user.dto.RegisterDto;
 import com.junghun.common.domain.user.entity.User;
@@ -56,7 +59,6 @@ public class OneDayGatheringService {
                 .timeStamp(writeDate)
                 .type(oneDayGatheringUploadDto.getType())
                 .openingDate(oneDayGatheringUploadDto.getOpeningDate())
-                .place(oneDayGatheringUploadDto.getPlace())
                 .haveEntryFee(oneDayGatheringUploadDto.isHaveEntryFee())
                 .entryFee(oneDayGatheringUploadDto.getEntryFee())
                 .showAllThePeople(oneDayGatheringUploadDto.isShowAllThePeople())
@@ -75,11 +77,11 @@ public class OneDayGatheringService {
     }
 
     public List<OneDayGathering> findByManagerId(Long managerId) {
-        return repository.findByManagerId(managerId);
+        return repository.findByManagerIdOrderByTimeStampDesc(managerId);
     }
 
     public List<OneDayGathering> findByClubGatheringId(Long clubGatheringId) {
-        return repository.findByClubGatheringId(clubGatheringId);
+        return repository.findByClubGatheringIdOrderByTimeStampDesc(clubGatheringId);
     }
 
     public List<OneDayGathering> findByApplierId(Long applierId) {
@@ -90,6 +92,29 @@ public class OneDayGatheringService {
         return repository.findParticipateInGatheringByApplierId(applierId);
     }
 
+    public List<OneDayGathering> findWithToday() {
+        return repository.findWithDateRange(LocalDateTime.now(), LocalDateTime.now().plusDays(1));
+    }
+
+    public List<OneDayGathering> findWithSoon() {
+        return repository.findWithDateRange(LocalDateTime.now(), LocalDateTime.now().plusDays(7));
+    }
+
+    public List<OneDayGathering> findByCategoryIn(String[] categories) {
+        return repository.findByCategoriesIn(categories);
+    }
+
+//    public List<OneDayGathering> findByCity(String city) {
+//        return repository.findByCity(city);
+//    }
+
+    public List<OneDayGathering> findByCategory(String category) {
+        return repository.findByCategory(category);
+    }
+
+    public List<OneDayGathering> findByKeyword(String keyword) {
+        return repository.findByKeyword(keyword);
+    }
 
     // UPDATE
     public OneDayGathering update(Long id, OneDayGatheringUpdateDto oneDayGatheringUpdateDto) {
@@ -108,6 +133,7 @@ public class OneDayGatheringService {
             }
         }
 
+
         OneDayGathering updateGathering = OneDayGathering.builder()
                 .id(id)
                 .manager(gathering.getManager())
@@ -122,7 +148,6 @@ public class OneDayGatheringService {
                 .timeStamp(writeDate)
                 .type(oneDayGatheringUpdateDto.getType())
                 .openingDate(oneDayGatheringUpdateDto.getOpeningDate())
-                .place(oneDayGatheringUpdateDto.getPlace())
                 .haveEntryFee(oneDayGatheringUpdateDto.isHaveEntryFee())
                 .entryFee(oneDayGatheringUpdateDto.getEntryFee())
                 .showAllThePeople(oneDayGatheringUpdateDto.isShowAllThePeople())
@@ -130,6 +155,7 @@ public class OneDayGatheringService {
                 .imageList(oneDayGatheringUpdateDto.getImageList())
                 .clubGathering(clubGathering)
                 .build();
+
 
         return repository.save(updateGathering);
     }

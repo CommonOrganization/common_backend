@@ -25,10 +25,6 @@ public class OneDayGathering extends Gathering {
     @Column(name = "opening_date")
     private LocalDateTime openingDate;
 
-    @Convert(converter = MapConverter.class)
-    @Column(name = "place")
-    private Map<String, Object> place;
-
     @Builder.Default
     @Column(name = "have_entry_fee")
     private boolean haveEntryFee = true;
@@ -44,6 +40,9 @@ public class OneDayGathering extends Gathering {
     @Builder.Default
     @Column(name = "show_all_the_people")
     private boolean showAllThePeople = false;
+
+    @OneToOne(mappedBy = "oneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
+    private OneDayGatheringPlace place;
 
     @Builder.Default
     @OneToMany(mappedBy = "oneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)

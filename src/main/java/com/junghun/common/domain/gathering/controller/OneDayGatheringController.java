@@ -1,9 +1,10 @@
 package com.junghun.common.domain.gathering.controller;
 
 import com.junghun.common.domain.daily.entity.Daily;
-import com.junghun.common.domain.gathering.dto.OneDayGatheringUpdateDto;
-import com.junghun.common.domain.gathering.dto.OneDayGatheringUploadDto;
+import com.junghun.common.domain.gathering.dto.*;
 import com.junghun.common.domain.gathering.entity.OneDayGathering;
+import com.junghun.common.domain.gathering.entity.OneDayGatheringPlace;
+import com.junghun.common.domain.gathering.service.OneDayGatheringPlaceService;
 import com.junghun.common.domain.gathering.service.OneDayGatheringService;
 import com.junghun.common.domain.user.dto.RegisterDto;
 import com.junghun.common.domain.user.entity.User;
@@ -21,10 +22,12 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class OneDayGatheringController {
     private final OneDayGatheringService service;
+    private final OneDayGatheringPlaceService placeService;
 
     @PutMapping("/upload")
-    public ResponseEntity<OneDayGathering> upload(@RequestBody OneDayGatheringUploadDto oneDayGatheringUploadDto) {
-        OneDayGathering gathering = service.upload(oneDayGatheringUploadDto);
+    public ResponseEntity<OneDayGathering> upload(@RequestBody GatheringUploadWrapper wrapper) {
+        OneDayGathering gathering = service.upload(wrapper.getOneDayGatheringUploadDto());
+        placeService.upload(gathering.getId(),wrapper.getOneDayGatheringPlaceDto());
         return new ResponseEntity<>(gathering, HttpStatus.CREATED);
     }
 
@@ -58,9 +61,46 @@ public class OneDayGatheringController {
         return ResponseEntity.ok(gatheringList);
     }
 
+    @GetMapping("/today")
+    public ResponseEntity<List<OneDayGathering>> findToday() {
+        List<OneDayGathering> gatheringList = service.findWithToday();
+        return ResponseEntity.ok(gatheringList);
+    }
+
+    @GetMapping("/soon")
+    public ResponseEntity<List<OneDayGathering>> findSoon() {
+        List<OneDayGathering> gatheringList = service.findWithSoon();
+        return ResponseEntity.ok(gatheringList);
+    }
+
+    // 요청 : /categories?categories=a&categories=b&categories=c => categories = [a,b,c] 의 형식으로 들어온다.
+    @GetMapping("/categories")
+    public ResponseEntity<List<OneDayGathering>> findByCategoriesIn(@RequestParam String[] categories) {
+        List<OneDayGathering> gatheringList = service.findByCategoryIn(categories);
+        return ResponseEntity.ok(gatheringList);
+    }
+
+//    @GetMapping("/city")
+//    public ResponseEntity<List<OneDayGathering>> findByCity(@RequestParam String city) {
+//        List<OneDayGathering> gatheringList = service.findByCity(city);
+//        return ResponseEntity.ok(gatheringList);
+//    }
+    @GetMapping("/category")
+    public ResponseEntity<List<OneDayGathering>> findByCategory(@RequestParam String category) {
+        List<OneDayGathering> gatheringList = service.findByCategory(category);
+        return ResponseEntity.ok(gatheringList);
+    }
+
+    @GetMapping("/keyword")
+    public ResponseEntity<List<OneDayGathering>> findByKeyword(@RequestParam String keyword) {
+        List<OneDayGathering> gatheringList = service.findByKeyword(keyword);
+        return ResponseEntity.ok(gatheringList);
+    }
+
     @PatchMapping("/{id}")
-    public ResponseEntity<OneDayGathering> update(@PathVariable Long id, @RequestBody OneDayGatheringUpdateDto oneDayGatheringUpdateDto) {
-        OneDayGathering gathering = service.update(id,oneDayGatheringUpdateDto);
+    public ResponseEntity<OneDayGathering> update(@PathVariable Long id, @RequestBody GatheringUpdateWrapper wrapper) {
+        OneDayGathering gathering = service.update(id,wrapper.getOneDayGatheringUpdateDto());
+        placeService.update(id,wrapper.getOneDayGatheringPlaceDto());
         return ResponseEntity.ok(gathering);
     }
 

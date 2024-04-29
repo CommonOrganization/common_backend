@@ -30,7 +30,6 @@ public class OneDayGatheringUploadDto {
 
     private String type;
     private LocalDateTime openingDate;
-    private Map<String, Object> place;
     private boolean haveEntryFee;
     private int entryFee;
     private Long clubGatheringId;
