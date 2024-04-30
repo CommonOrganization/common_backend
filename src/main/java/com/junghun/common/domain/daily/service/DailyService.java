@@ -32,11 +32,11 @@ public class DailyService {
         LocalDateTime writeDate = LocalDateTime.now();
 
         ClubGathering clubGathering = null;
-        if(dailyUploadDto.getClubGatheringId() != null){
-            try{
+        if (dailyUploadDto.getClubGatheringId() != null) {
+            try {
                 clubGathering = clubGatheringService.findById(dailyUploadDto.getClubGatheringId());
-            }catch (NotFoundGatheringException exception){
-                throw new NotFoundGatheringException(dailyUploadDto.getClubGatheringId()+" 을(를) 가진 Gathering 이 존재하지 않습니다.");
+            } catch (NotFoundGatheringException exception) {
+                throw new NotFoundGatheringException(dailyUploadDto.getClubGatheringId() + " 을(를) 가진 Gathering 이 존재하지 않습니다.");
             }
         }
 
@@ -88,11 +88,11 @@ public class DailyService {
         LocalDateTime writeDate = LocalDateTime.now();
 
         ClubGathering clubGathering = null;
-        if(dailyUpdateDto.getClubGatheringId() != null){
-            try{
+        if (dailyUpdateDto.getClubGatheringId() != null) {
+            try {
                 clubGathering = clubGatheringService.findById(dailyUpdateDto.getClubGatheringId());
-            }catch (NotFoundGatheringException exception){
-                throw new NotFoundGatheringException(dailyUpdateDto.getClubGatheringId()+" 을(를) 가진 Gathering 이 존재하지 않습니다.");
+            } catch (NotFoundGatheringException exception) {
+                throw new NotFoundGatheringException(dailyUpdateDto.getClubGatheringId() + " 을(를) 가진 Gathering 이 존재하지 않습니다.");
             }
         }
 

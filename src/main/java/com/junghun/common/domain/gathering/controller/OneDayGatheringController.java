@@ -1,21 +1,15 @@
 package com.junghun.common.domain.gathering.controller;
 
-import com.junghun.common.domain.daily.entity.Daily;
 import com.junghun.common.domain.gathering.dto.*;
 import com.junghun.common.domain.gathering.entity.OneDayGathering;
-import com.junghun.common.domain.gathering.entity.OneDayGatheringPlace;
 import com.junghun.common.domain.gathering.service.OneDayGatheringPlaceService;
 import com.junghun.common.domain.gathering.service.OneDayGatheringService;
-import com.junghun.common.domain.user.dto.RegisterDto;
-import com.junghun.common.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/oneDayGathering")
@@ -27,7 +21,7 @@ public class OneDayGatheringController {
     @PutMapping("/upload")
     public ResponseEntity<OneDayGathering> upload(@RequestBody GatheringUploadWrapper wrapper) {
         OneDayGathering gathering = service.upload(wrapper.getOneDayGatheringUploadDto());
-        placeService.upload(gathering.getId(),wrapper.getOneDayGatheringPlaceDto());
+        placeService.upload(gathering.getId(), wrapper.getOneDayGatheringPlaceDto());
         return new ResponseEntity<>(gathering, HttpStatus.CREATED);
     }
 
@@ -80,11 +74,12 @@ public class OneDayGatheringController {
         return ResponseEntity.ok(gatheringList);
     }
 
-//    @GetMapping("/city")
-//    public ResponseEntity<List<OneDayGathering>> findByCity(@RequestParam String city) {
-//        List<OneDayGathering> gatheringList = service.findByCity(city);
-//        return ResponseEntity.ok(gatheringList);
-//    }
+    @GetMapping("/city")
+    public ResponseEntity<List<OneDayGathering>> findByCity(@RequestParam String city) {
+        List<OneDayGathering> gatheringList = service.findByCity(city);
+        return ResponseEntity.ok(gatheringList);
+    }
+
     @GetMapping("/category")
     public ResponseEntity<List<OneDayGathering>> findByCategory(@RequestParam String category) {
         List<OneDayGathering> gatheringList = service.findByCategory(category);
@@ -99,8 +94,8 @@ public class OneDayGatheringController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<OneDayGathering> update(@PathVariable Long id, @RequestBody GatheringUpdateWrapper wrapper) {
-        OneDayGathering gathering = service.update(id,wrapper.getOneDayGatheringUpdateDto());
-        placeService.update(id,wrapper.getOneDayGatheringPlaceDto());
+        OneDayGathering gathering = service.update(id, wrapper.getOneDayGatheringUpdateDto());
+        placeService.update(id, wrapper.getOneDayGatheringPlaceDto());
         return ResponseEntity.ok(gathering);
     }
 

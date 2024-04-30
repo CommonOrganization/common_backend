@@ -37,14 +37,14 @@ public class ReplyService {
         return repository.save(reply);
     }
 
-    public Reply findById(Long replyId){
+    public Reply findById(Long replyId) {
         return repository.findById(replyId)
-                .orElseThrow(()->new NotFoundReplyException(replyId+"을(를) 가진 Reply 가 존재하지 않습니다."));
+                .orElseThrow(() -> new NotFoundReplyException(replyId + "을(를) 가진 Reply 가 존재하지 않습니다."));
     }
 
     public Reply update(Long id, ReplyUpdateDto replyUpdateDto) {
         Reply reply = repository.findById(id)
-                .orElseThrow(()->new NotFoundCommentsException(id+"을(를) 가진 Reply 가 존재하지 않습니다."));
+                .orElseThrow(() -> new NotFoundCommentsException(id + "을(를) 가진 Reply 가 존재하지 않습니다."));
 
         LocalDateTime writeDate = LocalDateTime.now();
 
@@ -61,7 +61,7 @@ public class ReplyService {
 
     public void deleteById(Long replyId) {
         repository.findById(replyId)
-                .orElseThrow(()->new NotFoundCommentsException(replyId+"을(를) 가진 Reply 가 존재하지 않습니다."));
+                .orElseThrow(() -> new NotFoundCommentsException(replyId + "을(를) 가진 Reply 가 존재하지 않습니다."));
 
         repository.deleteById(replyId);
     }

@@ -36,14 +36,14 @@ public class CommentService {
         return repository.save(comment);
     }
 
-    public Comment findById(Long commentId){
+    public Comment findById(Long commentId) {
         return repository.findById(commentId)
-                .orElseThrow(()->new NotFoundCommentsException(commentId+"을(를) 가진 Comment 가 존재하지 않습니다."));
+                .orElseThrow(() -> new NotFoundCommentsException(commentId + "을(를) 가진 Comment 가 존재하지 않습니다."));
     }
 
     public Comment update(Long commentId, CommentUpdateDto commentUpdateDto) {
         Comment comment = repository.findById(commentId)
-                .orElseThrow(()->new NotFoundCommentsException(commentId+"을(를) 가진 Comment 가 존재하지 않습니다."));
+                .orElseThrow(() -> new NotFoundCommentsException(commentId + "을(를) 가진 Comment 가 존재하지 않습니다."));
 
         LocalDateTime writeDate = LocalDateTime.now();
 
@@ -60,7 +60,7 @@ public class CommentService {
 
     public void deleteById(Long commentId) {
         repository.findById(commentId)
-                .orElseThrow(()->new NotFoundCommentsException(commentId+"을(를) 가진 Comment 가 존재하지 않습니다."));
+                .orElseThrow(() -> new NotFoundCommentsException(commentId + "을(를) 가진 Comment 가 존재하지 않습니다."));
 
         repository.deleteById(commentId);
     }

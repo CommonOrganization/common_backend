@@ -29,7 +29,7 @@ public class Reply {
     @Column(name = "time_stamp")
     private LocalDateTime timeStamp;
 
-    @Column(name = "content",length = 1000)
+    @Column(name = "content", length = 1000)
     private String content;
 
 }

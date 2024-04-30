@@ -14,14 +14,14 @@ public class OneDayGatheringPlace {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "one_day_gathering_id", referencedColumnName = "id")
     private OneDayGathering oneDayGathering;
 
-    @Column(name = "city",length = 50)
+    @Column(name = "city", length = 50)
     private String city;
 
-    @Column(name = "middle_place",length = 50)
+    @Column(name = "middle_place", length = 50)
     private String middlePlace;
 
     @Column(name = "detail_place", length = 100)

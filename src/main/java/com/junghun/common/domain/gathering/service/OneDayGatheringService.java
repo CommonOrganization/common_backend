@@ -1,26 +1,16 @@
 package com.junghun.common.domain.gathering.service;
 
-import com.junghun.common.domain.daily.entity.Daily;
-import com.junghun.common.domain.daily.exception.NotFoundDailyException;
-import com.junghun.common.domain.gathering.dto.OneDayGatheringPlaceDto;
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUpdateDto;
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUploadDto;
 import com.junghun.common.domain.gathering.entity.ClubGathering;
 import com.junghun.common.domain.gathering.entity.OneDayGathering;
-import com.junghun.common.domain.gathering.entity.OneDayGatheringApplyStatus;
-import com.junghun.common.domain.gathering.entity.OneDayGatheringPlace;
 import com.junghun.common.domain.gathering.exception.NotFoundGatheringException;
-import com.junghun.common.domain.gathering.repository.OneDayGatheringPlaceRepository;
 import com.junghun.common.domain.gathering.repository.OneDayGatheringRepository;
-import com.junghun.common.domain.user.dto.RegisterDto;
 import com.junghun.common.domain.user.entity.User;
-import com.junghun.common.domain.user.exception.DuplicatedEmailException;
-import com.junghun.common.domain.user.exception.NotFoundUserException;
 import com.junghun.common.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -104,9 +94,9 @@ public class OneDayGatheringService {
         return repository.findByCategoriesIn(categories);
     }
 
-//    public List<OneDayGathering> findByCity(String city) {
-//        return repository.findByCity(city);
-//    }
+    public List<OneDayGathering> findByCity(String city) {
+        return repository.findByCity(city);
+    }
 
     public List<OneDayGathering> findByCategory(String category) {
         return repository.findByCategory(category);

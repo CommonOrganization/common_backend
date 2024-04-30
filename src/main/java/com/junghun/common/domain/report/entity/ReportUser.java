@@ -1,8 +1,5 @@
 package com.junghun.common.domain.report.entity;
 
-import com.junghun.common.domain.daily.entity.Daily;
-import com.junghun.common.domain.gathering.entity.ClubGathering;
-import com.junghun.common.domain.gathering.entity.OneDayGathering;
 import com.junghun.common.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;

@@ -20,12 +20,12 @@ public class Notice {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "type",length = 30)
+    @Column(name = "type", length = 30)
     private String type;
 
     @Column(name = "time_stamp")
     private LocalDateTime timeStamp;
 
-    @Column(name = "content",length = 1000)
+    @Column(name = "content", length = 1000)
     private String content;
 }

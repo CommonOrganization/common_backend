@@ -1,9 +1,8 @@
 package com.junghun.common.domain.user.controller;
 
-import com.junghun.common.domain.user.dto.InformationDto;
-import com.junghun.common.domain.user.dto.LoginDto;
-import com.junghun.common.domain.user.dto.RegisterDto;
+import com.junghun.common.domain.user.dto.*;
 import com.junghun.common.domain.user.entity.User;
+import com.junghun.common.domain.user.service.UserPlaceService;
 import com.junghun.common.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
@@ -19,10 +17,12 @@ import java.util.Map;
 public class UserController {
 
     private final UserService service;
+    private final UserPlaceService placeService;
 
     @PutMapping("/register")
-    public ResponseEntity<User> register(@RequestBody RegisterDto registerDto) {
-        User registeredUser = service.register(registerDto);
+    public ResponseEntity<User> register(@RequestBody UserRegisterWrapper userRegisterWrapper) {
+        User registeredUser = service.register(userRegisterWrapper.getRegisterDto());
+        placeService.upload(registeredUser.getId(), userRegisterWrapper.getUserPlaceDto());
         return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
     }
 
@@ -47,9 +47,9 @@ public class UserController {
     @PatchMapping("/{userId}/userPlace")
     public ResponseEntity<User> updateUserPlace(
             @PathVariable Long userId,
-            @RequestBody Map<String, Object> newUserPlace) {
-        User updatedUser = service.updateUserPlace(userId, newUserPlace);
-        return ResponseEntity.ok(updatedUser);
+            @RequestBody UserPlaceDto userPlaceDto) {
+        placeService.update(userId, userPlaceDto);
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/{userId}/password")

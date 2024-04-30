@@ -20,9 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @SpringBootTest
 @Slf4j
@@ -41,11 +39,6 @@ class CommentServiceTest {
     @BeforeEach
     void setDaily() {
 
-        Map<String, Object> userPlace = new HashMap<>();
-        userPlace.put("city", "세종");
-        userPlace.put("county", "한솔동");
-        userPlace.put("dong", "전체");
-
         List<String> interestCategory = new ArrayList<>();
         interestCategory.add("sports");
         interestCategory.add("language");
@@ -58,7 +51,6 @@ class CommentServiceTest {
                 .password("password")
                 .gender("남성")
                 .birthday(LocalDate.of(1999, 1, 16))
-                .userPlace(userPlace)
                 .interestCategory(interestCategory)
                 .profileImage("image")
                 .information("information")

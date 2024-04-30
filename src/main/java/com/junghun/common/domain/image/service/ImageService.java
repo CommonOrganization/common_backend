@@ -42,7 +42,7 @@ public class ImageService {
                 stream.write(imageBytes);
             }
 
-            String resultPath = HOST+"api/image/" + path + "/" + fileName;
+            String resultPath = HOST + "api/image/" + path + "/" + fileName;
 
             log.info("이미지 저장 완료 " + resultPath);
             // 업로드된 파일의 절대 경로를 반환

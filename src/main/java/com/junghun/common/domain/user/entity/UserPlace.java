@@ -14,12 +14,16 @@ public class UserPlace {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "city",length = 50)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
+    @Column(name = "city", length = 50)
     private String city;
 
-    @Column(name = "middle_place",length = 50)
-    private String county;
+    @Column(name = "middle_place", length = 50)
+    private String middlePlace;
 
     @Column(name = "detail_place", length = 100)
-    private String dong;
+    private String detailPlace;
 }

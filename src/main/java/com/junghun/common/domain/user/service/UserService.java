@@ -11,7 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -58,7 +57,6 @@ public class UserService {
                 .password(encryptedPassword)
                 .gender(registerDto.getGender())
                 .birthday(registerDto.getBirthday())
-                .userPlace(registerDto.getUserPlace())
                 .profileImage(registerDto.getProfileImage())
                 .information(registerDto.getInformation())
                 .interestCategory(registerDto.getInterestCategory())
@@ -143,26 +141,6 @@ public class UserService {
                 .profileImage(user.getProfileImage())
                 .information(user.getInformation())
                 .interestCategory(newInterestCategory)
-                .build();
-
-        return repository.save(updateUser);
-    }
-
-    public User updateUserPlace(Long id, Map<String, Object> newUserPlace) {
-        User user = repository.findById(id)
-                .orElseThrow(() -> new NotFoundUserException(id + "을(를) 가진 User 가 존재하지 않습니다."));
-
-        User updateUser = User.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .name(user.getName())
-                .password(user.getPassword())
-                .gender(user.getGender())
-                .birthday(user.getBirthday())
-                .userPlace(newUserPlace)
-                .profileImage(user.getProfileImage())
-                .information(user.getInformation())
-                .interestCategory(user.getInterestCategory())
                 .build();
 
         return repository.save(updateUser);

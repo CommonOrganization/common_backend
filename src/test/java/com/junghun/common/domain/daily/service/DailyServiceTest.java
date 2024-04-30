@@ -8,17 +8,13 @@ import com.junghun.common.domain.user.entity.User;
 import com.junghun.common.domain.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 @SpringBootTest
@@ -35,11 +31,6 @@ class DailyServiceTest {
     @BeforeEach
     void setDaily() {
 
-        Map<String, Object> userPlace = new HashMap<>();
-        userPlace.put("city", "세종");
-        userPlace.put("county", "한솔동");
-        userPlace.put("dong", "전체");
-
         List<String> interestCategory = new ArrayList<>();
         interestCategory.add("sports");
         interestCategory.add("language");
@@ -52,13 +43,12 @@ class DailyServiceTest {
                 .password("password")
                 .gender("남성")
                 .birthday(LocalDate.of(1999, 1, 16))
-                .userPlace(userPlace)
                 .interestCategory(interestCategory)
                 .profileImage("image")
                 .information("information")
                 .build();
 
-        user =  userService.register(registerDto);
+        user = userService.register(registerDto);
 
         DailyUploadDto dailyUploadDto1 = new DailyUploadDto();
 
@@ -185,11 +175,11 @@ class DailyServiceTest {
         dailyUpdateDto.setImageList(newImageList);
         dailyUpdateDto.setContent(daily.getContent());
         dailyUpdateDto.setTagList(newTagList);
-        service.update(daily.getId(),dailyUpdateDto);
+        service.update(daily.getId(), dailyUpdateDto);
 
         Daily findDaily = service.findById(daily.getId());
 
-        Assertions.assertThat(findDaily.getTagList()).containsExactly("하하호호","이건 수정된태그");
+        Assertions.assertThat(findDaily.getTagList()).containsExactly("하하호호", "이건 수정된태그");
         Assertions.assertThat(findDaily.getContent()).isEqualTo(daily.getContent());
     }
 }

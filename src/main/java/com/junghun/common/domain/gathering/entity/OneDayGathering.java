@@ -2,7 +2,6 @@ package com.junghun.common.domain.gathering.entity;
 
 import com.junghun.common.domain.like.entity.LikeOneDayGathering;
 import com.junghun.common.domain.report.entity.ReportOneDayGathering;
-import com.junghun.common.global.converter.MapConverter;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -10,7 +9,6 @@ import lombok.experimental.SuperBuilder;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Entity
 @Table(name = "one_day_gathering")
