@@ -4,7 +4,6 @@ import com.junghun.common.domain.daily.dto.*;
 import com.junghun.common.domain.daily.entity.Comment;
 import com.junghun.common.domain.daily.entity.Daily;
 import com.junghun.common.domain.daily.entity.Reply;
-import com.junghun.common.domain.daily.exception.NotFoundCommentsException;
 import com.junghun.common.domain.daily.exception.NotFoundReplyException;
 import com.junghun.common.domain.user.dto.RegisterDto;
 import com.junghun.common.domain.user.entity.User;
@@ -20,9 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @SpringBootTest
 @Slf4j
@@ -46,10 +43,6 @@ class ReplyServiceTest {
     @BeforeEach
     void setComment() {
 
-        Map<String, Object> userPlace = new HashMap<>();
-        userPlace.put("city", "세종");
-        userPlace.put("county", "한솔동");
-        userPlace.put("dong", "전체");
 
         List<String> interestCategory = new ArrayList<>();
         interestCategory.add("sports");
@@ -63,7 +56,6 @@ class ReplyServiceTest {
                 .password("password")
                 .gender("남성")
                 .birthday(LocalDate.of(1999, 1, 16))
-                .userPlace(userPlace)
                 .interestCategory(interestCategory)
                 .profileImage("image")
                 .information("information")
@@ -113,7 +105,7 @@ class ReplyServiceTest {
 
     @Test
     @DisplayName("대댓글 등록하기 테스트")
-    void uploadComment(){
+    void uploadComment() {
         ReplyUploadDto replyUploadDto = new ReplyUploadDto();
         replyUploadDto.setWriterId(user.getId());
         replyUploadDto.setCommentId(comment.getId());
@@ -129,7 +121,7 @@ class ReplyServiceTest {
 
     @Test
     @DisplayName("대댓글 수정하기 테스트")
-    void updateComment(){
+    void updateComment() {
         ReplyUploadDto replyUploadDto = new ReplyUploadDto();
         replyUploadDto.setWriterId(user.getId());
         replyUploadDto.setCommentId(comment.getId());
@@ -140,7 +132,7 @@ class ReplyServiceTest {
         ReplyUpdateDto replyUpdateDto = new ReplyUpdateDto();
         replyUpdateDto.setContent("이건 새로운 대댓글입니다.");
 
-        Reply updateReply = service.update(uploadReply.getId(),replyUpdateDto);
+        Reply updateReply = service.update(uploadReply.getId(), replyUpdateDto);
 
         Assertions.assertThat(uploadReply.getContent()).isNotEqualTo(updateReply.getContent());
         Assertions.assertThat(uploadReply.getId()).isEqualTo(updateReply.getId());
@@ -148,7 +140,7 @@ class ReplyServiceTest {
 
     @Test
     @DisplayName("대댓글 삭제하기 테스트")
-    void deleteComment(){
+    void deleteComment() {
         ReplyUploadDto replyUploadDto = new ReplyUploadDto();
         replyUploadDto.setWriterId(user.getId());
         replyUploadDto.setCommentId(comment.getId());
@@ -158,7 +150,7 @@ class ReplyServiceTest {
 
         service.deleteById(uploadReply.getId());
 
-        Assertions.assertThatThrownBy(()->service.findById(uploadReply.getId())).isInstanceOf(NotFoundReplyException.class);
+        Assertions.assertThatThrownBy(() -> service.findById(uploadReply.getId())).isInstanceOf(NotFoundReplyException.class);
     }
 
 }

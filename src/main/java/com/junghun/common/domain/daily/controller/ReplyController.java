@@ -24,13 +24,13 @@ public class ReplyController {
 
     @GetMapping("/{replyId}")
     public ResponseEntity<Reply> findById(@PathVariable Long replyId) {
-        Reply reply =service.findById(replyId);
+        Reply reply = service.findById(replyId);
         return ResponseEntity.ok(reply);
     }
 
     @PatchMapping("/{replyId}")
     public ResponseEntity<Reply> update(@PathVariable Long replyId, @RequestBody ReplyUpdateDto replyUpdateDto) {
-        Reply reply = service.update(replyId,replyUpdateDto);
+        Reply reply = service.update(replyId, replyUpdateDto);
         return ResponseEntity.ok(reply);
     }
 

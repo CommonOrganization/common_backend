@@ -1,16 +1,10 @@
 package com.junghun.common.domain.gathering.dto;
 
-import com.junghun.common.domain.gathering.entity.ClubGathering;
-import com.junghun.common.domain.user.entity.User;
-import com.junghun.common.global.converter.ListConverter;
-import com.junghun.common.global.converter.MapConverter;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @Setter
@@ -30,7 +24,6 @@ public class OneDayGatheringUploadDto {
 
     private String type;
     private LocalDateTime openingDate;
-    private Map<String, Object> place;
     private boolean haveEntryFee;
     private int entryFee;
     private Long clubGatheringId;

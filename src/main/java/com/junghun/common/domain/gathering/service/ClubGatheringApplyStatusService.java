@@ -2,7 +2,6 @@ package com.junghun.common.domain.gathering.service;
 
 import com.junghun.common.domain.gathering.entity.ClubGathering;
 import com.junghun.common.domain.gathering.entity.ClubGatheringApplyStatus;
-import com.junghun.common.domain.gathering.entity.OneDayGatheringApplyStatus;
 import com.junghun.common.domain.gathering.exception.AlreadyApplyGatheringException;
 import com.junghun.common.domain.gathering.exception.NotFoundGatheringApplyStatusException;
 import com.junghun.common.domain.gathering.repository.ClubGatheringApplyStatusRepository;
@@ -22,11 +21,11 @@ public class ClubGatheringApplyStatusService {
     private final UserService userService;
     private final ClubGatheringService clubGatheringService;
 
-    public void applyGathering(Long applierId,Long clubGatheringId) {
+    public void applyGathering(Long applierId, Long clubGatheringId) {
 
-        List<ClubGatheringApplyStatus> oneDayGatheringApplyStatusList = repository.findByApplierIdAndClubGatheringId(applierId,clubGatheringId);
+        List<ClubGatheringApplyStatus> oneDayGatheringApplyStatusList = repository.findByApplierIdAndClubGatheringId(applierId, clubGatheringId);
 
-        if(!oneDayGatheringApplyStatusList.isEmpty()){
+        if (!oneDayGatheringApplyStatusList.isEmpty()) {
             throw new AlreadyApplyGatheringException("이미 신청중이거나, 승인된 모임입니다.");
         }
 
@@ -39,17 +38,17 @@ public class ClubGatheringApplyStatusService {
                 .status(clubGathering.getRecruitWay().equals("firstCome"))
                 .build();
 
-         repository.save(clubGatheringApplyStatus);
+        repository.save(clubGatheringApplyStatus);
     }
 
     public ClubGatheringApplyStatus findById(Long statusId) {
         return repository.findById(statusId).orElseThrow(() -> new NotFoundGatheringApplyStatusException(statusId + "을(를) 가진 ClubGatheringApplyStatus 가 존재하지 않습니다."));
     }
 
-    public void approveGathering(Long applierId,Long clubGatheringId) {
-        List<ClubGatheringApplyStatus> clubGatheringApplyStatusList = repository.findByApplierIdAndClubGatheringId(applierId,clubGatheringId);
+    public void approveGathering(Long applierId, Long clubGatheringId) {
+        List<ClubGatheringApplyStatus> clubGatheringApplyStatusList = repository.findByApplierIdAndClubGatheringId(applierId, clubGatheringId);
 
-        for(ClubGatheringApplyStatus clubGatheringApplyStatus : clubGatheringApplyStatusList){
+        for (ClubGatheringApplyStatus clubGatheringApplyStatus : clubGatheringApplyStatusList) {
 
             ClubGatheringApplyStatus updateOneDayGatheringApplyStatus = ClubGatheringApplyStatus.builder()
                     .id(clubGatheringApplyStatus.getId())

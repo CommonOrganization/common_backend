@@ -1,9 +1,7 @@
 package com.junghun.common.domain.gathering.controller;
 
 import com.junghun.common.domain.gathering.entity.ClubGatheringApplyStatus;
-import com.junghun.common.domain.gathering.entity.OneDayGatheringApplyStatus;
 import com.junghun.common.domain.gathering.service.ClubGatheringApplyStatusService;
-import com.junghun.common.domain.gathering.service.OneDayGatheringApplyStatusService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +14,8 @@ public class ClubGatheringApplyStatusController {
     private final ClubGatheringApplyStatusService service;
 
     @PutMapping("/apply/{clubGatheringId}")
-    public ResponseEntity<Void> applyGathering(@PathVariable Long clubGatheringId,@RequestParam Long applierId) {
-        service.applyGathering(applierId,clubGatheringId);
+    public ResponseEntity<Void> applyGathering(@PathVariable Long clubGatheringId, @RequestParam Long applierId) {
+        service.applyGathering(applierId, clubGatheringId);
         return ResponseEntity.ok().build();
     }
 
@@ -28,8 +26,8 @@ public class ClubGatheringApplyStatusController {
     }
 
     @PatchMapping("/approve/{clubGatheringId}")
-    public ResponseEntity<Void> approveGathering(@PathVariable Long clubGatheringId,@RequestParam Long applierId) {
-        service.approveGathering(applierId,clubGatheringId);
+    public ResponseEntity<Void> approveGathering(@PathVariable Long clubGatheringId, @RequestParam Long applierId) {
+        service.approveGathering(applierId, clubGatheringId);
         return ResponseEntity.ok().build();
     }
 

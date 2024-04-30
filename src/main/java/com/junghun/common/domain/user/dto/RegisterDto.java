@@ -17,7 +17,6 @@ public class RegisterDto {
     private String password;
     private String gender;
     private LocalDate birthday;
-    private Map<String, Object> userPlace;
     private List<String> interestCategory;
     private String profileImage;
     private String information;

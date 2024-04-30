@@ -4,25 +4,17 @@ import com.junghun.common.domain.daily.entity.Comment;
 import com.junghun.common.domain.daily.entity.Daily;
 import com.junghun.common.domain.daily.entity.Reply;
 import com.junghun.common.domain.gathering.entity.ClubGathering;
-import com.junghun.common.domain.gathering.entity.ClubGatheringApplyStatus;
 import com.junghun.common.domain.gathering.entity.OneDayGathering;
-import com.junghun.common.domain.gathering.entity.OneDayGatheringApplyStatus;
 import com.junghun.common.domain.like.entity.LikeClubGathering;
 import com.junghun.common.domain.like.entity.LikeDaily;
 import com.junghun.common.domain.like.entity.LikeOneDayGathering;
-import com.junghun.common.domain.report.entity.ReportClubGathering;
-import com.junghun.common.domain.report.entity.ReportDaily;
-import com.junghun.common.domain.report.entity.ReportOneDayGathering;
-import com.junghun.common.domain.report.entity.ReportUser;
 import com.junghun.common.global.converter.ListConverter;
-import com.junghun.common.global.converter.MapConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Entity
 @Table(name = "users")
@@ -51,10 +43,6 @@ public class User {
     @Column(name = "birthday")
     private LocalDate birthday;
 
-    @Convert(converter = MapConverter.class)
-    @Column(name = "user_place")
-    private Map<String, Object> userPlace;
-
     @Builder.Default
     @Convert(converter = ListConverter.class)
     @Column(name = "interest_category")
@@ -65,6 +53,9 @@ public class User {
 
     @Column(name = "information")
     private String information;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private UserPlace userPlace;
 
     // 모임 관련 JOIN 컬럼
     @Builder.Default

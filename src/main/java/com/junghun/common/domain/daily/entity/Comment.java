@@ -36,5 +36,5 @@ public class Comment {
 
     @Builder.Default
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
-    private  List<Reply> replyList = new ArrayList<>();
+    private List<Reply> replyList = new ArrayList<>();
 }

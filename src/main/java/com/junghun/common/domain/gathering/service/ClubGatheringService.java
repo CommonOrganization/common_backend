@@ -13,8 +13,8 @@ public class ClubGatheringService {
     private final ClubGatheringRepository repository;
     private final UserService userService;
 
-    public ClubGathering findById(Long id){
+    public ClubGathering findById(Long id) {
         return repository.findById(id)
-                .orElseThrow(()->new NotFoundGatheringException(id+"을(를) 가진 ClubGathering 이(가) 존재하지 않습니다."));
+                .orElseThrow(() -> new NotFoundGatheringException(id + "을(를) 가진 ClubGathering 이(가) 존재하지 않습니다."));
     }
 }

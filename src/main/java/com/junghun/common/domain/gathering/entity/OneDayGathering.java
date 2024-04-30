@@ -2,7 +2,6 @@ package com.junghun.common.domain.gathering.entity;
 
 import com.junghun.common.domain.like.entity.LikeOneDayGathering;
 import com.junghun.common.domain.report.entity.ReportOneDayGathering;
-import com.junghun.common.global.converter.MapConverter;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -10,7 +9,6 @@ import lombok.experimental.SuperBuilder;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Entity
 @Table(name = "one_day_gathering")
@@ -24,10 +22,6 @@ public class OneDayGathering extends Gathering {
 
     @Column(name = "opening_date")
     private LocalDateTime openingDate;
-
-    @Convert(converter = MapConverter.class)
-    @Column(name = "place")
-    private Map<String, Object> place;
 
     @Builder.Default
     @Column(name = "have_entry_fee")
@@ -44,6 +38,9 @@ public class OneDayGathering extends Gathering {
     @Builder.Default
     @Column(name = "show_all_the_people")
     private boolean showAllThePeople = false;
+
+    @OneToOne(mappedBy = "oneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
+    private OneDayGatheringPlace place;
 
     @Builder.Default
     @OneToMany(mappedBy = "oneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
