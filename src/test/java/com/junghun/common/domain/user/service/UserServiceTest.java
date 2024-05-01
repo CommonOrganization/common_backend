@@ -6,6 +6,7 @@ import com.junghun.common.domain.user.dto.InformationDto;
 import com.junghun.common.domain.user.dto.RegisterDto;
 import com.junghun.common.domain.user.dto.UserPlaceDto;
 import com.junghun.common.domain.user.entity.User;
+import com.junghun.common.domain.user.entity.UserPlace;
 import com.junghun.common.domain.user.exception.DuplicatedEmailException;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
@@ -203,6 +204,27 @@ class UserServiceTest {
         Assertions.assertThat(updatedUser.getInterestCategory()).containsExactly("sports", "language", "game", "coffee", "music");
 
         Assertions.assertThat(updatedUser.getInterestCategory().size()).isEqualTo(5);
+
+    }
+
+    @Test
+    @DisplayName("유저 지역 수정 테스트")
+    void updateUserPlace() {
+
+        User loginUser = service.login("test@naver.com", "password");
+
+        UserPlaceDto userPlaceDto = new UserPlaceDto();
+        userPlaceDto.setCity("서울");
+        userPlaceDto.setMiddlePlace("동작구");
+        userPlaceDto.setDetailPlace("왕천파닭");
+
+        placeService.update(loginUser.getId(), userPlaceDto);
+
+        User updatedAfterLoginUser = service.login("test@naver.com", "password");
+
+        Assertions.assertThat(loginUser.getUserPlace().getCity()).isNotEqualTo("서울");
+
+        Assertions.assertThat(updatedAfterLoginUser.getUserPlace().getCity()).isEqualTo("서울");
 
     }
 }
