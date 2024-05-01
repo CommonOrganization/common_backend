@@ -1,6 +1,7 @@
 package com.junghun.common.domain.gathering.service;
 
 import com.junghun.common.domain.gathering.dto.OneDayGatheringPlaceDto;
+import com.junghun.common.domain.gathering.dto.OneDayGatheringUpdateDto;
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUploadDto;
 import com.junghun.common.domain.gathering.entity.OneDayGathering;
 import com.junghun.common.domain.user.dto.RegisterDto;
@@ -102,6 +103,7 @@ class OneDayGatheringServiceTest {
         OneDayGatheringUploadDto oneDayGatheringUploadDto = new OneDayGatheringUploadDto();
 
         List<String> imageList = new ArrayList<>();
+
         List<String> tagList = new ArrayList<>();
         tagList.add("카페");
         tagList.add("2030");
@@ -145,6 +147,61 @@ class OneDayGatheringServiceTest {
 
         userService.deleteById(manager.getId());
         userService.deleteById(applier.getId());
+    }
+
+    @Test
+    @DisplayName("하루모임 수정하기")
+    void updateGathering() {
+        List<OneDayGathering> oneDayGatheringList = service.findByManagerId(manager.getId());
+
+        OneDayGatheringUpdateDto oneDayGatheringUpdateDto = new OneDayGatheringUpdateDto();
+
+        List<String> tagList = new ArrayList<>();
+        tagList.add("배드민턴");
+        tagList.add("운동");
+
+        oneDayGatheringUpdateDto.setCategory("sports");
+        oneDayGatheringUpdateDto.setDetailCategory("배드민턴");
+        oneDayGatheringUpdateDto.setTitle("내일 배드민턴칠사람");
+        oneDayGatheringUpdateDto.setContent("배드민턴 땡기는데 같이 목요일 저녁에 칠사람 있나요?");
+        oneDayGatheringUpdateDto.setMainImage("https://firebasestorage.googleapis.com/v0/b/common-2fea2.appspot.com/o/gathering%2F1698587984940784?alt=media&token=39a0e6db-8baa-49cf-b0ee-cec47765a327");
+        oneDayGatheringUpdateDto.setImageList(oneDayGatheringList.get(0).getImageList());
+        oneDayGatheringUpdateDto.setRecruitWay("firstCome");
+        oneDayGatheringUpdateDto.setRecruitQuestion("");
+        oneDayGatheringUpdateDto.setCapacity(4);
+        oneDayGatheringUpdateDto.setTagList(tagList);
+        oneDayGatheringUpdateDto.setType("oneDay");
+        oneDayGatheringUpdateDto.setOpeningDate(LocalDateTime.of(2024,4,21,15,0));
+        oneDayGatheringUpdateDto.setHaveEntryFee(false);
+        oneDayGatheringUpdateDto.setEntryFee(0);
+        oneDayGatheringUpdateDto.setClubGatheringId(null);
+        oneDayGatheringUpdateDto.setShowAllThePeople(true);
+
+        service.update(oneDayGatheringList.get(0).getId(),oneDayGatheringUpdateDto);
+
+        OneDayGathering gathering = service.findById(oneDayGatheringList.get(0).getId());
+
+        Assertions.assertThat(gathering.getTagList()).containsExactly("배드민턴","운동");
+        Assertions.assertThat(gathering.getTitle()).isEqualTo("내일 배드민턴칠사람");
+    }
+
+    @Test
+    @DisplayName("하루모임 장소 수정하기")
+    void updateGatheringPlace() {
+        List<OneDayGathering> oneDayGatheringList = service.findByManagerId(manager.getId());
+        OneDayGathering gathering = service.findById(oneDayGatheringList.get(0).getId());
+        Assertions.assertThat(gathering.getPlace().getCity()).isEqualTo("경남");
+
+        OneDayGatheringPlaceDto oneDayGatheringPlaceDto = new OneDayGatheringPlaceDto();
+        oneDayGatheringPlaceDto.setCity("서울");
+        oneDayGatheringPlaceDto.setMiddlePlace("동작구");
+        oneDayGatheringPlaceDto.setDetailPlace("아디오스");
+
+        placeService.update(gathering.getId(),oneDayGatheringPlaceDto);
+
+        OneDayGathering updatedAfterGathering = service.findById(oneDayGatheringList.get(0).getId());
+
+        Assertions.assertThat(updatedAfterGathering.getPlace().getCity()).isEqualTo("서울");
     }
 
     @Test
