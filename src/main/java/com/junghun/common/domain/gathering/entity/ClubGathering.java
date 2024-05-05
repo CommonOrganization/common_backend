@@ -18,11 +18,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClubGathering extends Gathering {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Builder.Default
     @Convert(converter = ListConverter.class)
     @Column(name = "city")

@@ -21,48 +21,48 @@ public abstract class Gathering {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id", referencedColumnName = "id")
-    private User manager;
+    protected User manager;
 
     @Column(name = "category", length = 30)
-    private String category;
+    protected String category;
 
     @Column(name = "detail_category", length = 30)
-    private String detailCategory;
+    protected String detailCategory;
 
     @Column(name = "title", length = 100)
-    private String title;
+    protected String title;
 
     @Column(name = "content", length = 1000)
-    private String content;
+    protected String content;
 
     @Column(name = "main_image")
-    private String mainImage;
+    protected String mainImage;
 
     @Builder.Default
     @Convert(converter = ListConverter.class)
     @Column(name = "image_list")
-    private List<String> imageList = new ArrayList<>();
+    protected List<String> imageList = new ArrayList<>();
 
     @Column(name = "recruit_way", length = 30)
-    private String recruitWay;
+    protected String recruitWay;
 
     @Column(name = "recruit_question")
-    private String recruitQuestion;
+    protected String recruitQuestion;
 
     @Builder.Default
     @Column(name = "capacity")
-    private int capacity = 10;
+    protected int capacity = 10;
 
     @Builder.Default
     @Convert(converter = ListConverter.class)
     @Column(name = "tag_list")
-    private List<String> tagList = new ArrayList<>();
+    protected List<String> tagList = new ArrayList<>();
 
     @Column(name = "time_stamp")
-    private LocalDateTime timeStamp;
+    protected LocalDateTime timeStamp;
 
 }
