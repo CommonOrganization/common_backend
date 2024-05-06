@@ -2,9 +2,7 @@ package com.junghun.common.domain.gathering.service;
 
 import com.junghun.common.domain.gathering.dto.ClubGatheringUpdateDto;
 import com.junghun.common.domain.gathering.dto.ClubGatheringUploadDto;
-import com.junghun.common.domain.gathering.dto.OneDayGatheringUpdateDto;
 import com.junghun.common.domain.gathering.entity.ClubGathering;
-import com.junghun.common.domain.gathering.entity.OneDayGathering;
 import com.junghun.common.domain.gathering.exception.NotFoundGatheringException;
 import com.junghun.common.domain.gathering.repository.ClubGatheringRepository;
 import com.junghun.common.domain.user.entity.User;
@@ -13,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -35,57 +34,53 @@ public class ClubGatheringService {
                 .recruitQuestion(clubGatheringUploadDto.getRecruitQuestion())
                 .capacity(clubGatheringUploadDto.getCapacity())
                 .timeStamp(writeDate)
+                .imageList(clubGatheringUploadDto.getImageList())
+                .tagList(clubGatheringUploadDto.getTagList())
                 .cityList(clubGatheringUploadDto.getCityList())
                 .build();
 
         return repository.save(gathering);
     }
 
-//    public ClubGathering update(Long id, ClubGatheringUpdateDto clubGatheringUpdateDto) {
-//
-//        OneDayGathering gathering = repository.findById(id)
-//                .orElseThrow(() -> new NotFoundGatheringException(id + "을(를) 가진 Gathering 이 존재하지 않습니다."));
-//
-//        LocalDateTime writeDate = LocalDateTime.now();
-//
-//        ClubGathering clubGathering = null;
-//        if (oneDayGatheringUpdateDto.getClubGatheringId() != null) {
-//            try {
-//                clubGathering = clubGatheringService.findById(oneDayGatheringUpdateDto.getClubGatheringId());
-//            } catch (NotFoundGatheringException exception) {
-//                throw new NotFoundGatheringException(oneDayGatheringUpdateDto.getClubGatheringId() + " 을(를) 가진 Gathering 이 존재하지 않습니다.");
-//            }
-//        }
-//
-//
-//        OneDayGathering updateGathering = OneDayGathering.builder()
-//                .id(id)
-//                .manager(gathering.getManager())
-//                .category(oneDayGatheringUpdateDto.getCategory())
-//                .detailCategory(oneDayGatheringUpdateDto.getDetailCategory())
-//                .title(oneDayGatheringUpdateDto.getTitle())
-//                .content(oneDayGatheringUpdateDto.getContent())
-//                .mainImage(oneDayGatheringUpdateDto.getMainImage())
-//                .recruitWay(oneDayGatheringUpdateDto.getRecruitWay())
-//                .recruitQuestion(oneDayGatheringUpdateDto.getRecruitQuestion())
-//                .capacity(oneDayGatheringUpdateDto.getCapacity())
-//                .timeStamp(writeDate)
-//                .type(oneDayGatheringUpdateDto.getType())
-//                .openingDate(oneDayGatheringUpdateDto.getOpeningDate())
-//                .haveEntryFee(oneDayGatheringUpdateDto.isHaveEntryFee())
-//                .entryFee(oneDayGatheringUpdateDto.getEntryFee())
-//                .showAllThePeople(oneDayGatheringUpdateDto.isShowAllThePeople())
-//                .tagList(oneDayGatheringUpdateDto.getTagList())
-//                .imageList(oneDayGatheringUpdateDto.getImageList())
-//                .clubGathering(clubGathering)
-//                .build();
-//
-//
-//        return repository.save(updateGathering);
-//    }
+    public ClubGathering update(Long id, ClubGatheringUpdateDto clubGatheringUpdateDto) {
+
+        ClubGathering gathering = repository.findById(id)
+                .orElseThrow(() -> new NotFoundGatheringException(id + "을(를) 가진 Gathering 이 존재하지 않습니다."));
+
+        LocalDateTime writeDate = LocalDateTime.now();
+
+        ClubGathering updateGathering = ClubGathering.builder()
+                .id(id)
+                .manager(gathering.getManager())
+                .category(clubGatheringUpdateDto.getCategory())
+                .detailCategory(clubGatheringUpdateDto.getDetailCategory())
+                .title(clubGatheringUpdateDto.getTitle())
+                .content(clubGatheringUpdateDto.getContent())
+                .mainImage(clubGatheringUpdateDto.getMainImage())
+                .recruitWay(clubGatheringUpdateDto.getRecruitWay())
+                .recruitQuestion(clubGatheringUpdateDto.getRecruitQuestion())
+                .capacity(clubGatheringUpdateDto.getCapacity())
+                .timeStamp(writeDate)
+                .imageList(clubGatheringUpdateDto.getImageList())
+                .tagList(clubGatheringUpdateDto.getTagList())
+                .cityList(clubGatheringUpdateDto.getCityList())
+                .build();
+
+
+        return repository.save(updateGathering);
+    }
 
     public ClubGathering findById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new NotFoundGatheringException(id + "을(를) 가진 ClubGathering 이(가) 존재하지 않습니다."));
+    }
+
+    public List<ClubGathering> findByManagerId(Long managerId) {
+        return repository.findByManagerIdOrderByTimeStampDesc(managerId);
+    }
+
+
+    public void deleteById(Long id) {
+        repository.deleteById(id);
     }
 }
