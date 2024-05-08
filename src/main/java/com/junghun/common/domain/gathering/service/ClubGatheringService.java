@@ -80,6 +80,10 @@ public class ClubGatheringService {
         return repository.findByManagerIdOrderByTimeStampDesc(managerId);
     }
 
+    public List<ClubGathering> findTrendGathering() {
+        return repository.findTrendGathering();
+    }
+
     public List<ClubGathering> findParticipateInGatheringByApplierId(Long applierId) {
         return repository.findParticipateInGatheringByApplierId(applierId);
     }

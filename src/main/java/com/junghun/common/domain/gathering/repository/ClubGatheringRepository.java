@@ -16,4 +16,11 @@ public interface ClubGatheringRepository extends JpaRepository<ClubGathering, Lo
             "and ca.status = true " +
             "ORDER BY c.timeStamp DESC")
     List<ClubGathering> findParticipateInGatheringByApplierId(Long applierId);
+
+    @Query("SELECT c, COUNT(lc) AS like_count " +
+            "FROM ClubGathering c " +
+            "LEFT JOIN LikeClubGathering lc ON c.id = lc.clubGathering.id " +
+            "GROUP BY c " +
+            "ORDER BY like_count DESC")
+    List<ClubGathering> findTrendGathering();
 }

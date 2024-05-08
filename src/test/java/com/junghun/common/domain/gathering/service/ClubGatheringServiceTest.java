@@ -97,4 +97,11 @@ class ClubGatheringServiceTest {
 
         Assertions.assertThat(clubGatheringList.get(0).getTagList()).containsExactly("hello","첫마을클럽");
     }
+
+    @Test
+    @DisplayName("인기 소모임 조회")
+    void findTrendGathering() {
+        List<ClubGathering> clubGatheringList = service.findTrendGathering();
+        Assertions.assertThat(clubGatheringList.get(0).getTagList()).containsExactly("hello","첫마을클럽");
+    }
 }
