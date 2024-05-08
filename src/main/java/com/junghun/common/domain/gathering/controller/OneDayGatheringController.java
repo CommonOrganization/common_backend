@@ -19,7 +19,7 @@ public class OneDayGatheringController {
     private final OneDayGatheringPlaceService placeService;
 
     @PutMapping("/upload")
-    public ResponseEntity<OneDayGathering> upload(@RequestBody GatheringUploadWrapper wrapper) {
+    public ResponseEntity<OneDayGathering> upload(@RequestBody OneDayGatheringUploadWrapper wrapper) {
         OneDayGathering gathering = service.upload(wrapper.getOneDayGatheringUploadDto());
         placeService.upload(gathering.getId(), wrapper.getOneDayGatheringPlaceDto());
         return new ResponseEntity<>(gathering, HttpStatus.CREATED);
@@ -93,7 +93,7 @@ public class OneDayGatheringController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<OneDayGathering> update(@PathVariable Long id, @RequestBody GatheringUpdateWrapper wrapper) {
+    public ResponseEntity<OneDayGathering> update(@PathVariable Long id, @RequestBody OneDayGatheringUpdateWrapper wrapper) {
         OneDayGathering gathering = service.update(id, wrapper.getOneDayGatheringUpdateDto());
         placeService.update(id, wrapper.getOneDayGatheringPlaceDto());
         return ResponseEntity.ok(gathering);

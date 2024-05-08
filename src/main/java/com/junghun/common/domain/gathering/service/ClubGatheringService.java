@@ -3,6 +3,7 @@ package com.junghun.common.domain.gathering.service;
 import com.junghun.common.domain.gathering.dto.ClubGatheringUpdateDto;
 import com.junghun.common.domain.gathering.dto.ClubGatheringUploadDto;
 import com.junghun.common.domain.gathering.entity.ClubGathering;
+import com.junghun.common.domain.gathering.entity.OneDayGathering;
 import com.junghun.common.domain.gathering.exception.NotFoundGatheringException;
 import com.junghun.common.domain.gathering.repository.ClubGatheringRepository;
 import com.junghun.common.domain.user.entity.User;
@@ -79,6 +80,9 @@ public class ClubGatheringService {
         return repository.findByManagerIdOrderByTimeStampDesc(managerId);
     }
 
+    public List<ClubGathering> findParticipateInGatheringByApplierId(Long applierId) {
+        return repository.findParticipateInGatheringByApplierId(applierId);
+    }
 
     public void deleteById(Long id) {
         repository.deleteById(id);

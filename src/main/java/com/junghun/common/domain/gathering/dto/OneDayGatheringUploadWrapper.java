@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class GatheringUploadWrapper {
+public class OneDayGatheringUploadWrapper {
     private OneDayGatheringUploadDto oneDayGatheringUploadDto;
     private OneDayGatheringPlaceDto oneDayGatheringPlaceDto;
 }
