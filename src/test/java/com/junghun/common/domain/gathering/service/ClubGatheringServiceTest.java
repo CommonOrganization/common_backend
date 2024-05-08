@@ -2,6 +2,8 @@ package com.junghun.common.domain.gathering.service;
 
 import com.junghun.common.domain.gathering.dto.ClubGatheringUploadDto;
 import com.junghun.common.domain.gathering.entity.ClubGathering;
+import com.junghun.common.domain.like.dto.LikeClubGatheringDto;
+import com.junghun.common.domain.like.service.LikeClubGatheringService;
 import com.junghun.common.domain.user.dto.RegisterDto;
 import com.junghun.common.domain.user.entity.User;
 import com.junghun.common.domain.user.service.UserService;
@@ -31,6 +33,9 @@ class ClubGatheringServiceTest {
 
     @Autowired
     ClubGatheringApplyStatusService applyStatusService;
+
+    @Autowired
+    LikeClubGatheringService likeService;
 
     User manager;
 
@@ -66,7 +71,7 @@ class ClubGatheringServiceTest {
         clubGatheringUploadDto.setManagerId(manager.getId());
         clubGatheringUploadDto.setCategory("coffee");
         clubGatheringUploadDto.setDetailCategory("카페");
-        clubGatheringUploadDto.setTitle("제목");
+        clubGatheringUploadDto.setTitle("1번째모임");
         clubGatheringUploadDto.setContent("하하호호내용");
         clubGatheringUploadDto.setMainImage("https://firebasestorage.googleapis.com/v0/b/common-2fea2.appspot.com/o/gathering%2F1698587984940784?alt=media&token=39a0e6db-8baa-49cf-b0ee-cec47765a327");
         clubGatheringUploadDto.setImageList(imageList);
@@ -94,14 +99,69 @@ class ClubGatheringServiceTest {
     @DisplayName("소모임 생성")
     void upload() {
         List<ClubGathering> clubGatheringList = service.findByManagerId(manager.getId());
-
+        Assertions.assertThat(clubGatheringList.size()).isEqualTo(1);
         Assertions.assertThat(clubGatheringList.get(0).getTagList()).containsExactly("hello","첫마을클럽");
     }
 
     @Test
     @DisplayName("인기 소모임 조회")
     void findTrendGathering() {
+
+        //when
+        List<String> imageList = new ArrayList<>();
+        List<String> tagList = new ArrayList<>();
+        List<String> cityList = new ArrayList<>();
+
+        ClubGatheringUploadDto clubGatheringUploadDto2 = new ClubGatheringUploadDto();
+        clubGatheringUploadDto2.setManagerId(manager.getId());
+        clubGatheringUploadDto2.setCategory("coffee");
+        clubGatheringUploadDto2.setDetailCategory("카페");
+        clubGatheringUploadDto2.setTitle("2번째모임");
+        clubGatheringUploadDto2.setContent("하하호호내용");
+        clubGatheringUploadDto2.setMainImage("https://firebasestorage.googleapis.com/v0/b/common-2fea2.appspot.com/o/gathering%2F1698587984940784?alt=media&token=39a0e6db-8baa-49cf-b0ee-cec47765a327");
+        clubGatheringUploadDto2.setImageList(imageList);
+        clubGatheringUploadDto2.setRecruitWay("approval");
+        clubGatheringUploadDto2.setRecruitQuestion("");
+        clubGatheringUploadDto2.setCapacity(4);
+        clubGatheringUploadDto2.setTagList(tagList);
+        clubGatheringUploadDto2.setCityList(cityList);
+
+        ClubGatheringUploadDto clubGatheringUploadDto3 = new ClubGatheringUploadDto();
+        clubGatheringUploadDto3.setManagerId(manager.getId());
+        clubGatheringUploadDto3.setCategory("coffee");
+        clubGatheringUploadDto3.setDetailCategory("카페");
+        clubGatheringUploadDto3.setTitle("3번째모임");
+        clubGatheringUploadDto3.setContent("하하호호내용");
+        clubGatheringUploadDto3.setMainImage("https://firebasestorage.googleapis.com/v0/b/common-2fea2.appspot.com/o/gathering%2F1698587984940784?alt=media&token=39a0e6db-8baa-49cf-b0ee-cec47765a327");
+        clubGatheringUploadDto3.setImageList(imageList);
+        clubGatheringUploadDto3.setRecruitWay("approval");
+        clubGatheringUploadDto3.setRecruitQuestion("");
+        clubGatheringUploadDto3.setCapacity(4);
+        clubGatheringUploadDto3.setTagList(tagList);
+        clubGatheringUploadDto3.setCityList(cityList);
+
+        ClubGathering secondClubGathering = service.upload(clubGatheringUploadDto2);
+        ClubGathering thirdClubGathering = service.upload(clubGatheringUploadDto3);
+
+        LikeClubGatheringDto secondLikeClubGatheringDto = new LikeClubGatheringDto();
+        secondLikeClubGatheringDto.setUserId(manager.getId());
+        secondLikeClubGatheringDto.setGatheringId(secondClubGathering.getId());
+
+        LikeClubGatheringDto thirdLikeClubGatheringDto = new LikeClubGatheringDto();
+        thirdLikeClubGatheringDto.setUserId(manager.getId());
+        thirdLikeClubGatheringDto.setGatheringId(thirdClubGathering.getId());
+
+        likeService.upload(secondLikeClubGatheringDto);
+        likeService.upload(secondLikeClubGatheringDto);
+        likeService.upload(secondLikeClubGatheringDto);
+
+        likeService.upload(thirdLikeClubGatheringDto);
+        likeService.upload(thirdLikeClubGatheringDto);
+
         List<ClubGathering> clubGatheringList = service.findTrendGathering();
-        Assertions.assertThat(clubGatheringList.get(0).getTagList()).containsExactly("hello","첫마을클럽");
+
+        Assertions.assertThat(clubGatheringList.get(0).getTitle()).isEqualTo("2번째모임");
+        Assertions.assertThat(clubGatheringList.get(1).getTitle()).isEqualTo("3번째모임");
+        Assertions.assertThat(clubGatheringList.size()).isEqualTo(3);
     }
 }
