@@ -3,7 +3,6 @@ package com.junghun.common.domain.gathering.entity;
 import com.junghun.common.domain.daily.entity.Daily;
 import com.junghun.common.domain.like.entity.LikeClubGathering;
 import com.junghun.common.domain.report.entity.ReportClubGathering;
-import com.junghun.common.global.converter.ListConverter;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -15,13 +14,21 @@ import java.util.List;
 @Table(name = "club_gathering")
 @Getter
 @SuperBuilder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class ClubGathering extends Gathering {
+
     @Builder.Default
-    @Convert(converter = ListConverter.class)
-    @Column(name = "city")
-    private List<String> cityList = new ArrayList<>();
+    @OneToMany(mappedBy = "clubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ClubGatheringCity> cityList = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "clubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ClubGatheringImage> imageList = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "clubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ClubGatheringTag> tagList = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "clubGathering", cascade = CascadeType.ALL, orphanRemoval = true)

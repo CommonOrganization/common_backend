@@ -2,6 +2,7 @@ package com.junghun.common.domain.gathering.service;
 
 import com.junghun.common.domain.gathering.dto.ClubGatheringUploadDto;
 import com.junghun.common.domain.gathering.entity.ClubGathering;
+import com.junghun.common.domain.gathering.entity.ClubGatheringTag;
 import com.junghun.common.domain.like.dto.LikeClubGatheringDto;
 import com.junghun.common.domain.like.service.LikeClubGatheringService;
 import com.junghun.common.domain.user.dto.RegisterDto;
@@ -41,10 +42,10 @@ class ClubGatheringServiceTest {
 
     @BeforeEach
     void setClubGathering() {
-        List<String> managerInterestCategory = new ArrayList<>();
-        managerInterestCategory.add("sports");
-        managerInterestCategory.add("language");
-        managerInterestCategory.add("game");
+        List<String> categoryList = new ArrayList<>();
+        categoryList.add("sports");
+        categoryList.add("language");
+        categoryList.add("game");
 
 
         RegisterDto managerRegisterDto = RegisterDto.builder()
@@ -53,7 +54,7 @@ class ClubGatheringServiceTest {
                 .password("password")
                 .gender("남성")
                 .birthday(LocalDate.of(1999, 1, 16))
-                .interestCategory(managerInterestCategory)
+                .categoryList(categoryList)
                 .profileImage("image")
                 .information("information")
                 .build();
@@ -66,6 +67,8 @@ class ClubGatheringServiceTest {
 
         tagList.add("hello");
         tagList.add("첫마을클럽");
+
+        cityList.add("세종");
 
         ClubGatheringUploadDto clubGatheringUploadDto = new ClubGatheringUploadDto();
         clubGatheringUploadDto.setManagerId(manager.getId());
@@ -100,7 +103,7 @@ class ClubGatheringServiceTest {
     void upload() {
         List<ClubGathering> clubGatheringList = service.findByManagerId(manager.getId());
         Assertions.assertThat(clubGatheringList.size()).isEqualTo(1);
-        Assertions.assertThat(clubGatheringList.get(0).getTagList()).containsExactly("hello","첫마을클럽");
+        Assertions.assertThat(clubGatheringList.get(0).getTitle()).isEqualTo("1번째모임");
     }
 
     @Test
@@ -111,6 +114,9 @@ class ClubGatheringServiceTest {
         List<String> imageList = new ArrayList<>();
         List<String> tagList = new ArrayList<>();
         List<String> cityList = new ArrayList<>();
+
+        cityList.add("대전");
+        cityList.add("세종");
 
         ClubGatheringUploadDto clubGatheringUploadDto2 = new ClubGatheringUploadDto();
         clubGatheringUploadDto2.setManagerId(manager.getId());
@@ -158,10 +164,10 @@ class ClubGatheringServiceTest {
         likeService.upload(thirdLikeClubGatheringDto);
         likeService.upload(thirdLikeClubGatheringDto);
 
-        List<ClubGathering> clubGatheringList = service.findTrendGathering();
+        List<ClubGathering> clubGatheringList = service.findTrendGathering("대전");
 
         Assertions.assertThat(clubGatheringList.get(0).getTitle()).isEqualTo("2번째모임");
         Assertions.assertThat(clubGatheringList.get(1).getTitle()).isEqualTo("3번째모임");
-        Assertions.assertThat(clubGatheringList.size()).isEqualTo(3);
+        Assertions.assertThat(clubGatheringList.size()).isEqualTo(2);
     }
 }

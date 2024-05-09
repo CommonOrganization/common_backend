@@ -4,6 +4,7 @@ import com.junghun.common.domain.daily.entity.Daily;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,9 +19,8 @@ public interface DailyRepository extends JpaRepository<Daily, Long> {
 
     List<Daily> findByCategoryOrderByTimeStampDesc(String category);
 
-    @Query("SELECT d FROM Daily d WHERE d.tagList LIKE %:keyword% " +
-            "OR d.detailCategory LIKE %:keyword% " +
+    @Query("SELECT d FROM Daily d WHERE d.detailCategory LIKE %:keyword% " +
             "OR d.content LIKE %:keyword% " +
-            "ORDER BY d.timeStamp DESC")
+            "ORDER BY d.timeStamp DESC ")
     List<Daily> findByKeywordByTimeStampDesc(String keyword);
 }

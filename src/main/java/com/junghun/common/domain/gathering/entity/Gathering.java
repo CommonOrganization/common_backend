@@ -1,15 +1,12 @@
 package com.junghun.common.domain.gathering.entity;
 
 import com.junghun.common.domain.user.entity.User;
-import com.junghun.common.global.converter.ListConverter;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @SuperBuilder
 @Getter
@@ -42,11 +39,6 @@ public abstract class Gathering {
     @Column(name = "main_image")
     protected String mainImage;
 
-    @Builder.Default
-    @Convert(converter = ListConverter.class)
-    @Column(name = "image_list")
-    protected List<String> imageList = new ArrayList<>();
-
     @Column(name = "recruit_way", length = 30)
     protected String recruitWay;
 
@@ -56,11 +48,6 @@ public abstract class Gathering {
     @Builder.Default
     @Column(name = "capacity")
     protected int capacity = 10;
-
-    @Builder.Default
-    @Convert(converter = ListConverter.class)
-    @Column(name = "tag_list")
-    protected List<String> tagList = new ArrayList<>();
 
     @Column(name = "time_stamp")
     protected LocalDateTime timeStamp;

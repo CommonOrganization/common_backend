@@ -3,6 +3,7 @@ package com.junghun.common.domain.gathering.repository;
 import com.junghun.common.domain.gathering.entity.ClubGathering;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,8 +20,8 @@ public interface ClubGatheringRepository extends JpaRepository<ClubGathering, Lo
 
     @Query("SELECT c, COUNT(lc) AS like_count " +
             "FROM ClubGathering c " +
-            "LEFT JOIN LikeClubGathering lc ON c.id = lc.clubGathering.id " +
+            "JOIN LikeClubGathering lc ON c.id = lc.clubGathering.id " +
             "GROUP BY c " +
             "ORDER BY like_count DESC")
-    List<ClubGathering> findTrendGathering();
+    List<ClubGathering> findTrendGathering(String city);
 }

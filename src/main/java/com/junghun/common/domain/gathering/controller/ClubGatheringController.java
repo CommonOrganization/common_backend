@@ -41,6 +41,12 @@ public class ClubGatheringController {
         return ResponseEntity.ok(gatheringList);
     }
 
+    @GetMapping("/trend/{city}")
+    public ResponseEntity<List<ClubGathering>> findTrendGathering(@PathVariable String city) {
+        List<ClubGathering> gatheringList = service.findTrendGathering(city);
+        return ResponseEntity.ok(gatheringList);
+    }
+
     @PatchMapping("/{id}")
     public ResponseEntity<ClubGathering> update(@PathVariable Long id, @RequestBody ClubGatheringUpdateDto clubGatheringUpdateDto) {
         ClubGathering gathering = service.update(id, clubGatheringUpdateDto);

@@ -4,7 +4,6 @@ import com.junghun.common.domain.gathering.entity.ClubGathering;
 import com.junghun.common.domain.like.entity.LikeDaily;
 import com.junghun.common.domain.report.entity.ReportDaily;
 import com.junghun.common.domain.user.entity.User;
-import com.junghun.common.global.converter.ListConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -44,21 +43,19 @@ public class Daily {
     @Column(name = "main_image")
     private String mainImage;
 
-    @Builder.Default
-    @Convert(converter = ListConverter.class)
-    @Column(name = "image_list")
-    private List<String> imageList = new ArrayList<>();
-
     @Column(name = "content", length = 1000)
     private String content;
 
-    @Builder.Default
-    @Convert(converter = ListConverter.class)
-    @Column(name = "tag_list")
-    private List<String> tagList = new ArrayList<>();
-
     @Column(name = "time_stamp")
     private LocalDateTime timeStamp;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "daily", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DailyTag> tagList = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "daily", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DailyImage> imageList = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "daily", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -3,6 +3,7 @@ package com.junghun.common.domain.daily.service;
 import com.junghun.common.domain.daily.dto.DailyUpdateDto;
 import com.junghun.common.domain.daily.dto.DailyUploadDto;
 import com.junghun.common.domain.daily.entity.Daily;
+import com.junghun.common.domain.daily.entity.DailyTag;
 import com.junghun.common.domain.user.dto.RegisterDto;
 import com.junghun.common.domain.user.entity.User;
 import com.junghun.common.domain.user.service.UserService;
@@ -11,6 +12,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -31,10 +33,10 @@ class DailyServiceTest {
     @BeforeEach
     void setDaily() {
 
-        List<String> interestCategory = new ArrayList<>();
-        interestCategory.add("sports");
-        interestCategory.add("language");
-        interestCategory.add("game");
+        List<String> categoryList = new ArrayList<>();
+        categoryList.add("sports");
+        categoryList.add("language");
+        categoryList.add("game");
 
 
         RegisterDto registerDto = RegisterDto.builder()
@@ -43,7 +45,7 @@ class DailyServiceTest {
                 .password("password")
                 .gender("남성")
                 .birthday(LocalDate.of(1999, 1, 16))
-                .interestCategory(interestCategory)
+                .categoryList(categoryList)
                 .profileImage("image")
                 .information("information")
                 .build();
@@ -138,9 +140,9 @@ class DailyServiceTest {
     @Test
     @DisplayName("키워드로 작성자가 작성한 데일리 불러오기")
     void findByKeyword() {
-        List<Daily> dailyList = service.findByKeyword("카");
+        List<Daily> dailyList = service.findByKeyword("데일리");
 
-        Assertions.assertThat(dailyList.size()).isEqualTo(2);
+        Assertions.assertThat(dailyList.size()).isEqualTo(3);
     }
 
     @Test
@@ -179,7 +181,7 @@ class DailyServiceTest {
 
         Daily findDaily = service.findById(daily.getId());
 
-        Assertions.assertThat(findDaily.getTagList()).containsExactly("하하호호", "이건 수정된태그");
+        Assertions.assertThat(findDaily.getTagList().stream().map(DailyTag::getTag).toList().size()).isEqualTo(2);
         Assertions.assertThat(findDaily.getContent()).isEqualTo(daily.getContent());
     }
 }

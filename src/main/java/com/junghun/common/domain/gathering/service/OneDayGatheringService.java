@@ -1,5 +1,7 @@
 package com.junghun.common.domain.gathering.service;
 
+import com.junghun.common.domain.gathering.dto.OneDayGatheringImageUploadDto;
+import com.junghun.common.domain.gathering.dto.OneDayGatheringTagUploadDto;
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUpdateDto;
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUploadDto;
 import com.junghun.common.domain.gathering.entity.ClubGathering;
@@ -20,6 +22,9 @@ public class OneDayGatheringService {
     private final OneDayGatheringRepository repository;
     private final UserService userService;
     private final ClubGatheringService clubGatheringService;
+
+    private final OneDayGatheringImageService imageService;
+    private final OneDayGatheringTagService tagService;
 
     // CREATE
     public OneDayGathering upload(OneDayGatheringUploadDto oneDayGatheringUploadDto) {
@@ -52,12 +57,25 @@ public class OneDayGatheringService {
                 .haveEntryFee(oneDayGatheringUploadDto.isHaveEntryFee())
                 .entryFee(oneDayGatheringUploadDto.getEntryFee())
                 .showAllThePeople(oneDayGatheringUploadDto.isShowAllThePeople())
-                .tagList(oneDayGatheringUploadDto.getTagList())
-                .imageList(oneDayGatheringUploadDto.getImageList())
                 .clubGathering(clubGathering)
                 .build();
 
-        return repository.save(gathering);
+
+
+        OneDayGathering savedOneDayGathering = repository.save(gathering);
+
+        OneDayGatheringImageUploadDto oneDayGatheringImageUploadDto = new OneDayGatheringImageUploadDto();
+        oneDayGatheringImageUploadDto.setOneDayGathering(savedOneDayGathering);
+        oneDayGatheringImageUploadDto.setImageList(oneDayGatheringUploadDto.getImageList());
+
+        OneDayGatheringTagUploadDto oneDayGatheringTagUploadDto = new OneDayGatheringTagUploadDto();
+        oneDayGatheringTagUploadDto.setOneDayGathering(savedOneDayGathering);
+        oneDayGatheringTagUploadDto.setTagList(oneDayGatheringUploadDto.getTagList());
+
+        imageService.upload(oneDayGatheringImageUploadDto);
+        tagService.upload(oneDayGatheringTagUploadDto);
+
+        return savedOneDayGathering;
     }
 
     // READ
@@ -141,13 +159,26 @@ public class OneDayGatheringService {
                 .haveEntryFee(oneDayGatheringUpdateDto.isHaveEntryFee())
                 .entryFee(oneDayGatheringUpdateDto.getEntryFee())
                 .showAllThePeople(oneDayGatheringUpdateDto.isShowAllThePeople())
-                .tagList(oneDayGatheringUpdateDto.getTagList())
-                .imageList(oneDayGatheringUpdateDto.getImageList())
                 .clubGathering(clubGathering)
                 .build();
 
+        OneDayGatheringImageUploadDto oneDayGatheringImageUploadDto = new OneDayGatheringImageUploadDto();
+        oneDayGatheringImageUploadDto.setOneDayGathering(updateGathering);
+        oneDayGatheringImageUploadDto.setImageList(oneDayGatheringUpdateDto.getImageList());
+
+        OneDayGatheringTagUploadDto oneDayGatheringTagUploadDto = new OneDayGatheringTagUploadDto();
+        oneDayGatheringTagUploadDto.setOneDayGathering(updateGathering);
+        oneDayGatheringTagUploadDto.setTagList(oneDayGatheringUpdateDto.getTagList());
+
+        imageService.deleteAll(id);
+        imageService.upload(oneDayGatheringImageUploadDto);
+
+        tagService.deleteAll(id);
+        tagService.upload(oneDayGatheringTagUploadDto);
 
         return repository.save(updateGathering);
+
+
     }
 
     // DELETE

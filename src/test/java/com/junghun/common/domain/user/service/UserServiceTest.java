@@ -4,8 +4,10 @@ package com.junghun.common.domain.user.service;
 import com.junghun.common.config.MainConfig;
 import com.junghun.common.domain.user.dto.InformationDto;
 import com.junghun.common.domain.user.dto.RegisterDto;
+import com.junghun.common.domain.user.dto.UserCategoryDto;
 import com.junghun.common.domain.user.dto.UserPlaceDto;
 import com.junghun.common.domain.user.entity.User;
+import com.junghun.common.domain.user.entity.UserCategory;
 import com.junghun.common.domain.user.entity.UserPlace;
 import com.junghun.common.domain.user.exception.DuplicatedEmailException;
 import lombok.extern.slf4j.Slf4j;
@@ -35,13 +37,16 @@ class UserServiceTest {
     @Autowired
     UserPlaceService placeService;
 
+    @Autowired
+    UserCategoryService categoryService;
+
     @BeforeEach
     void setUser() {
 
-        List<String> interestCategory = new ArrayList<>();
-        interestCategory.add("sports");
-        interestCategory.add("language");
-        interestCategory.add("game");
+        List<String> categoryList = new ArrayList<>();
+        categoryList.add("sports");
+        categoryList.add("language");
+        categoryList.add("game");
 
         RegisterDto registerDto = RegisterDto.builder()
                 .email("test@naver.com")
@@ -49,7 +54,6 @@ class UserServiceTest {
                 .password("password")
                 .gender("남성")
                 .birthday(LocalDate.of(1999, 1, 16))
-                .interestCategory(interestCategory)
                 .profileImage("image")
                 .information("information")
                 .build();
@@ -60,6 +64,12 @@ class UserServiceTest {
         userPlace.setCity("세종");
         userPlace.setMiddlePlace("한솔동");
         userPlace.setDetailPlace("전체");
+
+        UserCategoryDto userCategoryDto = new UserCategoryDto();
+        userCategoryDto.setUser(user);
+        userCategoryDto.setCategoryList(categoryList);
+
+        categoryService.upload(userCategoryDto);
 
         placeService.upload(user.getId(), userPlace);
     }
@@ -75,10 +85,10 @@ class UserServiceTest {
     @DisplayName("회원가입하고 로그인하기")
     void register() {
         // given
-        List<String> interestCategory = new ArrayList<>();
-        interestCategory.add("sports");
-        interestCategory.add("language");
-        interestCategory.add("game");
+        List<String> categoryList = new ArrayList<>();
+        categoryList.add("sports");
+        categoryList.add("language");
+        categoryList.add("game");
 
         RegisterDto registerDto = RegisterDto.builder()
                 .email("register@naver.com")
@@ -86,7 +96,7 @@ class UserServiceTest {
                 .password("password")
                 .gender("남성")
                 .birthday(LocalDate.of(1999, 1, 16))
-                .interestCategory(interestCategory)
+                .categoryList(categoryList)
                 .profileImage("image")
                 .information("information")
                 .build();
@@ -127,7 +137,7 @@ class UserServiceTest {
         // when
         service.updatePassword(loginUser.getId(), "password2");
         service.updateInformation(loginUser.getId(), informationDto);
-        service.updateInterestCategory(loginUser.getId(), interestCategory);
+        service.updateCategory(loginUser.getId(), interestCategory);
 
         UserPlaceDto userPlaceDto = new UserPlaceDto();
 
@@ -143,7 +153,8 @@ class UserServiceTest {
         Assertions.assertThat(updatedUser.getName()).isEqualTo("가입자");
         Assertions.assertThat(updatedUser.getInformation()).isEqualTo("이건 회원정보");
         Assertions.assertThat(updatedUser.getUserPlace().getCity()).isEqualTo("대전");
-        Assertions.assertThat(updatedUser.getInterestCategory()).containsExactly("study", "game");
+        Assertions.assertThat(loginUser.getCategoryList().size()).isEqualTo(2);
+        Assertions.assertThat(updatedUser.getCategoryList().size()).isEqualTo(2);
     }
 
     @Test
@@ -165,10 +176,10 @@ class UserServiceTest {
     @DisplayName("이메일 중복 테스트")
     void duplicatedEmail() {
 
-        List<String> interestCategory = new ArrayList<>();
-        interestCategory.add("sports");
-        interestCategory.add("language");
-        interestCategory.add("game");
+        List<String> categoryList = new ArrayList<>();
+        categoryList.add("sports");
+        categoryList.add("language");
+        categoryList.add("game");
 
         RegisterDto registerDto = RegisterDto.builder()
                 .email("test@naver.com")
@@ -176,7 +187,7 @@ class UserServiceTest {
                 .password("password")
                 .gender("남성")
                 .birthday(LocalDate.of(1999, 1, 16))
-                .interestCategory(interestCategory)
+                .categoryList(categoryList)
                 .profileImage("image")
                 .information("information")
                 .build();
@@ -190,20 +201,20 @@ class UserServiceTest {
 
         User loginUser = service.login("test@naver.com", "password");
 
-        List<String> newInterestCategory = new ArrayList<>();
-        newInterestCategory.add("sports");
-        newInterestCategory.add("language");
-        newInterestCategory.add("game");
-        newInterestCategory.add("coffee");
-        newInterestCategory.add("music");
+        List<String> categoryList = new ArrayList<>();
+        categoryList.add("sports");
+        categoryList.add("language");
+        categoryList.add("game");
+        categoryList.add("coffee");
+        categoryList.add("music");
 
-        service.updateInterestCategory(loginUser.getId(), newInterestCategory);
+        service.updateCategory(loginUser.getId(), categoryList);
 
         User updatedUser = service.login("test@naver.com", "password");
 
-        Assertions.assertThat(updatedUser.getInterestCategory()).containsExactly("sports", "language", "game", "coffee", "music");
+        Assertions.assertThat(updatedUser.getCategoryList().stream().map(UserCategory::getCategory).toList()).containsExactly("sports","language","game","coffee","music");
 
-        Assertions.assertThat(updatedUser.getInterestCategory().size()).isEqualTo(5);
+        Assertions.assertThat(updatedUser.getCategoryList().size()).isEqualTo(5);
 
     }
 

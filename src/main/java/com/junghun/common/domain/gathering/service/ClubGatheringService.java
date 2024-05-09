@@ -1,7 +1,6 @@
 package com.junghun.common.domain.gathering.service;
 
-import com.junghun.common.domain.gathering.dto.ClubGatheringUpdateDto;
-import com.junghun.common.domain.gathering.dto.ClubGatheringUploadDto;
+import com.junghun.common.domain.gathering.dto.*;
 import com.junghun.common.domain.gathering.entity.ClubGathering;
 import com.junghun.common.domain.gathering.entity.OneDayGathering;
 import com.junghun.common.domain.gathering.exception.NotFoundGatheringException;
@@ -20,6 +19,10 @@ public class ClubGatheringService {
     private final ClubGatheringRepository repository;
     private final UserService userService;
 
+    private final ClubGatheringImageService imageService;
+    private final ClubGatheringTagService tagService;
+    private final ClubGatheringCityService cityService;
+
     public ClubGathering upload(ClubGatheringUploadDto clubGatheringUploadDto) {
         User manager = userService.findById(clubGatheringUploadDto.getManagerId());
         LocalDateTime writeDate = LocalDateTime.now();
@@ -35,12 +38,27 @@ public class ClubGatheringService {
                 .recruitQuestion(clubGatheringUploadDto.getRecruitQuestion())
                 .capacity(clubGatheringUploadDto.getCapacity())
                 .timeStamp(writeDate)
-                .imageList(clubGatheringUploadDto.getImageList())
-                .tagList(clubGatheringUploadDto.getTagList())
-                .cityList(clubGatheringUploadDto.getCityList())
                 .build();
 
-        return repository.save(gathering);
+        ClubGathering savedClubGathering =  repository.save(gathering);
+
+        ClubGatheringImageUploadDto clubGatheringImageUploadDto = new ClubGatheringImageUploadDto();
+        clubGatheringImageUploadDto.setClubGathering(savedClubGathering);
+        clubGatheringImageUploadDto.setImageList(clubGatheringUploadDto.getImageList());
+
+        ClubGatheringTagUploadDto clubGatheringTagUploadDto = new ClubGatheringTagUploadDto();
+        clubGatheringTagUploadDto.setClubGathering(savedClubGathering);
+        clubGatheringTagUploadDto.setTagList(clubGatheringUploadDto.getTagList());
+
+        ClubGatheringCityUploadDto clubGatheringCityUploadDto = new ClubGatheringCityUploadDto();
+        clubGatheringCityUploadDto.setClubGathering(savedClubGathering);
+        clubGatheringCityUploadDto.setCityList(clubGatheringUploadDto.getCityList());
+
+        imageService.upload(clubGatheringImageUploadDto);
+        tagService.upload(clubGatheringTagUploadDto);
+        cityService.upload(clubGatheringCityUploadDto);
+
+        return savedClubGathering;
     }
 
     public ClubGathering update(Long id, ClubGatheringUpdateDto clubGatheringUpdateDto) {
@@ -62,11 +80,28 @@ public class ClubGatheringService {
                 .recruitQuestion(clubGatheringUpdateDto.getRecruitQuestion())
                 .capacity(clubGatheringUpdateDto.getCapacity())
                 .timeStamp(writeDate)
-                .imageList(clubGatheringUpdateDto.getImageList())
-                .tagList(clubGatheringUpdateDto.getTagList())
-                .cityList(clubGatheringUpdateDto.getCityList())
                 .build();
 
+        ClubGatheringImageUploadDto clubGatheringImageUploadDto = new ClubGatheringImageUploadDto();
+        clubGatheringImageUploadDto.setClubGathering(updateGathering);
+        clubGatheringImageUploadDto.setImageList(clubGatheringUpdateDto.getImageList());
+
+        ClubGatheringTagUploadDto clubGatheringTagUploadDto = new ClubGatheringTagUploadDto();
+        clubGatheringTagUploadDto.setClubGathering(updateGathering);
+        clubGatheringTagUploadDto.setTagList(clubGatheringUpdateDto.getTagList());
+
+        ClubGatheringCityUploadDto clubGatheringCityUploadDto = new ClubGatheringCityUploadDto();
+        clubGatheringCityUploadDto.setClubGathering(updateGathering);
+        clubGatheringCityUploadDto.setCityList(clubGatheringUpdateDto.getCityList());
+
+        imageService.deleteAll(id);
+        imageService.upload(clubGatheringImageUploadDto);
+
+        tagService.deleteAll(id);
+        tagService.upload(clubGatheringTagUploadDto);
+
+        cityService.deleteAll(id);
+        cityService.upload(clubGatheringCityUploadDto);
 
         return repository.save(updateGathering);
     }
@@ -80,8 +115,8 @@ public class ClubGatheringService {
         return repository.findByManagerIdOrderByTimeStampDesc(managerId);
     }
 
-    public List<ClubGathering> findTrendGathering() {
-        return repository.findTrendGathering();
+    public List<ClubGathering> findTrendGathering(String city) {
+        return repository.findTrendGathering(city);
     }
 
     public List<ClubGathering> findParticipateInGatheringByApplierId(Long applierId) {

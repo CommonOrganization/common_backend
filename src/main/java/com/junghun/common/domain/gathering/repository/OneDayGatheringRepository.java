@@ -54,12 +54,15 @@ public interface OneDayGatheringRepository extends JpaRepository<OneDayGathering
             "ORDER BY o.timeStamp DESC")
     List<OneDayGathering> findByCity(String city);
 
-    @Query("SELECT o FROM OneDayGathering o WHERE o.tagList LIKE %:keyword% " +
-            "OR o.detailCategory LIKE %:keyword% " +
+    @Query("SELECT o FROM OneDayGathering o WHERE o.detailCategory LIKE %:keyword% " +
             "OR o.content LIKE %:keyword% " +
             "OR o.title LIKE %:keyword% " +
             "OR o.content LIKE %:keyword% " +
             "ORDER BY o.timeStamp DESC")
+    /**
+     * o.tagList LIKE %:keyword% " +
+     *             "OR
+     */
     List<OneDayGathering> findByKeyword(String keyword);
 
 }

@@ -44,6 +44,14 @@ public class OneDayGathering extends Gathering {
 
     @Builder.Default
     @OneToMany(mappedBy = "oneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OneDayGatheringImage> imageList = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "oneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OneDayGatheringTag> tagList = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "oneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OneDayGatheringApplyStatus> applyStatusList = new ArrayList<>();
 
     @Builder.Default

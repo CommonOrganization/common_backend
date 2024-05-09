@@ -2,6 +2,7 @@ package com.junghun.common.domain.user.service;
 
 import com.junghun.common.domain.user.dto.InformationDto;
 import com.junghun.common.domain.user.dto.RegisterDto;
+import com.junghun.common.domain.user.dto.UserCategoryDto;
 import com.junghun.common.domain.user.entity.User;
 import com.junghun.common.domain.user.exception.DuplicatedEmailException;
 import com.junghun.common.domain.user.exception.NotFoundUserException;
@@ -19,6 +20,8 @@ public class UserService {
 
     private final UserRepository repository;
     private final BCryptPasswordEncoder passwordEncoder;
+
+    private final UserCategoryService categoryService;
 
     // READ
     public User findById(Long id) {
@@ -59,10 +62,17 @@ public class UserService {
                 .birthday(registerDto.getBirthday())
                 .profileImage(registerDto.getProfileImage())
                 .information(registerDto.getInformation())
-                .interestCategory(registerDto.getInterestCategory())
                 .build();
 
-        return repository.save(user);
+        User savedUser =  repository.save(user);
+
+        UserCategoryDto userCategoryDto = new UserCategoryDto();
+        userCategoryDto.setUser(savedUser);
+        userCategoryDto.setCategoryList(registerDto.getCategoryList());
+
+        categoryService.upload(userCategoryDto);
+
+        return savedUser;
     }
 
     public User login(String email, String password) {
@@ -95,7 +105,6 @@ public class UserService {
                 .userPlace(user.getUserPlace())
                 .profileImage(user.getProfileImage())
                 .information(user.getInformation())
-                .interestCategory(user.getInterestCategory())
                 .build();
 
 
@@ -119,31 +128,23 @@ public class UserService {
                 .userPlace(user.getUserPlace())
                 .profileImage(user.getProfileImage())
                 .information(user.getInformation())
-                .interestCategory(user.getInterestCategory())
                 .build();
 
         return repository.save(updateUser);
     }
 
-    public User updateInterestCategory(Long id, List<String> newInterestCategory) {
+    public void updateCategory(Long id, List<String> categoryList) {
 
         User user = repository.findById(id)
                 .orElseThrow(() -> new NotFoundUserException(id + "을(를) 가진 User 가 존재하지 않습니다."));
 
-        User updateUser = User.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .name(user.getName())
-                .password(user.getPassword())
-                .gender(user.getGender())
-                .birthday(user.getBirthday())
-                .userPlace(user.getUserPlace())
-                .profileImage(user.getProfileImage())
-                .information(user.getInformation())
-                .interestCategory(newInterestCategory)
-                .build();
 
-        return repository.save(updateUser);
+        UserCategoryDto userCategoryDto = new UserCategoryDto();
+        userCategoryDto.setUser(user);
+        userCategoryDto.setCategoryList(categoryList);
+
+        categoryService.deleteAll(id);
+        categoryService.upload(userCategoryDto);
     }
 
     public User updateInformation(Long id, InformationDto informationDto) {
@@ -161,7 +162,6 @@ public class UserService {
                 .userPlace(user.getUserPlace())
                 .profileImage(informationDto.getProfileImage())
                 .information(informationDto.getInformation())
-                .interestCategory(user.getInterestCategory())
                 .build();
 
         return repository.save(updateUser);

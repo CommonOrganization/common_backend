@@ -1,5 +1,7 @@
 package com.junghun.common.domain.daily.service;
 
+import com.junghun.common.domain.daily.dto.DailyImageUploadDto;
+import com.junghun.common.domain.daily.dto.DailyTagUploadDto;
 import com.junghun.common.domain.daily.dto.DailyUpdateDto;
 import com.junghun.common.domain.daily.dto.DailyUploadDto;
 import com.junghun.common.domain.daily.entity.Daily;
@@ -12,6 +14,7 @@ import com.junghun.common.domain.user.entity.User;
 import com.junghun.common.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,6 +27,9 @@ public class DailyService {
 
     private final UserService userService;
     private final ClubGatheringService clubGatheringService;
+
+    private final DailyImageService imageService;
+    private final DailyTagService tagService;
 
     // CREATE
     public Daily upload(DailyUploadDto dailyUploadDto) {
@@ -48,12 +54,22 @@ public class DailyService {
                 .mainImage(dailyUploadDto.getMainImage())
                 .content(dailyUploadDto.getContent())
                 .timeStamp(writeDate)
-                .imageList(dailyUploadDto.getImageList())
-                .tagList(dailyUploadDto.getTagList())
                 .clubGathering(clubGathering)
                 .build();
 
-        return repository.save(daily);
+        Daily savedDaily = repository.save(daily);
+
+        DailyImageUploadDto dailyImageUploadDto = new DailyImageUploadDto();
+        dailyImageUploadDto.setDaily(savedDaily);
+        dailyImageUploadDto.setImageList(dailyUploadDto.getImageList());
+        imageService.upload(dailyImageUploadDto);
+
+        DailyTagUploadDto dailyTagUploadDto = new DailyTagUploadDto();
+        dailyTagUploadDto.setDaily(savedDaily);
+        dailyTagUploadDto.setTagList(dailyUploadDto.getTagList());
+        tagService.upload(dailyTagUploadDto);
+
+        return savedDaily;
     }
 
     // READ
@@ -104,13 +120,25 @@ public class DailyService {
                 .dailyType(dailyUpdateDto.getDailyType())
                 .mainImage(dailyUpdateDto.getMainImage())
                 .content(dailyUpdateDto.getContent())
-                .imageList(dailyUpdateDto.getImageList())
-                .tagList(dailyUpdateDto.getTagList())
                 .timeStamp(writeDate)
                 .clubGathering(clubGathering)
                 .build();
 
-        return repository.save(updateDaily);
+        Daily savedDaily = repository.save(updateDaily);
+
+        DailyImageUploadDto dailyImageUploadDto = new DailyImageUploadDto();
+        dailyImageUploadDto.setDaily(savedDaily);
+        dailyImageUploadDto.setImageList(dailyUpdateDto.getImageList());
+        imageService.deleteAll(savedDaily.getId());
+        imageService.upload(dailyImageUploadDto);
+
+        DailyTagUploadDto dailyTagUploadDto = new DailyTagUploadDto();
+        dailyTagUploadDto.setDaily(savedDaily);
+        dailyTagUploadDto.setTagList(dailyUpdateDto.getTagList());
+        tagService.deleteAll(savedDaily.getId());
+        tagService.upload(dailyTagUploadDto);
+
+        return savedDaily;
     }
 
     // DELETE
