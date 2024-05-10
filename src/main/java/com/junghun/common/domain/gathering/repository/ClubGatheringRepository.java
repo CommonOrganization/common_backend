@@ -21,6 +21,7 @@ public interface ClubGatheringRepository extends JpaRepository<ClubGathering, Lo
     @Query("SELECT c, COUNT(lc) AS like_count " +
             "FROM ClubGathering c " +
             "JOIN LikeClubGathering lc ON c.id = lc.clubGathering.id " +
+            "WHERE c.cityList LIKE %:city% "+
             "GROUP BY c " +
             "ORDER BY like_count DESC")
     List<ClubGathering> findTrendGathering(String city);

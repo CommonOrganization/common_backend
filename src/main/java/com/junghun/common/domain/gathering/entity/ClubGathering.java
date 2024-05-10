@@ -3,6 +3,7 @@ package com.junghun.common.domain.gathering.entity;
 import com.junghun.common.domain.daily.entity.Daily;
 import com.junghun.common.domain.like.entity.LikeClubGathering;
 import com.junghun.common.domain.report.entity.ReportClubGathering;
+import com.junghun.common.util.ConvertUtils;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -18,17 +19,8 @@ import java.util.List;
 @AllArgsConstructor
 public class ClubGathering extends Gathering {
 
-    @Builder.Default
-    @OneToMany(mappedBy = "clubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ClubGatheringCity> cityList = new ArrayList<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "clubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ClubGatheringImage> imageList = new ArrayList<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "clubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ClubGatheringTag> tagList = new ArrayList<>();
+    @Column(name = "city_list")
+    protected String cityList;
 
     @Builder.Default
     @OneToMany(mappedBy = "clubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -53,4 +45,8 @@ public class ClubGathering extends Gathering {
     @Builder.Default
     @OneToMany(mappedBy = "reportedClubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReportClubGathering> reportedList = new ArrayList<>();
+
+    public List<String> getCityList(){
+        return ConvertUtils.getListByString(cityList);
+    }
 }

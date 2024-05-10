@@ -2,7 +2,6 @@ package com.junghun.common.domain.gathering.controller;
 
 import com.junghun.common.domain.gathering.dto.*;
 import com.junghun.common.domain.gathering.entity.OneDayGathering;
-import com.junghun.common.domain.gathering.service.OneDayGatheringPlaceService;
 import com.junghun.common.domain.gathering.service.OneDayGatheringService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,12 +15,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OneDayGatheringController {
     private final OneDayGatheringService service;
-    private final OneDayGatheringPlaceService placeService;
+
 
     @PutMapping("/upload")
-    public ResponseEntity<OneDayGathering> upload(@RequestBody OneDayGatheringUploadWrapper wrapper) {
-        OneDayGathering gathering = service.upload(wrapper.getOneDayGatheringUploadDto());
-        placeService.upload(gathering.getId(), wrapper.getOneDayGatheringPlaceDto());
+    public ResponseEntity<OneDayGathering> upload(@RequestBody OneDayGatheringUploadDto oneDayGatheringUploadDto) {
+        OneDayGathering gathering = service.upload(oneDayGatheringUploadDto);
         return new ResponseEntity<>(gathering, HttpStatus.CREATED);
     }
 
@@ -93,9 +91,8 @@ public class OneDayGatheringController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<OneDayGathering> update(@PathVariable Long id, @RequestBody OneDayGatheringUpdateWrapper wrapper) {
-        OneDayGathering gathering = service.update(id, wrapper.getOneDayGatheringUpdateDto());
-        placeService.update(id, wrapper.getOneDayGatheringPlaceDto());
+    public ResponseEntity<OneDayGathering> update(@PathVariable Long id, @RequestBody OneDayGatheringUpdateDto oneDayGatheringUpdateDto) {
+        OneDayGathering gathering = service.update(id, oneDayGatheringUpdateDto);
         return ResponseEntity.ok(gathering);
     }
 

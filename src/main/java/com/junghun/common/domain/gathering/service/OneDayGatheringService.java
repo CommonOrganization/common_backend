@@ -1,7 +1,5 @@
 package com.junghun.common.domain.gathering.service;
 
-import com.junghun.common.domain.gathering.dto.OneDayGatheringImageUploadDto;
-import com.junghun.common.domain.gathering.dto.OneDayGatheringTagUploadDto;
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUpdateDto;
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUploadDto;
 import com.junghun.common.domain.gathering.entity.ClubGathering;
@@ -10,6 +8,7 @@ import com.junghun.common.domain.gathering.exception.NotFoundGatheringException;
 import com.junghun.common.domain.gathering.repository.OneDayGatheringRepository;
 import com.junghun.common.domain.user.entity.User;
 import com.junghun.common.domain.user.service.UserService;
+import com.junghun.common.util.ConvertUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +21,6 @@ public class OneDayGatheringService {
     private final OneDayGatheringRepository repository;
     private final UserService userService;
     private final ClubGatheringService clubGatheringService;
-
-    private final OneDayGatheringImageService imageService;
-    private final OneDayGatheringTagService tagService;
 
     // CREATE
     public OneDayGathering upload(OneDayGatheringUploadDto oneDayGatheringUploadDto) {
@@ -58,24 +54,12 @@ public class OneDayGatheringService {
                 .entryFee(oneDayGatheringUploadDto.getEntryFee())
                 .showAllThePeople(oneDayGatheringUploadDto.isShowAllThePeople())
                 .clubGathering(clubGathering)
+                .imageList(ConvertUtils.getStringByList(oneDayGatheringUploadDto.getImageList()))
+                .tagList(ConvertUtils.getStringByList(oneDayGatheringUploadDto.getTagList()))
+                .place(ConvertUtils.getStringByMap(oneDayGatheringUploadDto.getPlace()))
                 .build();
 
-
-
-        OneDayGathering savedOneDayGathering = repository.save(gathering);
-
-        OneDayGatheringImageUploadDto oneDayGatheringImageUploadDto = new OneDayGatheringImageUploadDto();
-        oneDayGatheringImageUploadDto.setOneDayGathering(savedOneDayGathering);
-        oneDayGatheringImageUploadDto.setImageList(oneDayGatheringUploadDto.getImageList());
-
-        OneDayGatheringTagUploadDto oneDayGatheringTagUploadDto = new OneDayGatheringTagUploadDto();
-        oneDayGatheringTagUploadDto.setOneDayGathering(savedOneDayGathering);
-        oneDayGatheringTagUploadDto.setTagList(oneDayGatheringUploadDto.getTagList());
-
-        imageService.upload(oneDayGatheringImageUploadDto);
-        tagService.upload(oneDayGatheringTagUploadDto);
-
-        return savedOneDayGathering;
+        return repository.save(gathering);
     }
 
     // READ
@@ -160,21 +144,10 @@ public class OneDayGatheringService {
                 .entryFee(oneDayGatheringUpdateDto.getEntryFee())
                 .showAllThePeople(oneDayGatheringUpdateDto.isShowAllThePeople())
                 .clubGathering(clubGathering)
+                .imageList(ConvertUtils.getStringByList(oneDayGatheringUpdateDto.getImageList()))
+                .tagList(ConvertUtils.getStringByList(oneDayGatheringUpdateDto.getTagList()))
+                .place(ConvertUtils.getStringByMap(oneDayGatheringUpdateDto.getPlace()))
                 .build();
-
-        OneDayGatheringImageUploadDto oneDayGatheringImageUploadDto = new OneDayGatheringImageUploadDto();
-        oneDayGatheringImageUploadDto.setOneDayGathering(updateGathering);
-        oneDayGatheringImageUploadDto.setImageList(oneDayGatheringUpdateDto.getImageList());
-
-        OneDayGatheringTagUploadDto oneDayGatheringTagUploadDto = new OneDayGatheringTagUploadDto();
-        oneDayGatheringTagUploadDto.setOneDayGathering(updateGathering);
-        oneDayGatheringTagUploadDto.setTagList(oneDayGatheringUpdateDto.getTagList());
-
-        imageService.deleteAll(id);
-        imageService.upload(oneDayGatheringImageUploadDto);
-
-        tagService.deleteAll(id);
-        tagService.upload(oneDayGatheringTagUploadDto);
 
         return repository.save(updateGathering);
 

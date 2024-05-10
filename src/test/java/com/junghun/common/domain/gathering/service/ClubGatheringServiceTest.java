@@ -2,7 +2,6 @@ package com.junghun.common.domain.gathering.service;
 
 import com.junghun.common.domain.gathering.dto.ClubGatheringUploadDto;
 import com.junghun.common.domain.gathering.entity.ClubGathering;
-import com.junghun.common.domain.gathering.entity.ClubGatheringTag;
 import com.junghun.common.domain.like.dto.LikeClubGatheringDto;
 import com.junghun.common.domain.like.service.LikeClubGatheringService;
 import com.junghun.common.domain.user.dto.RegisterDto;

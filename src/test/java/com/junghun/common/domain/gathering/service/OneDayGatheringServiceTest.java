@@ -1,11 +1,8 @@
 package com.junghun.common.domain.gathering.service;
 
-import com.junghun.common.domain.gathering.dto.OneDayGatheringPlaceDto;
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUpdateDto;
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUploadDto;
 import com.junghun.common.domain.gathering.entity.OneDayGathering;
-import com.junghun.common.domain.gathering.entity.OneDayGatheringImage;
-import com.junghun.common.domain.gathering.entity.OneDayGatheringTag;
 import com.junghun.common.domain.user.dto.RegisterDto;
 import com.junghun.common.domain.user.dto.UserPlaceDto;
 import com.junghun.common.domain.user.entity.User;
@@ -22,7 +19,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootTest
 @Slf4j
@@ -30,8 +29,6 @@ class OneDayGatheringServiceTest {
 
     @Autowired
     OneDayGatheringService service;
-    @Autowired
-    OneDayGatheringPlaceService placeService;
 
     @Autowired
     ClubGatheringService clubGatheringService;
@@ -111,6 +108,11 @@ class OneDayGatheringServiceTest {
         tagList.add("2030");
         tagList.add("주변 놀거리");
 
+        Map<String,String> place = new HashMap<>();
+        place.put("city","경남");
+        place.put("middlePlace","창원시");
+        place.put("detailPlace","카페 소담아");
+
         oneDayGatheringUploadDto.setManagerId(manager.getId());
         oneDayGatheringUploadDto.setCategory("coffee");
         oneDayGatheringUploadDto.setDetailCategory("카페");
@@ -126,17 +128,11 @@ class OneDayGatheringServiceTest {
         oneDayGatheringUploadDto.setOpeningDate(LocalDateTime.of(2024,4,21,15,0));
         oneDayGatheringUploadDto.setHaveEntryFee(false);
         oneDayGatheringUploadDto.setEntryFee(0);
+        oneDayGatheringUploadDto.setPlace(place);
         oneDayGatheringUploadDto.setClubGatheringId(null);
         oneDayGatheringUploadDto.setShowAllThePeople(true);
 
-        OneDayGathering gathering = service.upload(oneDayGatheringUploadDto);
-
-        OneDayGatheringPlaceDto oneDayGatheringPlaceDto = new OneDayGatheringPlaceDto();
-        oneDayGatheringPlaceDto.setCity("경남");
-        oneDayGatheringPlaceDto.setMiddlePlace("창원시");
-        oneDayGatheringPlaceDto.setDetailPlace("카페 소담아");
-
-        placeService.upload(gathering.getId(),oneDayGatheringPlaceDto);
+        service.upload(oneDayGatheringUploadDto);
     }
 
     @AfterEach
@@ -162,12 +158,17 @@ class OneDayGatheringServiceTest {
         tagList.add("배드민턴");
         tagList.add("운동");
 
+        Map<String,String> place = new HashMap<>();
+        place.put("city","서울");
+        place.put("middlePlace","동작구");
+        place.put("detailPlace","아디오스");
+
         oneDayGatheringUpdateDto.setCategory("sports");
         oneDayGatheringUpdateDto.setDetailCategory("배드민턴");
         oneDayGatheringUpdateDto.setTitle("내일 배드민턴칠사람");
         oneDayGatheringUpdateDto.setContent("배드민턴 땡기는데 같이 목요일 저녁에 칠사람 있나요?");
         oneDayGatheringUpdateDto.setMainImage("https://firebasestorage.googleapis.com/v0/b/common-2fea2.appspot.com/o/gathering%2F1698587984940784?alt=media&token=39a0e6db-8baa-49cf-b0ee-cec47765a327");
-        oneDayGatheringUpdateDto.setImageList(oneDayGatheringList.get(0).getImageList().stream().map(OneDayGatheringImage::getImage).toList());
+        oneDayGatheringUpdateDto.setImageList(oneDayGatheringList.get(0).getImageList());
         oneDayGatheringUpdateDto.setRecruitWay("firstCome");
         oneDayGatheringUpdateDto.setRecruitQuestion("");
         oneDayGatheringUpdateDto.setCapacity(4);
@@ -175,6 +176,7 @@ class OneDayGatheringServiceTest {
         oneDayGatheringUpdateDto.setType("oneDay");
         oneDayGatheringUpdateDto.setOpeningDate(LocalDateTime.of(2024,4,21,15,0));
         oneDayGatheringUpdateDto.setHaveEntryFee(false);
+        oneDayGatheringUpdateDto.setPlace(place);
         oneDayGatheringUpdateDto.setEntryFee(0);
         oneDayGatheringUpdateDto.setClubGatheringId(null);
         oneDayGatheringUpdateDto.setShowAllThePeople(true);
@@ -184,25 +186,9 @@ class OneDayGatheringServiceTest {
         OneDayGathering gathering = service.findById(oneDayGatheringList.get(0).getId());
 
         Assertions.assertThat(gathering.getTitle()).isEqualTo("내일 배드민턴칠사람");
-    }
-
-    @Test
-    @DisplayName("하루모임 장소 수정하기")
-    void updateGatheringPlace() {
-        List<OneDayGathering> oneDayGatheringList = service.findByManagerId(manager.getId());
-        OneDayGathering gathering = service.findById(oneDayGatheringList.get(0).getId());
-        Assertions.assertThat(gathering.getPlace().getCity()).isEqualTo("경남");
-
-        OneDayGatheringPlaceDto oneDayGatheringPlaceDto = new OneDayGatheringPlaceDto();
-        oneDayGatheringPlaceDto.setCity("서울");
-        oneDayGatheringPlaceDto.setMiddlePlace("동작구");
-        oneDayGatheringPlaceDto.setDetailPlace("아디오스");
-
-        placeService.update(gathering.getId(),oneDayGatheringPlaceDto);
-
-        OneDayGathering updatedAfterGathering = service.findById(oneDayGatheringList.get(0).getId());
-
-        Assertions.assertThat(updatedAfterGathering.getPlace().getCity()).isEqualTo("서울");
+        Assertions.assertThat(gathering.getTagList()).containsAll(tagList);
+        Assertions.assertThat(oneDayGatheringList.get(0).getPlace().get("city")).isEqualTo("경남");
+        Assertions.assertThat(gathering.getPlace().get("city")).isEqualTo("서울");
     }
 
     @Test

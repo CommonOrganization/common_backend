@@ -7,6 +7,7 @@ import com.junghun.common.domain.gathering.exception.NotFoundGatheringException;
 import com.junghun.common.domain.gathering.repository.ClubGatheringRepository;
 import com.junghun.common.domain.user.entity.User;
 import com.junghun.common.domain.user.service.UserService;
+import com.junghun.common.util.ConvertUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +19,6 @@ import java.util.List;
 public class ClubGatheringService {
     private final ClubGatheringRepository repository;
     private final UserService userService;
-
-    private final ClubGatheringImageService imageService;
-    private final ClubGatheringTagService tagService;
-    private final ClubGatheringCityService cityService;
 
     public ClubGathering upload(ClubGatheringUploadDto clubGatheringUploadDto) {
         User manager = userService.findById(clubGatheringUploadDto.getManagerId());
@@ -37,28 +34,13 @@ public class ClubGatheringService {
                 .recruitWay(clubGatheringUploadDto.getRecruitWay())
                 .recruitQuestion(clubGatheringUploadDto.getRecruitQuestion())
                 .capacity(clubGatheringUploadDto.getCapacity())
+                .imageList(ConvertUtils.getStringByList(clubGatheringUploadDto.getImageList()))
+                .tagList(ConvertUtils.getStringByList(clubGatheringUploadDto.getTagList()))
+                .cityList(ConvertUtils.getStringByList(clubGatheringUploadDto.getCityList()))
                 .timeStamp(writeDate)
                 .build();
 
-        ClubGathering savedClubGathering =  repository.save(gathering);
-
-        ClubGatheringImageUploadDto clubGatheringImageUploadDto = new ClubGatheringImageUploadDto();
-        clubGatheringImageUploadDto.setClubGathering(savedClubGathering);
-        clubGatheringImageUploadDto.setImageList(clubGatheringUploadDto.getImageList());
-
-        ClubGatheringTagUploadDto clubGatheringTagUploadDto = new ClubGatheringTagUploadDto();
-        clubGatheringTagUploadDto.setClubGathering(savedClubGathering);
-        clubGatheringTagUploadDto.setTagList(clubGatheringUploadDto.getTagList());
-
-        ClubGatheringCityUploadDto clubGatheringCityUploadDto = new ClubGatheringCityUploadDto();
-        clubGatheringCityUploadDto.setClubGathering(savedClubGathering);
-        clubGatheringCityUploadDto.setCityList(clubGatheringUploadDto.getCityList());
-
-        imageService.upload(clubGatheringImageUploadDto);
-        tagService.upload(clubGatheringTagUploadDto);
-        cityService.upload(clubGatheringCityUploadDto);
-
-        return savedClubGathering;
+        return repository.save(gathering);
     }
 
     public ClubGathering update(Long id, ClubGatheringUpdateDto clubGatheringUpdateDto) {
@@ -79,29 +61,11 @@ public class ClubGatheringService {
                 .recruitWay(clubGatheringUpdateDto.getRecruitWay())
                 .recruitQuestion(clubGatheringUpdateDto.getRecruitQuestion())
                 .capacity(clubGatheringUpdateDto.getCapacity())
+                .imageList(ConvertUtils.getStringByList(clubGatheringUpdateDto.getImageList()))
+                .tagList(ConvertUtils.getStringByList(clubGatheringUpdateDto.getTagList()))
+                .cityList(ConvertUtils.getStringByList(clubGatheringUpdateDto.getCityList()))
                 .timeStamp(writeDate)
                 .build();
-
-        ClubGatheringImageUploadDto clubGatheringImageUploadDto = new ClubGatheringImageUploadDto();
-        clubGatheringImageUploadDto.setClubGathering(updateGathering);
-        clubGatheringImageUploadDto.setImageList(clubGatheringUpdateDto.getImageList());
-
-        ClubGatheringTagUploadDto clubGatheringTagUploadDto = new ClubGatheringTagUploadDto();
-        clubGatheringTagUploadDto.setClubGathering(updateGathering);
-        clubGatheringTagUploadDto.setTagList(clubGatheringUpdateDto.getTagList());
-
-        ClubGatheringCityUploadDto clubGatheringCityUploadDto = new ClubGatheringCityUploadDto();
-        clubGatheringCityUploadDto.setClubGathering(updateGathering);
-        clubGatheringCityUploadDto.setCityList(clubGatheringUpdateDto.getCityList());
-
-        imageService.deleteAll(id);
-        imageService.upload(clubGatheringImageUploadDto);
-
-        tagService.deleteAll(id);
-        tagService.upload(clubGatheringTagUploadDto);
-
-        cityService.deleteAll(id);
-        cityService.upload(clubGatheringCityUploadDto);
 
         return repository.save(updateGathering);
     }

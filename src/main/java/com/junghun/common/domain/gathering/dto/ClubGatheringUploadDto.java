@@ -16,10 +16,10 @@ public class ClubGatheringUploadDto {
     private String title;
     private String content;
     private String mainImage;
-    private List<String> imageList;
     private String recruitWay;
     private String recruitQuestion;
     private int capacity;
+    private List<String> imageList;
     private List<String> tagList;
 
     private List<String> cityList;

@@ -49,8 +49,7 @@ public interface OneDayGatheringRepository extends JpaRepository<OneDayGathering
     List<OneDayGathering> findByCategory(String category);
 
     @Query("SELECT o FROM OneDayGathering o " +
-            "JOIN OneDayGatheringPlace op on op.oneDayGathering.id = o.id " +
-            "WHERE op.city = :city " +
+            "WHERE o.place LIKE %:city% " +
             "ORDER BY o.timeStamp DESC")
     List<OneDayGathering> findByCity(String city);
 
@@ -59,10 +58,6 @@ public interface OneDayGatheringRepository extends JpaRepository<OneDayGathering
             "OR o.title LIKE %:keyword% " +
             "OR o.content LIKE %:keyword% " +
             "ORDER BY o.timeStamp DESC")
-    /**
-     * o.tagList LIKE %:keyword% " +
-     *             "OR
-     */
     List<OneDayGathering> findByKeyword(String keyword);
 
 }

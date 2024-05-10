@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -22,6 +23,8 @@ public class OneDayGatheringUploadDto {
     private int capacity;
     private List<String> tagList;
 
+    
+    private Map<String,String> place;
     private String type;
     private LocalDateTime openingDate;
     private boolean haveEntryFee;
