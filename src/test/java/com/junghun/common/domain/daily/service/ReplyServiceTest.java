@@ -44,10 +44,10 @@ class ReplyServiceTest {
     void setComment() {
 
 
-        List<String> interestCategory = new ArrayList<>();
-        interestCategory.add("sports");
-        interestCategory.add("language");
-        interestCategory.add("game");
+        List<String> categoryList = new ArrayList<>();
+        categoryList.add("sports");
+        categoryList.add("language");
+        categoryList.add("game");
 
 
         RegisterDto registerDto = RegisterDto.builder()
@@ -56,7 +56,7 @@ class ReplyServiceTest {
                 .password("password")
                 .gender("남성")
                 .birthday(LocalDate.of(1999, 1, 16))
-                .interestCategory(interestCategory)
+                .categoryList(categoryList)
                 .profileImage("image")
                 .information("information")
                 .build();

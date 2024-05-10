@@ -8,7 +8,6 @@ import com.junghun.common.domain.gathering.entity.OneDayGathering;
 import com.junghun.common.domain.like.entity.LikeClubGathering;
 import com.junghun.common.domain.like.entity.LikeDaily;
 import com.junghun.common.domain.like.entity.LikeOneDayGathering;
-import com.junghun.common.global.converter.ListConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -43,11 +42,6 @@ public class User {
     @Column(name = "birthday")
     private LocalDate birthday;
 
-    @Builder.Default
-    @Convert(converter = ListConverter.class)
-    @Column(name = "interest_category")
-    private List<String> interestCategory = new ArrayList<>();
-
     @Column(name = "profile_image")
     private String profileImage;
 
@@ -56,6 +50,10 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private UserPlace userPlace;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserCategory> categoryList = new ArrayList<>();
 
     // 모임 관련 JOIN 컬럼
     @Builder.Default

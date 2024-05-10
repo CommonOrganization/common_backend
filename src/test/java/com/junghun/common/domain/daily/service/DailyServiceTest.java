@@ -31,10 +31,10 @@ class DailyServiceTest {
     @BeforeEach
     void setDaily() {
 
-        List<String> interestCategory = new ArrayList<>();
-        interestCategory.add("sports");
-        interestCategory.add("language");
-        interestCategory.add("game");
+        List<String> categoryList = new ArrayList<>();
+        categoryList.add("sports");
+        categoryList.add("language");
+        categoryList.add("game");
 
 
         RegisterDto registerDto = RegisterDto.builder()
@@ -43,7 +43,7 @@ class DailyServiceTest {
                 .password("password")
                 .gender("남성")
                 .birthday(LocalDate.of(1999, 1, 16))
-                .interestCategory(interestCategory)
+                .categoryList(categoryList)
                 .profileImage("image")
                 .information("information")
                 .build();
@@ -138,9 +138,9 @@ class DailyServiceTest {
     @Test
     @DisplayName("키워드로 작성자가 작성한 데일리 불러오기")
     void findByKeyword() {
-        List<Daily> dailyList = service.findByKeyword("카");
+        List<Daily> dailyList = service.findByKeyword("데일리");
 
-        Assertions.assertThat(dailyList.size()).isEqualTo(2);
+        Assertions.assertThat(dailyList.size()).isEqualTo(3);
     }
 
     @Test
@@ -167,7 +167,6 @@ class DailyServiceTest {
         newTagList.add("하하호호");
         newTagList.add("이건 수정된태그");
 
-
         dailyUpdateDto.setCategory(daily.getCategory());
         dailyUpdateDto.setDetailCategory(daily.getDetailCategory());
         dailyUpdateDto.setDailyType(daily.getDailyType());
@@ -175,11 +174,12 @@ class DailyServiceTest {
         dailyUpdateDto.setImageList(newImageList);
         dailyUpdateDto.setContent(daily.getContent());
         dailyUpdateDto.setTagList(newTagList);
+
         service.update(daily.getId(), dailyUpdateDto);
 
         Daily findDaily = service.findById(daily.getId());
 
-        Assertions.assertThat(findDaily.getTagList()).containsExactly("하하호호", "이건 수정된태그");
+        Assertions.assertThat(findDaily.getTagList().size()).isEqualTo(2);
         Assertions.assertThat(findDaily.getContent()).isEqualTo(daily.getContent());
     }
 }

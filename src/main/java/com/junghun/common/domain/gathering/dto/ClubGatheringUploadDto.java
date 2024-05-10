@@ -5,11 +5,10 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @Setter
-public class OneDayGatheringUploadDto {
+public class ClubGatheringUploadDto {
 
     private Long managerId;
     private String category;
@@ -17,18 +16,11 @@ public class OneDayGatheringUploadDto {
     private String title;
     private String content;
     private String mainImage;
-    private List<String> imageList;
     private String recruitWay;
     private String recruitQuestion;
     private int capacity;
+    private List<String> imageList;
     private List<String> tagList;
 
-    
-    private Map<String,String> place;
-    private String type;
-    private LocalDateTime openingDate;
-    private boolean haveEntryFee;
-    private int entryFee;
-    private Long clubGatheringId;
-    private boolean showAllThePeople;
+    private List<String> cityList;
 }

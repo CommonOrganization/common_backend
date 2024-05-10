@@ -4,7 +4,7 @@ import com.junghun.common.domain.gathering.entity.ClubGathering;
 import com.junghun.common.domain.like.entity.LikeDaily;
 import com.junghun.common.domain.report.entity.ReportDaily;
 import com.junghun.common.domain.user.entity.User;
-import com.junghun.common.global.converter.ListConverter;
+import com.junghun.common.util.ConvertUtils;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -44,21 +44,17 @@ public class Daily {
     @Column(name = "main_image")
     private String mainImage;
 
-    @Builder.Default
-    @Convert(converter = ListConverter.class)
-    @Column(name = "image_list")
-    private List<String> imageList = new ArrayList<>();
-
     @Column(name = "content", length = 1000)
     private String content;
 
-    @Builder.Default
-    @Convert(converter = ListConverter.class)
-    @Column(name = "tag_list")
-    private List<String> tagList = new ArrayList<>();
-
     @Column(name = "time_stamp")
     private LocalDateTime timeStamp;
+
+    @Column(name = "tag_list")
+    private String tagList;
+
+    @Column(name = "image_list")
+    private String imageList;
 
     @Builder.Default
     @OneToMany(mappedBy = "daily", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -71,4 +67,13 @@ public class Daily {
     @Builder.Default
     @OneToMany(mappedBy = "reportedDaily", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReportDaily> reportedList = new ArrayList<>();
+
+    public List<String> getTagList(){
+        return ConvertUtils.getListByString(tagList);
+    }
+
+    public List<String> getImageList(){
+        return ConvertUtils.getListByString(imageList);
+    }
+
 }

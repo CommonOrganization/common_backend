@@ -39,9 +39,9 @@ public class UserController {
     @PatchMapping("/{userId}/interestCategory")
     public ResponseEntity<User> updateInterestCategory(
             @PathVariable Long userId,
-            @RequestBody List<String> newInterestCategory) {
-        User updatedUser = service.updateInterestCategory(userId, newInterestCategory);
-        return ResponseEntity.ok(updatedUser);
+            @RequestBody List<String> categoryList) {
+        service.updateCategory(userId, categoryList);
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/{userId}/userPlace")

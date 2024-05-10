@@ -2,6 +2,7 @@ package com.junghun.common.domain.gathering.entity;
 
 import com.junghun.common.domain.like.entity.LikeOneDayGathering;
 import com.junghun.common.domain.report.entity.ReportOneDayGathering;
+import com.junghun.common.util.ConvertUtils;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -9,6 +10,7 @@ import lombok.experimental.SuperBuilder;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "one_day_gathering")
@@ -17,6 +19,10 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class OneDayGathering extends Gathering {
+
+    @Column(name = "place")
+    private String place;
+
     @Column(name = "type", length = 30)
     private String type;
 
@@ -39,9 +45,6 @@ public class OneDayGathering extends Gathering {
     @Column(name = "show_all_the_people")
     private boolean showAllThePeople = false;
 
-    @OneToOne(mappedBy = "oneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private OneDayGatheringPlace place;
-
     @Builder.Default
     @OneToMany(mappedBy = "oneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OneDayGatheringApplyStatus> applyStatusList = new ArrayList<>();
@@ -57,4 +60,8 @@ public class OneDayGathering extends Gathering {
     @Builder.Default
     @OneToMany(mappedBy = "reportedOneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReportOneDayGathering> reportedList = new ArrayList<>();
+
+    public Map<String,String> getPlace(){
+        return ConvertUtils.getMapByString(place);
+    }
 }

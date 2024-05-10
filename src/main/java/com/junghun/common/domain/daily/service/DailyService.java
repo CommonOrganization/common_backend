@@ -10,6 +10,7 @@ import com.junghun.common.domain.gathering.exception.NotFoundGatheringException;
 import com.junghun.common.domain.gathering.service.ClubGatheringService;
 import com.junghun.common.domain.user.entity.User;
 import com.junghun.common.domain.user.service.UserService;
+import com.junghun.common.util.ConvertUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -48,8 +49,8 @@ public class DailyService {
                 .mainImage(dailyUploadDto.getMainImage())
                 .content(dailyUploadDto.getContent())
                 .timeStamp(writeDate)
-                .imageList(dailyUploadDto.getImageList())
-                .tagList(dailyUploadDto.getTagList())
+                .imageList(ConvertUtils.getStringByList(dailyUploadDto.getImageList()))
+                .tagList(ConvertUtils.getStringByList(dailyUploadDto.getTagList()))
                 .clubGathering(clubGathering)
                 .build();
 
@@ -104,9 +105,9 @@ public class DailyService {
                 .dailyType(dailyUpdateDto.getDailyType())
                 .mainImage(dailyUpdateDto.getMainImage())
                 .content(dailyUpdateDto.getContent())
-                .imageList(dailyUpdateDto.getImageList())
-                .tagList(dailyUpdateDto.getTagList())
                 .timeStamp(writeDate)
+                .imageList(ConvertUtils.getStringByList(dailyUpdateDto.getImageList()))
+                .tagList(ConvertUtils.getStringByList(dailyUpdateDto.getTagList()))
                 .clubGathering(clubGathering)
                 .build();
 

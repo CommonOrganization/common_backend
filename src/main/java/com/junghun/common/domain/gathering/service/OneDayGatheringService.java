@@ -8,6 +8,7 @@ import com.junghun.common.domain.gathering.exception.NotFoundGatheringException;
 import com.junghun.common.domain.gathering.repository.OneDayGatheringRepository;
 import com.junghun.common.domain.user.entity.User;
 import com.junghun.common.domain.user.service.UserService;
+import com.junghun.common.util.ConvertUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -52,9 +53,10 @@ public class OneDayGatheringService {
                 .haveEntryFee(oneDayGatheringUploadDto.isHaveEntryFee())
                 .entryFee(oneDayGatheringUploadDto.getEntryFee())
                 .showAllThePeople(oneDayGatheringUploadDto.isShowAllThePeople())
-                .tagList(oneDayGatheringUploadDto.getTagList())
-                .imageList(oneDayGatheringUploadDto.getImageList())
                 .clubGathering(clubGathering)
+                .imageList(ConvertUtils.getStringByList(oneDayGatheringUploadDto.getImageList()))
+                .tagList(ConvertUtils.getStringByList(oneDayGatheringUploadDto.getTagList()))
+                .place(ConvertUtils.getStringByMap(oneDayGatheringUploadDto.getPlace()))
                 .build();
 
         return repository.save(gathering);
@@ -141,13 +143,15 @@ public class OneDayGatheringService {
                 .haveEntryFee(oneDayGatheringUpdateDto.isHaveEntryFee())
                 .entryFee(oneDayGatheringUpdateDto.getEntryFee())
                 .showAllThePeople(oneDayGatheringUpdateDto.isShowAllThePeople())
-                .tagList(oneDayGatheringUpdateDto.getTagList())
-                .imageList(oneDayGatheringUpdateDto.getImageList())
                 .clubGathering(clubGathering)
+                .imageList(ConvertUtils.getStringByList(oneDayGatheringUpdateDto.getImageList()))
+                .tagList(ConvertUtils.getStringByList(oneDayGatheringUpdateDto.getTagList()))
+                .place(ConvertUtils.getStringByMap(oneDayGatheringUpdateDto.getPlace()))
                 .build();
 
-
         return repository.save(updateGathering);
+
+
     }
 
     // DELETE

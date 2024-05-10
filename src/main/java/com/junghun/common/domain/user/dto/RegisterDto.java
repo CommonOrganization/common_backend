@@ -17,7 +17,7 @@ public class RegisterDto {
     private String password;
     private String gender;
     private LocalDate birthday;
-    private List<String> interestCategory;
+    private List<String> categoryList;
     private String profileImage;
     private String information;
 
