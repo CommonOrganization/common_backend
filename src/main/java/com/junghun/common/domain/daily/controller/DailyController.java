@@ -20,6 +20,7 @@ public class DailyController {
     @PutMapping("/upload")
     public ResponseEntity<Daily> upload(@RequestBody DailyUploadDto dailyUploadDto) {
         Daily daily = service.upload(dailyUploadDto);
+
         return new ResponseEntity<>(daily, HttpStatus.CREATED);
     }
 

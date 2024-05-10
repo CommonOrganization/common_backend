@@ -3,7 +3,6 @@ package com.junghun.common.domain.daily.service;
 import com.junghun.common.domain.daily.dto.DailyUpdateDto;
 import com.junghun.common.domain.daily.dto.DailyUploadDto;
 import com.junghun.common.domain.daily.entity.Daily;
-import com.junghun.common.domain.daily.entity.DailyTag;
 import com.junghun.common.domain.user.dto.RegisterDto;
 import com.junghun.common.domain.user.entity.User;
 import com.junghun.common.domain.user.service.UserService;
@@ -12,7 +11,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -169,7 +167,6 @@ class DailyServiceTest {
         newTagList.add("하하호호");
         newTagList.add("이건 수정된태그");
 
-
         dailyUpdateDto.setCategory(daily.getCategory());
         dailyUpdateDto.setDetailCategory(daily.getDetailCategory());
         dailyUpdateDto.setDailyType(daily.getDailyType());
@@ -177,11 +174,12 @@ class DailyServiceTest {
         dailyUpdateDto.setImageList(newImageList);
         dailyUpdateDto.setContent(daily.getContent());
         dailyUpdateDto.setTagList(newTagList);
+
         service.update(daily.getId(), dailyUpdateDto);
 
         Daily findDaily = service.findById(daily.getId());
 
-        Assertions.assertThat(findDaily.getTagList().stream().map(DailyTag::getTag).toList().size()).isEqualTo(2);
+        Assertions.assertThat(findDaily.getTagList().size()).isEqualTo(2);
         Assertions.assertThat(findDaily.getContent()).isEqualTo(daily.getContent());
     }
 }

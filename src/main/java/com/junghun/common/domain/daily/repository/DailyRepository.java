@@ -21,6 +21,7 @@ public interface DailyRepository extends JpaRepository<Daily, Long> {
 
     @Query("SELECT d FROM Daily d WHERE d.detailCategory LIKE %:keyword% " +
             "OR d.content LIKE %:keyword% " +
+            "OR d.tagList LIKE %:keyword% " +
             "ORDER BY d.timeStamp DESC ")
     List<Daily> findByKeywordByTimeStampDesc(String keyword);
 }

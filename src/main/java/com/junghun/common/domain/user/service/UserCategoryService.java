@@ -1,8 +1,6 @@
 package com.junghun.common.domain.user.service;
 
-import com.junghun.common.domain.daily.entity.DailyTag;
 import com.junghun.common.domain.user.dto.UserCategoryDto;
-import com.junghun.common.domain.user.entity.User;
 import com.junghun.common.domain.user.entity.UserCategory;
 import com.junghun.common.domain.user.repository.UserCategoryRepository;
 import lombok.RequiredArgsConstructor;
