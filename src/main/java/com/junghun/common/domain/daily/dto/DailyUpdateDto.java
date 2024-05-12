@@ -1,7 +1,5 @@
 package com.junghun.common.domain.daily.dto;
 
-import com.junghun.common.domain.gathering.entity.ClubGathering;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 

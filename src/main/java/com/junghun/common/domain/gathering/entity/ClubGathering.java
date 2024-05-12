@@ -36,17 +36,13 @@ public class ClubGathering extends Gathering {
 
     @Builder.Default
     @OneToMany(mappedBy = "clubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RecruitAnswer> recruitAnswerList = new ArrayList<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "clubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LikeClubGathering> likeList = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "reportedClubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReportClubGathering> reportedList = new ArrayList<>();
 
-    public List<String> getCityList(){
+    public List<String> getCityList() {
         return ConvertUtils.getListByString(cityList);
     }
 }

@@ -23,8 +23,8 @@ public class OneDayGatheringUploadDto {
     private int capacity;
     private List<String> tagList;
 
-    
-    private Map<String,String> location;
+
+    private Map<String, String> location;
     private String type;
     private LocalDateTime openingDate;
     private boolean haveEntryFee;

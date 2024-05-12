@@ -1,5 +1,6 @@
 package com.junghun.common.domain.gathering.entity;
 
+import com.junghun.common.domain.gathering.GatheringType;
 import com.junghun.common.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,6 +19,12 @@ public class RecruitAnswer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "gathering_id")
+    private Long gatheringId;
+
+    @Column(name = "gathering_type")
+    private GatheringType gatheringType;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "applier_id", referencedColumnName = "id")
     private User applier;
@@ -30,12 +37,4 @@ public class RecruitAnswer {
 
     @Column(name = "time_stamp", nullable = false)
     private LocalDateTime timeStamp;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "club_gathering_id", referencedColumnName = "id")
-    private ClubGathering clubGathering;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "one_day_gathering_id", referencedColumnName = "id")
-    private OneDayGathering oneDayGathering;
 }

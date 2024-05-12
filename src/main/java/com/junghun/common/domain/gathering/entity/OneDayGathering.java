@@ -51,17 +51,13 @@ public class OneDayGathering extends Gathering {
 
     @Builder.Default
     @OneToMany(mappedBy = "oneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RecruitAnswer> recruitAnswerList = new ArrayList<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "oneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LikeOneDayGathering> likeList = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "reportedOneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReportOneDayGathering> reportedList = new ArrayList<>();
 
-    public Map<String,String> getLocation(){
+    public Map<String, String> getLocation() {
         return ConvertUtils.getMapByString(location);
     }
 }
