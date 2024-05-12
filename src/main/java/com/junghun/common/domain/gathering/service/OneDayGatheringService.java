@@ -56,7 +56,7 @@ public class OneDayGatheringService {
                 .clubGathering(clubGathering)
                 .imageList(ConvertUtils.getStringByList(oneDayGatheringUploadDto.getImageList()))
                 .tagList(ConvertUtils.getStringByList(oneDayGatheringUploadDto.getTagList()))
-                .place(ConvertUtils.getStringByMap(oneDayGatheringUploadDto.getPlace()))
+                .location(ConvertUtils.getStringByMap(oneDayGatheringUploadDto.getLocation()))
                 .build();
 
         return repository.save(gathering);
@@ -146,7 +146,7 @@ public class OneDayGatheringService {
                 .clubGathering(clubGathering)
                 .imageList(ConvertUtils.getStringByList(oneDayGatheringUpdateDto.getImageList()))
                 .tagList(ConvertUtils.getStringByList(oneDayGatheringUpdateDto.getTagList()))
-                .place(ConvertUtils.getStringByMap(oneDayGatheringUpdateDto.getPlace()))
+                .location(ConvertUtils.getStringByMap(oneDayGatheringUpdateDto.getLocation()))
                 .build();
 
         return repository.save(updateGathering);

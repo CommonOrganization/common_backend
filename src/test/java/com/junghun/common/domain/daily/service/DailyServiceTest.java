@@ -14,7 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @SpringBootTest
@@ -31,22 +33,27 @@ class DailyServiceTest {
     @BeforeEach
     void setDaily() {
 
+        RegisterDto registerDto = new RegisterDto();
+        Map<String, String> location = new HashMap<>();
+
         List<String> categoryList = new ArrayList<>();
         categoryList.add("sports");
         categoryList.add("language");
         categoryList.add("game");
 
+        location.put("city", "세종");
+        location.put("middlePlace", "한솔동");
+        location.put("detailPlace", "전체");
 
-        RegisterDto registerDto = RegisterDto.builder()
-                .email("test@naver.com")
-                .name("test")
-                .password("password")
-                .gender("남성")
-                .birthday(LocalDate.of(1999, 1, 16))
-                .categoryList(categoryList)
-                .profileImage("image")
-                .information("information")
-                .build();
+        registerDto.setEmail("register@naver.com");
+        registerDto.setName("가입자");
+        registerDto.setPassword("password");
+        registerDto.setGender("남성");
+        registerDto.setBirthday(LocalDate.of(1999, 1, 16));
+        registerDto.setCategoryList(categoryList);
+        registerDto.setProfileImage("image");
+        registerDto.setInformation("information");
+        registerDto.setLocation(location);
 
         user = userService.register(registerDto);
 
@@ -115,7 +122,7 @@ class DailyServiceTest {
             service.deleteById(daily.getId());
         }
 
-        User user = userService.findByEmail("test@naver.com");
+        User user = userService.findByEmail("register@naver.com");
         userService.deleteById(user.getId());
     }
 

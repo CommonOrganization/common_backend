@@ -20,8 +20,8 @@ import java.util.Map;
 @AllArgsConstructor
 public class OneDayGathering extends Gathering {
 
-    @Column(name = "place")
-    private String place;
+    @Column(name = "location")
+    private String location;
 
     @Column(name = "type", length = 30)
     private String type;
@@ -61,7 +61,7 @@ public class OneDayGathering extends Gathering {
     @OneToMany(mappedBy = "reportedOneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReportOneDayGathering> reportedList = new ArrayList<>();
 
-    public Map<String,String> getPlace(){
-        return ConvertUtils.getMapByString(place);
+    public Map<String,String> getLocation(){
+        return ConvertUtils.getMapByString(location);
     }
 }

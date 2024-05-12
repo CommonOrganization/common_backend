@@ -10,7 +10,6 @@ import java.util.Map;
 
 @Getter
 @Setter
-@Builder
 public class RegisterDto {
     private String email;
     private String name;
@@ -20,5 +19,6 @@ public class RegisterDto {
     private List<String> categoryList;
     private String profileImage;
     private String information;
+    private Map<String,String> location;
 
 }

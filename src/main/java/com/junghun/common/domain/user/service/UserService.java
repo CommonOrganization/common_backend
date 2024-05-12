@@ -2,16 +2,17 @@ package com.junghun.common.domain.user.service;
 
 import com.junghun.common.domain.user.dto.InformationDto;
 import com.junghun.common.domain.user.dto.RegisterDto;
-import com.junghun.common.domain.user.dto.UserCategoryDto;
 import com.junghun.common.domain.user.entity.User;
 import com.junghun.common.domain.user.exception.DuplicatedEmailException;
 import com.junghun.common.domain.user.exception.NotFoundUserException;
 import com.junghun.common.domain.user.repository.UserRepository;
+import com.junghun.common.util.ConvertUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -20,8 +21,6 @@ public class UserService {
 
     private final UserRepository repository;
     private final BCryptPasswordEncoder passwordEncoder;
-
-    private final UserCategoryService categoryService;
 
     // READ
     public User findById(Long id) {
@@ -46,7 +45,7 @@ public class UserService {
 
         // 만약 중복된 이메일이 저장되어있으면 가입불가 안내
         Optional<User> findEmail = repository.findByEmail(registerDto.getEmail());
-        if (!findEmail.isEmpty()) {
+        if (findEmail.isPresent()) {
             throw new DuplicatedEmailException(registerDto.getEmail() + "은 이미 가입된 이메일입니다.");
         }
 
@@ -62,17 +61,11 @@ public class UserService {
                 .birthday(registerDto.getBirthday())
                 .profileImage(registerDto.getProfileImage())
                 .information(registerDto.getInformation())
+                .categoryList(ConvertUtils.getStringByList(registerDto.getCategoryList()))
+                .location(ConvertUtils.getStringByMap(registerDto.getLocation()))
                 .build();
 
-        User savedUser =  repository.save(user);
-
-        UserCategoryDto userCategoryDto = new UserCategoryDto();
-        userCategoryDto.setUser(savedUser);
-        userCategoryDto.setCategoryList(registerDto.getCategoryList());
-
-        categoryService.upload(userCategoryDto);
-
-        return savedUser;
+        return repository.save(user);
     }
 
     public User login(String email, String password) {
@@ -88,7 +81,7 @@ public class UserService {
     }
 
     // UPDATE
-    public void resetPassword(String email, String newPassword) {
+    public User resetPassword(String email, String newPassword) {
 
         String encryptedPassword = passwordEncoder.encode(newPassword);
 
@@ -102,13 +95,14 @@ public class UserService {
                 .password(encryptedPassword)
                 .gender(user.getGender())
                 .birthday(user.getBirthday())
-                .userPlace(user.getUserPlace())
+                .location(ConvertUtils.getStringByMap(user.getLocation()))
+                .categoryList(ConvertUtils.getStringByList(user.getCategoryList()))
                 .profileImage(user.getProfileImage())
                 .information(user.getInformation())
                 .build();
 
 
-        repository.save(updateUser);
+        return repository.save(updateUser);
     }
 
     public User updatePassword(Long id, String newPassword) {
@@ -125,7 +119,8 @@ public class UserService {
                 .password(encryptedPassword)
                 .gender(user.getGender())
                 .birthday(user.getBirthday())
-                .userPlace(user.getUserPlace())
+                .location(ConvertUtils.getStringByMap(user.getLocation()))
+                .categoryList(ConvertUtils.getStringByList(user.getCategoryList()))
                 .profileImage(user.getProfileImage())
                 .information(user.getInformation())
                 .build();
@@ -133,18 +128,46 @@ public class UserService {
         return repository.save(updateUser);
     }
 
-    public void updateCategory(Long id, List<String> categoryList) {
+    public User updateCategory(Long id, List<String> categoryList) {
 
         User user = repository.findById(id)
                 .orElseThrow(() -> new NotFoundUserException(id + "을(를) 가진 User 가 존재하지 않습니다."));
 
+        User updateUser = User.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .name(user.getName())
+                .password(user.getPassword())
+                .gender(user.getGender())
+                .birthday(user.getBirthday())
+                .location(ConvertUtils.getStringByMap(user.getLocation()))
+                .categoryList(ConvertUtils.getStringByList(categoryList))
+                .profileImage(user.getProfileImage())
+                .information(user.getInformation())
+                .build();
 
-        UserCategoryDto userCategoryDto = new UserCategoryDto();
-        userCategoryDto.setUser(user);
-        userCategoryDto.setCategoryList(categoryList);
+        return repository.save(updateUser);
+    }
 
-        categoryService.deleteAll(id);
-        categoryService.upload(userCategoryDto);
+    public User updateLocation(Long id, Map<String, String> location) {
+
+        User user = repository.findById(id)
+                .orElseThrow(() -> new NotFoundUserException(id + "을(를) 가진 User 가 존재하지 않습니다."));
+
+        User updateUser = User.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .name(user.getName())
+                .password(user.getPassword())
+                .gender(user.getGender())
+                .birthday(user.getBirthday())
+                .location(ConvertUtils.getStringByMap(location))
+                .categoryList(ConvertUtils.getStringByList(user.getCategoryList()))
+                .profileImage(user.getProfileImage())
+                .information(user.getInformation())
+                .build();
+
+        return repository.save(updateUser);
     }
 
     public User updateInformation(Long id, InformationDto informationDto) {
@@ -159,7 +182,8 @@ public class UserService {
                 .password(user.getPassword())
                 .gender(user.getGender())
                 .birthday(user.getBirthday())
-                .userPlace(user.getUserPlace())
+                .location(ConvertUtils.getStringByMap(user.getLocation()))
+                .categoryList(ConvertUtils.getStringByList(user.getCategoryList()))
                 .profileImage(informationDto.getProfileImage())
                 .information(informationDto.getInformation())
                 .build();

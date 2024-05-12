@@ -8,12 +8,14 @@ import com.junghun.common.domain.gathering.entity.OneDayGathering;
 import com.junghun.common.domain.like.entity.LikeClubGathering;
 import com.junghun.common.domain.like.entity.LikeDaily;
 import com.junghun.common.domain.like.entity.LikeOneDayGathering;
+import com.junghun.common.util.ConvertUtils;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "users")
@@ -48,12 +50,11 @@ public class User {
     @Column(name = "information")
     private String information;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private UserPlace userPlace;
+    @Column(name = "location")
+    private String location;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserCategory> categoryList = new ArrayList<>();
+    @Column(name = "category_list")
+    private String categoryList;
 
     // 모임 관련 JOIN 컬럼
     @Builder.Default
@@ -89,4 +90,12 @@ public class User {
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LikeDaily> likeDailyList = new ArrayList<>();
+
+    public Map<String, String> getLocation() {
+        return ConvertUtils.getMapByString(location);
+    }
+
+    public List<String> getCategoryList() {
+        return ConvertUtils.getListByString(categoryList);
+    }
 }

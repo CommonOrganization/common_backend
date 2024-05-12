@@ -4,9 +4,7 @@ import com.junghun.common.domain.gathering.dto.OneDayGatheringUpdateDto;
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUploadDto;
 import com.junghun.common.domain.gathering.entity.OneDayGathering;
 import com.junghun.common.domain.user.dto.RegisterDto;
-import com.junghun.common.domain.user.dto.UserPlaceDto;
 import com.junghun.common.domain.user.entity.User;
-import com.junghun.common.domain.user.service.UserPlaceService;
 import com.junghun.common.domain.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
@@ -16,6 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -38,66 +37,59 @@ class OneDayGatheringServiceTest {
 
     @Autowired
     UserService userService;
-    @Autowired
-    UserPlaceService userPlaceService;
     User manager;
     User applier;
 
     @BeforeEach
     void setOneDayGathering() {
 
+        RegisterDto registerDto = new RegisterDto();
+        Map<String, String> location = new HashMap<>();
+
         List<String> categoryList = new ArrayList<>();
         categoryList.add("sports");
         categoryList.add("language");
         categoryList.add("game");
 
+        location.put("city", "세종");
+        location.put("middlePlace", "한솔동");
+        location.put("detailPlace", "전체");
 
-        RegisterDto managerRegisterDto = RegisterDto.builder()
-                .email("manager@naver.com")
-                .name("manager")
-                .password("password")
-                .gender("남성")
-                .birthday(LocalDate.of(1999, 1, 16))
-                .categoryList(categoryList)
-                .profileImage("image")
-                .information("information")
-                .build();
+        registerDto.setEmail("register@naver.com");
+        registerDto.setName("가입자");
+        registerDto.setPassword("password");
+        registerDto.setGender("남성");
+        registerDto.setBirthday(LocalDate.of(1999, 1, 16));
+        registerDto.setCategoryList(categoryList);
+        registerDto.setProfileImage("image");
+        registerDto.setInformation("information");
+        registerDto.setLocation(location);
 
-        UserPlaceDto managerPlaceDto = new UserPlaceDto();
+        manager = userService.register(registerDto);
 
-        managerPlaceDto.setCity("세종");
-        managerPlaceDto.setMiddlePlace("한솔동");
-        managerPlaceDto.setDetailPlace("전체");
-
-        manager =  userService.register(managerRegisterDto);
-
-        userPlaceService.upload(manager.getId(),managerPlaceDto);
+        RegisterDto applierRegisterDto = new RegisterDto();
+        Map<String, String> applierLocation = new HashMap<>();
 
         List<String> applierCategoryList = new ArrayList<>();
         applierCategoryList.add("sports");
         applierCategoryList.add("language");
         applierCategoryList.add("game");
 
+        applierLocation.put("city", "세종");
+        applierLocation.put("middlePlace", "한솔동");
+        applierLocation.put("detailPlace", "전체");
 
-        RegisterDto applierRegisterDto = RegisterDto.builder()
-                .email("applier@naver.com")
-                .name("applier")
-                .password("password")
-                .gender("남성")
-                .birthday(LocalDate.of(1999, 1, 16))
-                .categoryList(applierCategoryList)
-                .profileImage("image")
-                .information("information")
-                .build();
+        applierRegisterDto.setEmail("applier@naver.com");
+        applierRegisterDto.setName("applier");
+        applierRegisterDto.setPassword("password");
+        applierRegisterDto.setGender("남성");
+        applierRegisterDto.setBirthday(LocalDate.of(1999, 1, 16));
+        applierRegisterDto.setCategoryList(applierCategoryList);
+        applierRegisterDto.setProfileImage("image");
+        applierRegisterDto.setInformation("information");
+        applierRegisterDto.setLocation(applierLocation);
 
-        UserPlaceDto applierPlaceDto = new UserPlaceDto();
-
-        applierPlaceDto.setCity("세종");
-        applierPlaceDto.setMiddlePlace("한솔동");
-        applierPlaceDto.setDetailPlace("전체");
-
-        applier =  userService.register(applierRegisterDto);
-        userPlaceService.upload(applier.getId(),applierPlaceDto);
+        applier = userService.register(applierRegisterDto);
 
         OneDayGatheringUploadDto oneDayGatheringUploadDto = new OneDayGatheringUploadDto();
 
@@ -108,10 +100,10 @@ class OneDayGatheringServiceTest {
         tagList.add("2030");
         tagList.add("주변 놀거리");
 
-        Map<String,String> place = new HashMap<>();
-        place.put("city","경남");
-        place.put("middlePlace","창원시");
-        place.put("detailPlace","카페 소담아");
+        Map<String, String> gatheringLocation = new HashMap<>();
+        gatheringLocation.put("city", "경남");
+        gatheringLocation.put("middlePlace", "창원시");
+        gatheringLocation.put("detailPlace", "카페 소담아");
 
         oneDayGatheringUploadDto.setManagerId(manager.getId());
         oneDayGatheringUploadDto.setCategory("coffee");
@@ -125,10 +117,10 @@ class OneDayGatheringServiceTest {
         oneDayGatheringUploadDto.setCapacity(4);
         oneDayGatheringUploadDto.setTagList(tagList);
         oneDayGatheringUploadDto.setType("oneDay");
-        oneDayGatheringUploadDto.setOpeningDate(LocalDateTime.of(2024,4,21,15,0));
+        oneDayGatheringUploadDto.setOpeningDate(LocalDateTime.of(2024, 4, 21, 15, 0));
         oneDayGatheringUploadDto.setHaveEntryFee(false);
         oneDayGatheringUploadDto.setEntryFee(0);
-        oneDayGatheringUploadDto.setPlace(place);
+        oneDayGatheringUploadDto.setLocation(gatheringLocation);
         oneDayGatheringUploadDto.setClubGatheringId(null);
         oneDayGatheringUploadDto.setShowAllThePeople(true);
 
@@ -139,7 +131,7 @@ class OneDayGatheringServiceTest {
     void clearOneDayGathering() {
         List<OneDayGathering> oneDayGatheringList = service.findByManagerId(manager.getId());
 
-        for(OneDayGathering oneDayGathering : oneDayGatheringList){
+        for (OneDayGathering oneDayGathering : oneDayGatheringList) {
             service.deleteById(oneDayGathering.getId());
         }
 
@@ -158,10 +150,10 @@ class OneDayGatheringServiceTest {
         tagList.add("배드민턴");
         tagList.add("운동");
 
-        Map<String,String> place = new HashMap<>();
-        place.put("city","서울");
-        place.put("middlePlace","동작구");
-        place.put("detailPlace","아디오스");
+        Map<String, String> location = new HashMap<>();
+        location.put("city", "서울");
+        location.put("middlePlace", "동작구");
+        location.put("detailPlace", "아디오스");
 
         oneDayGatheringUpdateDto.setCategory("sports");
         oneDayGatheringUpdateDto.setDetailCategory("배드민턴");
@@ -174,21 +166,21 @@ class OneDayGatheringServiceTest {
         oneDayGatheringUpdateDto.setCapacity(4);
         oneDayGatheringUpdateDto.setTagList(tagList);
         oneDayGatheringUpdateDto.setType("oneDay");
-        oneDayGatheringUpdateDto.setOpeningDate(LocalDateTime.of(2024,4,21,15,0));
+        oneDayGatheringUpdateDto.setOpeningDate(LocalDateTime.of(2024, 4, 21, 15, 0));
         oneDayGatheringUpdateDto.setHaveEntryFee(false);
-        oneDayGatheringUpdateDto.setPlace(place);
+        oneDayGatheringUpdateDto.setLocation(location);
         oneDayGatheringUpdateDto.setEntryFee(0);
         oneDayGatheringUpdateDto.setClubGatheringId(null);
         oneDayGatheringUpdateDto.setShowAllThePeople(true);
 
-        service.update(oneDayGatheringList.get(0).getId(),oneDayGatheringUpdateDto);
+        service.update(oneDayGatheringList.get(0).getId(), oneDayGatheringUpdateDto);
 
         OneDayGathering gathering = service.findById(oneDayGatheringList.get(0).getId());
 
         Assertions.assertThat(gathering.getTitle()).isEqualTo("내일 배드민턴칠사람");
         Assertions.assertThat(gathering.getTagList()).containsAll(tagList);
-        Assertions.assertThat(oneDayGatheringList.get(0).getPlace().get("city")).isEqualTo("경남");
-        Assertions.assertThat(gathering.getPlace().get("city")).isEqualTo("서울");
+        Assertions.assertThat(oneDayGatheringList.get(0).getLocation().get("city")).isEqualTo("경남");
+        Assertions.assertThat(gathering.getLocation().get("city")).isEqualTo("서울");
     }
 
     @Test
@@ -205,7 +197,7 @@ class OneDayGatheringServiceTest {
 
         List<OneDayGathering> gatheringList = service.findByManagerId(manager.getId());
 
-        oneDayGatheringApplyStatusService.applyGathering(applier.getId(),gatheringList.get(0).getId());
+        oneDayGatheringApplyStatusService.applyGathering(applier.getId(), gatheringList.get(0).getId());
 
         List<OneDayGathering> oneDayGatheringList = service.findByApplierId(applier.getId());
 
@@ -218,13 +210,13 @@ class OneDayGatheringServiceTest {
 
         List<OneDayGathering> gatheringList = service.findByManagerId(manager.getId());
         // 지원 후에
-        oneDayGatheringApplyStatusService.applyGathering(applier.getId(),gatheringList.get(0).getId());
+        oneDayGatheringApplyStatusService.applyGathering(applier.getId(), gatheringList.get(0).getId());
 
         List<OneDayGathering> preApprovedOneDayGatheringList = service.findParticipateInGatheringByApplierId(applier.getId());
         // 승인되기 이전에는 승인된 Gathering 존재 X
         Assertions.assertThat(preApprovedOneDayGatheringList.size()).isEqualTo(0);
         // 승인 후에
-        oneDayGatheringApplyStatusService.approveGathering(applier.getId(),gatheringList.get(0).getId());
+        oneDayGatheringApplyStatusService.approveGathering(applier.getId(), gatheringList.get(0).getId());
 
         List<OneDayGathering> afterApprovedOneDayGatheringList = service.findParticipateInGatheringByApplierId(applier.getId());
         // 승인된 Gathering 1개 존재
@@ -233,7 +225,7 @@ class OneDayGatheringServiceTest {
 
     @Test
     @DisplayName("오늘 시작하는 하루모임 조회하기")
-    void findCanParticipateInTodayGathering(){
+    void findCanParticipateInTodayGathering() {
         OneDayGatheringUploadDto oneDayGatheringUploadDto = new OneDayGatheringUploadDto();
 
         List<String> imageList = new ArrayList<>();
@@ -267,7 +259,7 @@ class OneDayGatheringServiceTest {
 
     @Test
     @DisplayName("곧 시작하는 하루모임 조회하기")
-    void findCanParticipateInSoonGathering(){
+    void findCanParticipateInSoonGathering() {
         OneDayGatheringUploadDto oneDayGatheringUploadDto = new OneDayGatheringUploadDto();
 
         List<String> imageList = new ArrayList<>();
@@ -303,7 +295,7 @@ class OneDayGatheringServiceTest {
 
     @Test
     @DisplayName("카테고리 배열로 조회하기")
-    void findByCategoryIn(){
+    void findByCategoryIn() {
 
         OneDayGatheringUploadDto oneDayGatheringUploadDto = new OneDayGatheringUploadDto();
 
@@ -343,7 +335,7 @@ class OneDayGatheringServiceTest {
 
     @Test
     @DisplayName("도시로 조회하기")
-    void findByCity(){
+    void findByCity() {
         List<OneDayGathering> gatheringSejongList = service.findByCity("세종");
         List<OneDayGathering> gatheringGyeongNamList = service.findByCity("경남");
 
@@ -353,7 +345,7 @@ class OneDayGatheringServiceTest {
 
     @Test
     @DisplayName("카테고리로 조회하기")
-    void findByCategory(){
+    void findByCategory() {
         List<OneDayGathering> gatheringCoffeeList = service.findByCategory("coffee");
         List<OneDayGathering> gatheringSportsList = service.findByCategory("sports");
 
@@ -363,7 +355,7 @@ class OneDayGatheringServiceTest {
 
     @Test
     @DisplayName("키워드로 조회하기")
-    void findByKeyword(){
+    void findByKeyword() {
         List<OneDayGathering> gatheringCoffeeList = service.findByKeyword("카페");
         List<OneDayGathering> gatheringSojuList = service.findByKeyword("소주");
 

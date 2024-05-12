@@ -2,7 +2,6 @@ package com.junghun.common.domain.user.controller;
 
 import com.junghun.common.domain.user.dto.*;
 import com.junghun.common.domain.user.entity.User;
-import com.junghun.common.domain.user.service.UserPlaceService;
 import com.junghun.common.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
@@ -17,12 +17,10 @@ import java.util.List;
 public class UserController {
 
     private final UserService service;
-    private final UserPlaceService placeService;
 
     @PutMapping("/register")
-    public ResponseEntity<User> register(@RequestBody UserRegisterWrapper userRegisterWrapper) {
-        User registeredUser = service.register(userRegisterWrapper.getRegisterDto());
-        placeService.upload(registeredUser.getId(), userRegisterWrapper.getUserPlaceDto());
+    public ResponseEntity<User> register(@RequestBody RegisterDto registerDto) {
+        User registeredUser = service.register(registerDto);
         return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
     }
 
@@ -40,16 +38,16 @@ public class UserController {
     public ResponseEntity<User> updateInterestCategory(
             @PathVariable Long userId,
             @RequestBody List<String> categoryList) {
-        service.updateCategory(userId, categoryList);
-        return ResponseEntity.ok().build();
+        User updatedUser = service.updateCategory(userId, categoryList);
+        return ResponseEntity.ok(updatedUser);
     }
 
-    @PatchMapping("/{userId}/userPlace")
-    public ResponseEntity<User> updateUserPlace(
+    @PatchMapping("/{userId}/location")
+    public ResponseEntity<User> updateLocation(
             @PathVariable Long userId,
-            @RequestBody UserPlaceDto userPlaceDto) {
-        placeService.update(userId, userPlaceDto);
-        return ResponseEntity.ok().build();
+            @RequestBody Map<String, String> location) {
+        User updatedUser = service.updateLocation(userId, location);
+        return ResponseEntity.ok(updatedUser);
     }
 
     @PatchMapping("/{userId}/password")
@@ -61,10 +59,10 @@ public class UserController {
     }
 
     @PatchMapping("/reset/password")
-    public ResponseEntity<Void> resetPassword(
+    public ResponseEntity<User> resetPassword(
             @RequestBody LoginDto loginDto) {
-        service.resetPassword(loginDto.getEmail(), loginDto.getPassword());
-        return ResponseEntity.ok().build();
+        User updatedUser = service.resetPassword(loginDto.getEmail(), loginDto.getPassword());
+        return ResponseEntity.ok(updatedUser);
     }
 
     @PatchMapping("/{userId}/information")
