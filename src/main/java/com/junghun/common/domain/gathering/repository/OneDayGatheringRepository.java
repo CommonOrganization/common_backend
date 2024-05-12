@@ -49,7 +49,7 @@ public interface OneDayGatheringRepository extends JpaRepository<OneDayGathering
     List<OneDayGathering> findByCategory(String category);
 
     @Query("SELECT o FROM OneDayGathering o " +
-            "WHERE o.place LIKE %:city% " +
+            "WHERE o.location LIKE %:city% " +
             "ORDER BY o.timeStamp DESC")
     List<OneDayGathering> findByCity(String city);
 

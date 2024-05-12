@@ -24,7 +24,7 @@ public class OneDayGatheringUploadDto {
     private List<String> tagList;
 
     
-    private Map<String,String> place;
+    private Map<String,String> location;
     private String type;
     private LocalDateTime openingDate;
     private boolean haveEntryFee;

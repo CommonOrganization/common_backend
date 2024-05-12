@@ -20,7 +20,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootTest
 @Slf4j
@@ -36,27 +38,33 @@ class CommentServiceTest {
     UserService userService;
     Daily daily;
     User user;
+
     @BeforeEach
     void setDaily() {
+
+        RegisterDto registerDto = new RegisterDto();
+        Map<String, String> location = new HashMap<>();
 
         List<String> categoryList = new ArrayList<>();
         categoryList.add("sports");
         categoryList.add("language");
         categoryList.add("game");
 
+        location.put("city", "세종");
+        location.put("middlePlace", "한솔동");
+        location.put("detailPlace", "전체");
 
-        RegisterDto registerDto = RegisterDto.builder()
-                .email("test@naver.com")
-                .name("test")
-                .password("password")
-                .gender("남성")
-                .birthday(LocalDate.of(1999, 1, 16))
-                .categoryList(categoryList)
-                .profileImage("image")
-                .information("information")
-                .build();
+        registerDto.setEmail("register@naver.com");
+        registerDto.setName("가입자");
+        registerDto.setPassword("password");
+        registerDto.setGender("남성");
+        registerDto.setBirthday(LocalDate.of(1999, 1, 16));
+        registerDto.setCategoryList(categoryList);
+        registerDto.setProfileImage("image");
+        registerDto.setInformation("information");
+        registerDto.setLocation(location);
 
-        user =  userService.register(registerDto);
+        user = userService.register(registerDto);
 
         DailyUploadDto dailyUploadDto = new DailyUploadDto();
 
@@ -77,6 +85,7 @@ class CommentServiceTest {
 
         daily = dailyService.upload(dailyUploadDto);
     }
+
     @AfterEach
     void clearDaily() {
         List<Daily> dailyList = dailyService.findAll();
@@ -91,7 +100,7 @@ class CommentServiceTest {
 
     @Test
     @DisplayName("댓글 등록하기 테스트")
-    void uploadComment(){
+    void uploadComment() {
         CommentUploadDto commentUploadDto = new CommentUploadDto();
         commentUploadDto.setWriterId(user.getId());
         commentUploadDto.setDailyId(daily.getId());
@@ -107,7 +116,7 @@ class CommentServiceTest {
 
     @Test
     @DisplayName("댓글 수정하기 테스트")
-    void updateComment(){
+    void updateComment() {
         CommentUploadDto commentUploadDto = new CommentUploadDto();
         commentUploadDto.setWriterId(user.getId());
         commentUploadDto.setDailyId(daily.getId());
@@ -118,7 +127,7 @@ class CommentServiceTest {
         CommentUpdateDto commentUpdateDto = new CommentUpdateDto();
         commentUpdateDto.setContent("이건 새로운 댓글입니다.");
 
-        Comment updateComment = service.update(uploadComment.getId(),commentUpdateDto);
+        Comment updateComment = service.update(uploadComment.getId(), commentUpdateDto);
 
         Assertions.assertThat(uploadComment.getContent()).isNotEqualTo(updateComment.getContent());
         Assertions.assertThat(uploadComment.getWriter().getId()).isEqualTo(updateComment.getId());
@@ -126,7 +135,7 @@ class CommentServiceTest {
 
     @Test
     @DisplayName("댓글 삭제하기 테스트")
-    void deleteComment(){
+    void deleteComment() {
         CommentUploadDto commentUploadDto = new CommentUploadDto();
         commentUploadDto.setWriterId(user.getId());
         commentUploadDto.setDailyId(daily.getId());
@@ -136,7 +145,7 @@ class CommentServiceTest {
 
         service.deleteById(uploadComment.getId());
 
-        Assertions.assertThatThrownBy(()->service.findById(uploadComment.getId())).isInstanceOf(NotFoundCommentsException.class);
+        Assertions.assertThatThrownBy(() -> service.findById(uploadComment.getId())).isInstanceOf(NotFoundCommentsException.class);
     }
 
 }
