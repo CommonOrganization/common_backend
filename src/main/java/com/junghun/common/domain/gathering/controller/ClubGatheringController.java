@@ -41,9 +41,15 @@ public class ClubGatheringController {
         return ResponseEntity.ok(gatheringList);
     }
 
-    @GetMapping("/trend/{city}")
-    public ResponseEntity<List<ClubGathering>> findTrendGathering(@PathVariable String city) {
+    @GetMapping("/trend")
+    public ResponseEntity<List<ClubGathering>> findTrendGathering(@RequestParam String city) {
         List<ClubGathering> gatheringList = service.findTrendGathering(city);
+        return ResponseEntity.ok(gatheringList);
+    }
+
+    @GetMapping("/recommend")
+    public ResponseEntity<List<ClubGathering>> findRecommendByCategory(@RequestParam String city,@RequestParam String category) {
+        List<ClubGathering> gatheringList = service.findRecommendByCategory(city,category);
         return ResponseEntity.ok(gatheringList);
     }
 
