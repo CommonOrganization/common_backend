@@ -26,4 +26,10 @@ public interface ClubGatheringRepository extends JpaRepository<ClubGathering, Lo
             "GROUP BY c " +
             "ORDER BY like_count DESC")
     List<ClubGathering> findTrendGathering(String city);
+
+    @Query("SELECT c FROM ClubGathering c " +
+            "WHERE c.cityList LIKE %:city% " +
+            "AND c.category LIKE %:category% "+
+            "ORDER BY c.timeStamp DESC")
+    List<ClubGathering> findRecommendByCategory(String city,String category);
 }
