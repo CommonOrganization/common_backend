@@ -47,16 +47,22 @@ public class ClubGatheringController {
         return ResponseEntity.ok(gatheringList);
     }
 
-    @GetMapping("/recommend")
-    public ResponseEntity<List<ClubGathering>> findRecommendByCategory(@RequestParam String city,@RequestParam String category) {
-        List<ClubGathering> gatheringList = service.findRecommendByCategory(city,category);
+    @GetMapping("/keyword")
+    public ResponseEntity<List<ClubGathering>> findByKeyword(@RequestParam String city,@RequestParam String keyword) {
+        List<ClubGathering> gatheringList = service.findByKeyword(city,keyword);
         return ResponseEntity.ok(gatheringList);
     }
 
-    @GetMapping("/ranking/category")
-    public ResponseEntity<List<String>> canShowRankingCategoryList(@RequestParam String city,@RequestParam List<String> categories) {
-        List<String> gatheringList = service.filterRankingCategories(city,categories);
+    @GetMapping("/category")
+    public ResponseEntity<List<ClubGathering>> findByCategory(@RequestParam String city,@RequestParam String category) {
+        List<ClubGathering> gatheringList = service.findByCategory(city,category);
         return ResponseEntity.ok(gatheringList);
+    }
+
+    @GetMapping("/ranking/filter")
+    public ResponseEntity<List<String>> filterRankingCategories(@RequestParam String city,@RequestParam List<String> categories) {
+        List<String> categoryList = service.filterRankingCategories(city,categories);
+        return ResponseEntity.ok(categoryList);
     }
 
     @PatchMapping("/{id}")

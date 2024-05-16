@@ -3,7 +3,6 @@ package com.junghun.common.domain.gathering.repository;
 import com.junghun.common.domain.gathering.entity.ClubGathering;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,16 +26,25 @@ public interface ClubGatheringRepository extends JpaRepository<ClubGathering, Lo
             "ORDER BY like_count DESC")
     List<ClubGathering> findTrendGathering(String city);
 
-    @Query("SELECT c FROM ClubGathering c " +
-            "WHERE c.cityList LIKE %:city% " +
-            "AND c.category LIKE %:category% "+
-            "ORDER BY c.timeStamp DESC")
-    List<ClubGathering> findRecommendByCategory(String city,String category);
-
     @Query("SELECT c.category FROM ClubGathering c " +
             "WHERE c.cityList LIKE %:city% " +
             "AND c.category IN (:categoryList) " +
             "GROUP BY c.category " +
             "HAVING COUNT(c) >= 3")
-    List<String> filterRankingCategories(String city,String categoryList);
+    List<String> filterRankingCategories(String city, String categoryList);
+
+    @Query("SELECT c FROM ClubGathering c " +
+            "WHERE c.category = :category " +
+            "OR c.detailCategory = :category " +
+            "AND c.cityList LIKE %:city% " +
+            "ORDER BY c.timeStamp DESC")
+    List<ClubGathering> findByCategory(String city, String category);
+
+    @Query("SELECT c FROM ClubGathering c WHERE c.detailCategory LIKE %:keyword% " +
+            "OR c.content LIKE %:keyword% " +
+            "OR c.title LIKE %:keyword% " +
+            "OR c.content LIKE %:keyword% " +
+            "AND c.cityList LIKE %:city% " +
+            "ORDER BY c.timeStamp DESC")
+    List<ClubGathering> findByKeyword(String city, String keyword);
 }

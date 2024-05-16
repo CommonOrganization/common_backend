@@ -87,8 +87,12 @@ public class ClubGatheringService {
         return repository.findParticipateInGatheringByApplierId(applierId);
     }
 
-    public List<ClubGathering> findRecommendByCategory(String city,String category) {
-        return repository.findRecommendByCategory(city,category);
+    public List<ClubGathering> findByKeyword(String city,String keyword) {
+        return repository.findByKeyword(city,keyword);
+    }
+
+    public List<ClubGathering> findByCategory(String city,String category) {
+        return repository.findByCategory(city,category);
     }
 
     public List<String> filterRankingCategories(String city,List<String> categoryList) {
