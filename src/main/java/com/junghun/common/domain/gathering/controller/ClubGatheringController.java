@@ -53,6 +53,12 @@ public class ClubGatheringController {
         return ResponseEntity.ok(gatheringList);
     }
 
+    @GetMapping("/ranking/category")
+    public ResponseEntity<List<String>> canShowRankingCategoryList(@RequestParam String city,@RequestParam List<String> categories) {
+        List<String> gatheringList = service.filterRankingCategories(city,categories);
+        return ResponseEntity.ok(gatheringList);
+    }
+
     @PatchMapping("/{id}")
     public ResponseEntity<ClubGathering> update(@PathVariable Long id, @RequestBody ClubGatheringUpdateDto clubGatheringUpdateDto) {
         ClubGathering gathering = service.update(id, clubGatheringUpdateDto);

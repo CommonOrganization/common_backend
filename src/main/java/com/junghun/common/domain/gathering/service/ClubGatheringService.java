@@ -91,6 +91,11 @@ public class ClubGatheringService {
         return repository.findRecommendByCategory(city,category);
     }
 
+    public List<String> filterRankingCategories(String city,List<String> categoryList) {
+        String categoryListString = ConvertUtils.getStringByList(categoryList);
+        return repository.filterRankingCategories(city,categoryListString);
+    }
+
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
