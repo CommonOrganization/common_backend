@@ -20,7 +20,9 @@ public class LikeClubGatheringService {
     private final UserService userService;
     private final ClubGatheringService gatheringService;
 
-    public LikeClubGathering upload(LikeClubGatheringDto likeClubGatheringDto) {
+    public LikeClubGathering like(LikeClubGatheringDto likeClubGatheringDto) {
+        repository.
+
         User user = userService.findById(likeClubGatheringDto.getUserId());
         LocalDateTime writeDate = LocalDateTime.now();
 
@@ -33,6 +35,10 @@ public class LikeClubGatheringService {
                 .build();
 
         return repository.save(likeGathering);
+    }
+
+    public void dislike(Long id) {
+        repository.deleteById(id);
     }
 
 }
