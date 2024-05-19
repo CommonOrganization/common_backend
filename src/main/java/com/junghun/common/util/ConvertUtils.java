@@ -6,15 +6,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.*;
 
-public class ConvertUtils {
-    private ConvertUtils() {
-    }
+public abstract class ConvertUtils {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     private static final String DELIMITER = ",";
-    private static final TypeReference<HashMap<String, String>> typeReference = new TypeReference<HashMap<String, String>>() {
-    };
+    private static final TypeReference<HashMap<String, String>> typeReference = new TypeReference<>() {};
 
     public static String getStringByList(List<String> list) {
         if (list.isEmpty()) {

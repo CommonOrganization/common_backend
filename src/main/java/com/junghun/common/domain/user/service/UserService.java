@@ -4,13 +4,17 @@ import com.junghun.common.domain.user.dto.InformationDto;
 import com.junghun.common.domain.user.dto.RegisterDto;
 import com.junghun.common.domain.user.entity.User;
 import com.junghun.common.domain.user.exception.DuplicatedEmailException;
+import com.junghun.common.domain.user.exception.InvalidInputException;
 import com.junghun.common.domain.user.exception.NotFoundUserException;
 import com.junghun.common.domain.user.repository.UserRepository;
 import com.junghun.common.util.ConvertUtils;
+import com.junghun.common.util.RegexUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -42,23 +46,31 @@ public class UserService {
 
     // CREATE
     public User register(RegisterDto registerDto) {
-
-        // 만약 중복된 이메일이 저장되어있으면 가입불가 안내
-        Optional<User> findEmail = repository.findByEmail(registerDto.getEmail());
-        if (findEmail.isPresent()) {
+        if(!RegexUtils.isValidEmail(registerDto.getEmail())){
+            throw new InvalidInputException("사용할 수 없는 이메일입니다. ");
+        }
+        if(!RegexUtils.isValidPassword(registerDto.getPassword())){
+            throw new InvalidInputException("사용할 수 없는 패스워드입니다. ");
+        }
+        if(RegexUtils.isValidName(registerDto.getName())){
+            throw new InvalidInputException("사용할 수 없는 닉네임입니다.");
+        }
+        if(registerDto.getCategoryList().isEmpty()){
+            throw new InvalidInputException("카테고리는 최소 한개 이상 설정해야합니다.");
+        }
+        if (repository.findByEmail(registerDto.getEmail()).isPresent()) {
             throw new DuplicatedEmailException(registerDto.getEmail() + "은 이미 가입된 이메일입니다.");
         }
+        LocalDate birthday = LocalDate.parse(registerDto.getBirthday(), DateTimeFormatter.ISO_DATE);
 
-        // 회원 정보 저장 전에 비밀번호를 암호화
         String encryptedPassword = passwordEncoder.encode(registerDto.getPassword());
 
-        // userRegisterDto를 User 엔티티로 변환하여 저장
         User user = User.builder()
                 .email(registerDto.getEmail())
                 .name(registerDto.getName())
                 .password(encryptedPassword)
                 .gender(registerDto.getGender())
-                .birthday(registerDto.getBirthday())
+                .birthday(birthday)
                 .profileImage(registerDto.getProfileImage())
                 .information(registerDto.getInformation())
                 .categoryList(ConvertUtils.getStringByList(registerDto.getCategoryList()))
@@ -71,7 +83,7 @@ public class UserService {
     public User login(String email, String password) {
 
         User user = repository.findByEmail(email).orElseThrow(() -> new NotFoundUserException(email + "을(를) 가진 User 가 존재하지 않습니다."));
-        // 사용자가 존재하고 비밀번호가 일치하면 사용자 반환
+
         if (user != null && passwordEncoder.matches(password, user.getPassword())) {
             return user;
         }
@@ -82,6 +94,10 @@ public class UserService {
 
     // UPDATE
     public User resetPassword(String email, String newPassword) {
+
+        if(!RegexUtils.isValidPassword(newPassword)){
+            throw new InvalidInputException("사용할 수 없는 패스워드입니다. ");
+        }
 
         String encryptedPassword = passwordEncoder.encode(newPassword);
 
@@ -106,6 +122,9 @@ public class UserService {
     }
 
     public User updatePassword(Long id, String newPassword) {
+        if(!RegexUtils.isValidPassword(newPassword)){
+            throw new InvalidInputException("사용할 수 없는 패스워드입니다. ");
+        }
 
         String encryptedPassword = passwordEncoder.encode(newPassword);
 
@@ -129,6 +148,10 @@ public class UserService {
     }
 
     public User updateCategory(Long id, List<String> categoryList) {
+
+        if(categoryList.isEmpty()){
+            throw new InvalidInputException("카테고리는 최소 한개 이상 설정해야합니다.");
+        }
 
         User user = repository.findById(id)
                 .orElseThrow(() -> new NotFoundUserException(id + "을(를) 가진 User 가 존재하지 않습니다."));
@@ -171,6 +194,9 @@ public class UserService {
     }
 
     public User updateInformation(Long id, InformationDto informationDto) {
+        if(!RegexUtils.isValidName(informationDto.getName())){
+            throw new InvalidInputException("사용할 수 없는 닉네임입니다. ");
+        }
 
         User user = repository.findById(id)
                 .orElseThrow(() -> new NotFoundUserException(id + "을(를) 가진 User 가 존재하지 않습니다."));
