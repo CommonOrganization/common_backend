@@ -1,5 +1,6 @@
 package com.junghun.common.domain.user.service;
 
+import com.junghun.common.domain.image.service.ImageService;
 import com.junghun.common.domain.user.dto.InformationDto;
 import com.junghun.common.domain.user.dto.RegisterDto;
 import com.junghun.common.domain.user.entity.User;
@@ -12,6 +13,7 @@ import com.junghun.common.util.RegexUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -25,6 +27,7 @@ public class UserService {
 
     private final UserRepository repository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final ImageService imageService;
 
     // READ
     public User findById(Long id) {
@@ -187,6 +190,28 @@ public class UserService {
                 .location(ConvertUtils.getStringByMap(location))
                 .categoryList(ConvertUtils.getStringByList(user.getCategoryList()))
                 .profileImage(user.getProfileImage())
+                .information(user.getInformation())
+                .build();
+
+        return repository.save(updateUser);
+    }
+
+    public User updateProfileImage(Long id, MultipartFile image) {
+        User user = repository.findById(id)
+                .orElseThrow(() -> new NotFoundUserException(id + "을(를) 가진 User 가 존재하지 않습니다."));
+
+        String profileImage = imageService.uploadImage(image,"profileImage");
+
+        User updateUser = User.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .name(user.getName())
+                .password(user.getPassword())
+                .gender(user.getGender())
+                .birthday(user.getBirthday())
+                .location(ConvertUtils.getStringByMap(user.getLocation()))
+                .categoryList(ConvertUtils.getStringByList(user.getCategoryList()))
+                .profileImage(profileImage)
                 .information(user.getInformation())
                 .build();
 

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,14 @@ public class UserController {
             @PathVariable Long userId,
             @RequestBody List<String> categoryList) {
         User updatedUser = service.updateCategory(userId, categoryList);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @PatchMapping("/{userId}/profileImage")
+    public ResponseEntity<User> updateProfileImage(
+            @PathVariable Long userId,
+            @RequestParam("file") MultipartFile image) {
+        User updatedUser = service.updateProfileImage(userId, image);
         return ResponseEntity.ok(updatedUser);
     }
 
