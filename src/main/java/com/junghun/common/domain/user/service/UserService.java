@@ -199,7 +199,9 @@ public class UserService {
     public User updateProfileImage(Long id, MultipartFile image) {
         User user = repository.findById(id)
                 .orElseThrow(() -> new NotFoundUserException(id + "을(를) 가진 User 가 존재하지 않습니다."));
+
         String profileImage = imageService.uploadImage(image,"profileImage");
+
         User updateUser = User.builder()
                 .id(user.getId())
                 .email(user.getEmail())
