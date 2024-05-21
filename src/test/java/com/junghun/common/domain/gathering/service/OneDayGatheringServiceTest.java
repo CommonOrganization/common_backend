@@ -51,8 +51,8 @@ class OneDayGatheringServiceTest {
         categoryList.add("language");
         categoryList.add("game");
 
-        location.put("city", "세종");
-        location.put("middlePlace", "한솔동");
+        location.put("city", "대전");
+        location.put("middlePlace", "유성구");
         location.put("detailPlace", "전체");
 
         registerDto.setEmail("register@naver.com");
@@ -75,8 +75,8 @@ class OneDayGatheringServiceTest {
         applierCategoryList.add("language");
         applierCategoryList.add("game");
 
-        applierLocation.put("city", "세종");
-        applierLocation.put("middlePlace", "한솔동");
+        applierLocation.put("city", "대전");
+        applierLocation.put("middlePlace", "유성구");
         applierLocation.put("detailPlace", "전체");
 
         applierRegisterDto.setEmail("applier@naver.com");
@@ -101,8 +101,8 @@ class OneDayGatheringServiceTest {
         tagList.add("주변 놀거리");
 
         Map<String, String> gatheringLocation = new HashMap<>();
-        gatheringLocation.put("city", "경남");
-        gatheringLocation.put("middlePlace", "창원시");
+        gatheringLocation.put("city", "대전");
+        gatheringLocation.put("middlePlace", "유성구");
         gatheringLocation.put("detailPlace", "카페 소담아");
 
         oneDayGatheringUploadDto.setManagerId(manager.getId());
@@ -179,7 +179,7 @@ class OneDayGatheringServiceTest {
 
         Assertions.assertThat(gathering.getTitle()).isEqualTo("내일 배드민턴칠사람");
         Assertions.assertThat(gathering.getTagList()).containsAll(tagList);
-        Assertions.assertThat(oneDayGatheringList.get(0).getLocation().get("city")).isEqualTo("경남");
+        Assertions.assertThat(oneDayGatheringList.get(0).getLocation().get("city")).isEqualTo("대전");
         Assertions.assertThat(gathering.getLocation().get("city")).isEqualTo("서울");
     }
 
@@ -240,7 +240,7 @@ class OneDayGatheringServiceTest {
         oneDayGatheringUploadDto.setContent("오후에 시간이 비어요ㅠㅠ같이 카페나 어디 놀러갈사람 있을까요?!");
         oneDayGatheringUploadDto.setMainImage("https://firebasestorage.googleapis.com/v0/b/common-2fea2.appspot.com/o/gathering%2F1698587984940784?alt=media&token=39a0e6db-8baa-49cf-b0ee-cec47765a327");
         oneDayGatheringUploadDto.setImageList(imageList);
-        oneDayGatheringUploadDto.setRecruitWay("approval");
+        oneDayGatheringUploadDto.setRecruitWay("Approval");
         oneDayGatheringUploadDto.setRecruitQuestion("");
         oneDayGatheringUploadDto.setCapacity(4);
         oneDayGatheringUploadDto.setTagList(tagList);
@@ -274,7 +274,7 @@ class OneDayGatheringServiceTest {
         oneDayGatheringUploadDto.setContent("오후에 시간이 비어요ㅠㅠ같이 카페나 어디 놀러갈사람 있을까요?!");
         oneDayGatheringUploadDto.setMainImage("https://firebasestorage.googleapis.com/v0/b/common-2fea2.appspot.com/o/gathering%2F1698587984940784?alt=media&token=39a0e6db-8baa-49cf-b0ee-cec47765a327");
         oneDayGatheringUploadDto.setImageList(imageList);
-        oneDayGatheringUploadDto.setRecruitWay("approval");
+        oneDayGatheringUploadDto.setRecruitWay("Approval");
         oneDayGatheringUploadDto.setRecruitQuestion("");
         oneDayGatheringUploadDto.setCapacity(4);
         oneDayGatheringUploadDto.setTagList(tagList);
@@ -310,7 +310,7 @@ class OneDayGatheringServiceTest {
         oneDayGatheringUploadDto.setContent("오후에 시간이 비어요ㅠㅠ같이 배그나 할사람 있을까요?!");
         oneDayGatheringUploadDto.setMainImage("https://firebasestorage.googleapis.com/v0/b/common-2fea2.appspot.com/o/gathering%2F1698587984940784?alt=media&token=39a0e6db-8baa-49cf-b0ee-cec47765a327");
         oneDayGatheringUploadDto.setImageList(imageList);
-        oneDayGatheringUploadDto.setRecruitWay("firstcome");
+        oneDayGatheringUploadDto.setRecruitWay("FirstCome");
         oneDayGatheringUploadDto.setRecruitQuestion("");
         oneDayGatheringUploadDto.setCapacity(4);
         oneDayGatheringUploadDto.setTagList(tagList);
@@ -337,7 +337,7 @@ class OneDayGatheringServiceTest {
     @DisplayName("도시로 조회하기")
     void findByCity() {
         List<OneDayGathering> gatheringSejongList = service.findByCity("세종");
-        List<OneDayGathering> gatheringGyeongNamList = service.findByCity("경남");
+        List<OneDayGathering> gatheringGyeongNamList = service.findByCity("대전");
 
         Assertions.assertThat(gatheringSejongList.size()).isEqualTo(0);
         Assertions.assertThat(gatheringGyeongNamList.size()).isEqualTo(1);
