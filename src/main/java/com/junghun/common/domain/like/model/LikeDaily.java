@@ -1,19 +1,19 @@
-package com.junghun.common.domain.like.entity;
+package com.junghun.common.domain.like.model;
 
-import com.junghun.common.domain.gathering.entity.OneDayGathering;
-import com.junghun.common.domain.user.entity.User;
+import com.junghun.common.domain.daily.model.Daily;
+import com.junghun.common.domain.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "like_one_day_gathering")
+@Table(name = "like_daily")
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class LikeOneDayGathering {
+public class LikeDaily {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,8 +24,8 @@ public class LikeOneDayGathering {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "one_day_gathering_id", referencedColumnName = "id")
-    private OneDayGathering oneDayGathering;
+    @JoinColumn(name = "daily_id", referencedColumnName = "id")
+    private Daily daily;
 
 
     @Column(name = "time_stamp")

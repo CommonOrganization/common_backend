@@ -1,6 +1,6 @@
 package com.junghun.common.domain.gathering.controller;
 
-import com.junghun.common.domain.gathering.entity.OneDayGatheringApplyStatus;
+import com.junghun.common.domain.gathering.model.OneDayGatheringApplyStatus;
 import com.junghun.common.domain.gathering.service.OneDayGatheringApplyStatusService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

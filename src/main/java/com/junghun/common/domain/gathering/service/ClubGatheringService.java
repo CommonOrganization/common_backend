@@ -1,11 +1,11 @@
 package com.junghun.common.domain.gathering.service;
 
 import com.junghun.common.domain.gathering.dto.*;
-import com.junghun.common.domain.gathering.entity.ClubGathering;
-import com.junghun.common.domain.gathering.entity.OneDayGathering;
+import com.junghun.common.domain.gathering.model.ClubGathering;
 import com.junghun.common.domain.gathering.exception.NotFoundGatheringException;
+import com.junghun.common.domain.gathering.model.RecruitWay;
 import com.junghun.common.domain.gathering.repository.ClubGatheringRepository;
-import com.junghun.common.domain.user.entity.User;
+import com.junghun.common.domain.user.model.User;
 import com.junghun.common.domain.user.service.UserService;
 import com.junghun.common.util.ConvertUtils;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ public class ClubGatheringService {
                 .title(clubGatheringUploadDto.getTitle())
                 .content(clubGatheringUploadDto.getContent())
                 .mainImage(clubGatheringUploadDto.getMainImage())
-                .recruitWay(clubGatheringUploadDto.getRecruitWay())
+                .recruitWay(RecruitWay.valueOf(clubGatheringUploadDto.getRecruitWay()))
                 .recruitQuestion(clubGatheringUploadDto.getRecruitQuestion())
                 .capacity(clubGatheringUploadDto.getCapacity())
                 .imageList(ConvertUtils.getStringByList(clubGatheringUploadDto.getImageList()))
@@ -58,7 +58,7 @@ public class ClubGatheringService {
                 .title(clubGatheringUpdateDto.getTitle())
                 .content(clubGatheringUpdateDto.getContent())
                 .mainImage(clubGatheringUpdateDto.getMainImage())
-                .recruitWay(clubGatheringUpdateDto.getRecruitWay())
+                .recruitWay(RecruitWay.valueOf(clubGatheringUpdateDto.getRecruitWay()))
                 .recruitQuestion(clubGatheringUpdateDto.getRecruitQuestion())
                 .capacity(clubGatheringUpdateDto.getCapacity())
                 .imageList(ConvertUtils.getStringByList(clubGatheringUpdateDto.getImageList()))

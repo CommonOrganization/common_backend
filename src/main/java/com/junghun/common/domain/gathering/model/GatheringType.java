@@ -1,4 +1,4 @@
-package com.junghun.common.domain.gathering;
+package com.junghun.common.domain.gathering.model;
 
 public enum GatheringType {
     OneDayGathering,

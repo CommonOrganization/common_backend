@@ -1,7 +1,6 @@
-package com.junghun.common.domain.gathering.entity;
+package com.junghun.common.domain.gathering.model;
 
-import com.junghun.common.domain.gathering.GatheringType;
-import com.junghun.common.domain.user.entity.User;
+import com.junghun.common.domain.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,6 +22,7 @@ public class RecruitAnswer {
     private Long gatheringId;
 
     @Column(name = "gathering_type")
+    @Enumerated(EnumType.STRING)
     private GatheringType gatheringType;
 
     @ManyToOne(fetch = FetchType.LAZY)

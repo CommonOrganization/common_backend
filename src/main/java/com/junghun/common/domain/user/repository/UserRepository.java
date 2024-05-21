@@ -1,6 +1,6 @@
 package com.junghun.common.domain.user.repository;
 
-import com.junghun.common.domain.user.entity.User;
+import com.junghun.common.domain.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

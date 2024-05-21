@@ -1,13 +1,13 @@
-package com.junghun.common.domain.user.entity;
+package com.junghun.common.domain.user.model;
 
-import com.junghun.common.domain.daily.entity.Comment;
-import com.junghun.common.domain.daily.entity.Daily;
-import com.junghun.common.domain.daily.entity.Reply;
-import com.junghun.common.domain.gathering.entity.ClubGathering;
-import com.junghun.common.domain.gathering.entity.OneDayGathering;
-import com.junghun.common.domain.like.entity.LikeClubGathering;
-import com.junghun.common.domain.like.entity.LikeDaily;
-import com.junghun.common.domain.like.entity.LikeOneDayGathering;
+import com.junghun.common.domain.daily.model.Comment;
+import com.junghun.common.domain.daily.model.Daily;
+import com.junghun.common.domain.daily.model.Reply;
+import com.junghun.common.domain.gathering.model.ClubGathering;
+import com.junghun.common.domain.gathering.model.OneDayGathering;
+import com.junghun.common.domain.like.model.LikeClubGathering;
+import com.junghun.common.domain.like.model.LikeDaily;
+import com.junghun.common.domain.like.model.LikeOneDayGathering;
 import com.junghun.common.util.ConvertUtils;
 import jakarta.persistence.*;
 import lombok.*;

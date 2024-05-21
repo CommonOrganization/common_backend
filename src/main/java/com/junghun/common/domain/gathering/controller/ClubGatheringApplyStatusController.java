@@ -1,6 +1,6 @@
 package com.junghun.common.domain.gathering.controller;
 
-import com.junghun.common.domain.gathering.entity.ClubGatheringApplyStatus;
+import com.junghun.common.domain.gathering.model.ClubGatheringApplyStatus;
 import com.junghun.common.domain.gathering.service.ClubGatheringApplyStatusService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

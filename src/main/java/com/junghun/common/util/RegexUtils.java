@@ -1,7 +1,11 @@
 package com.junghun.common.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.util.regex.Pattern;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public abstract class RegexUtils {
     private static final String EMAIL_REGEX = "[0-9a-z]([\\-.\\w]*[0-9a-z\\-_+])*@([0-9a-z][\\-\\w]*[0-9a-z]\\.)+[a-z]{2,9}";
     private static final String PASSWORD_REGEX = "[0-9a-zA-Z]{8,}";

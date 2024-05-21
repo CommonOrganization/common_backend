@@ -2,7 +2,7 @@ package com.junghun.common.domain.gathering.controller;
 
 import com.junghun.common.domain.gathering.dto.ClubGatheringUpdateDto;
 import com.junghun.common.domain.gathering.dto.ClubGatheringUploadDto;
-import com.junghun.common.domain.gathering.entity.ClubGathering;
+import com.junghun.common.domain.gathering.model.ClubGathering;
 import com.junghun.common.domain.gathering.service.ClubGatheringService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

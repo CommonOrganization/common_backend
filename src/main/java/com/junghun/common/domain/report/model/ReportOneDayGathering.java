@@ -1,18 +1,18 @@
-package com.junghun.common.domain.report.entity;
+package com.junghun.common.domain.report.model;
 
-import com.junghun.common.domain.daily.entity.Daily;
+import com.junghun.common.domain.gathering.model.OneDayGathering;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "report_daily")
+@Table(name = "report_one_day_gathering")
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class ReportDaily {
+public class ReportOneDayGathering {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +22,8 @@ public class ReportDaily {
     private Long reporterId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reported_daily_id", referencedColumnName = "id")
-    private Daily reportedDaily;
+    @JoinColumn(name = "reported_one_day_gathering_id", referencedColumnName = "id")
+    private OneDayGathering reportedOneDayGathering;
 
     @Column(name = "time_stamp")
     private LocalDateTime timeStamp;

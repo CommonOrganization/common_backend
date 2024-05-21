@@ -1,13 +1,13 @@
 package com.junghun.common.domain.gathering.service;
 
-import com.junghun.common.domain.gathering.entity.OneDayGathering;
-import com.junghun.common.domain.gathering.entity.OneDayGatheringApplyStatus;
+import com.junghun.common.domain.gathering.model.OneDayGathering;
+import com.junghun.common.domain.gathering.model.OneDayGatheringApplyStatus;
 import com.junghun.common.domain.gathering.exception.AlreadyApplyGatheringException;
 import com.junghun.common.domain.gathering.exception.FullGatheringException;
 import com.junghun.common.domain.gathering.exception.NotFoundGatheringApplyStatusException;
 import com.junghun.common.domain.gathering.exception.NotProvideServiceLocationException;
 import com.junghun.common.domain.gathering.repository.OneDayGatheringApplyStatusRepository;
-import com.junghun.common.domain.user.entity.User;
+import com.junghun.common.domain.user.model.User;
 import com.junghun.common.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

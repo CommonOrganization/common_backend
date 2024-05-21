@@ -1,7 +1,7 @@
 package com.junghun.common.domain.user.controller;
 
 import com.junghun.common.domain.user.dto.*;
-import com.junghun.common.domain.user.entity.User;
+import com.junghun.common.domain.user.model.User;
 import com.junghun.common.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

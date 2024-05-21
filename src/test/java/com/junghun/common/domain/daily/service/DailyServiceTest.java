@@ -2,9 +2,9 @@ package com.junghun.common.domain.daily.service;
 
 import com.junghun.common.domain.daily.dto.DailyUpdateDto;
 import com.junghun.common.domain.daily.dto.DailyUploadDto;
-import com.junghun.common.domain.daily.entity.Daily;
+import com.junghun.common.domain.daily.model.Daily;
 import com.junghun.common.domain.user.dto.RegisterDto;
-import com.junghun.common.domain.user.entity.User;
+import com.junghun.common.domain.user.model.User;
 import com.junghun.common.domain.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;

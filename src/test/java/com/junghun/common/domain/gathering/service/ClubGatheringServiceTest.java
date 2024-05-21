@@ -1,11 +1,11 @@
 package com.junghun.common.domain.gathering.service;
 
 import com.junghun.common.domain.gathering.dto.ClubGatheringUploadDto;
-import com.junghun.common.domain.gathering.entity.ClubGathering;
+import com.junghun.common.domain.gathering.model.ClubGathering;
 import com.junghun.common.domain.like.dto.LikeClubGatheringDto;
 import com.junghun.common.domain.like.service.LikeClubGatheringService;
 import com.junghun.common.domain.user.dto.RegisterDto;
-import com.junghun.common.domain.user.entity.User;
+import com.junghun.common.domain.user.model.User;
 import com.junghun.common.domain.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
@@ -84,7 +84,7 @@ class ClubGatheringServiceTest {
         clubGatheringUploadDto.setContent("하하호호내용");
         clubGatheringUploadDto.setMainImage("https://firebasestorage.googleapis.com/v0/b/common-2fea2.appspot.com/o/gathering%2F1698587984940784?alt=media&token=39a0e6db-8baa-49cf-b0ee-cec47765a327");
         clubGatheringUploadDto.setImageList(imageList);
-        clubGatheringUploadDto.setRecruitWay("approval");
+        clubGatheringUploadDto.setRecruitWay("Approval");
         clubGatheringUploadDto.setRecruitQuestion("");
         clubGatheringUploadDto.setCapacity(4);
         clubGatheringUploadDto.setTagList(tagList);
@@ -132,7 +132,7 @@ class ClubGatheringServiceTest {
         clubGatheringUploadDto2.setContent("하하호호내용");
         clubGatheringUploadDto2.setMainImage("https://firebasestorage.googleapis.com/v0/b/common-2fea2.appspot.com/o/gathering%2F1698587984940784?alt=media&token=39a0e6db-8baa-49cf-b0ee-cec47765a327");
         clubGatheringUploadDto2.setImageList(imageList);
-        clubGatheringUploadDto2.setRecruitWay("approval");
+        clubGatheringUploadDto2.setRecruitWay("Approval");
         clubGatheringUploadDto2.setRecruitQuestion("");
         clubGatheringUploadDto2.setCapacity(4);
         clubGatheringUploadDto2.setTagList(tagList);
@@ -146,7 +146,7 @@ class ClubGatheringServiceTest {
         clubGatheringUploadDto3.setContent("하하호호내용");
         clubGatheringUploadDto3.setMainImage("https://firebasestorage.googleapis.com/v0/b/common-2fea2.appspot.com/o/gathering%2F1698587984940784?alt=media&token=39a0e6db-8baa-49cf-b0ee-cec47765a327");
         clubGatheringUploadDto3.setImageList(imageList);
-        clubGatheringUploadDto3.setRecruitWay("approval");
+        clubGatheringUploadDto3.setRecruitWay("Approval");
         clubGatheringUploadDto3.setRecruitQuestion("");
         clubGatheringUploadDto3.setCapacity(4);
         clubGatheringUploadDto3.setTagList(tagList);
@@ -162,13 +162,6 @@ class ClubGatheringServiceTest {
         LikeClubGatheringDto thirdLikeClubGatheringDto = new LikeClubGatheringDto();
         thirdLikeClubGatheringDto.setUserId(manager.getId());
         thirdLikeClubGatheringDto.setGatheringId(thirdClubGathering.getId());
-
-        likeService.upload(secondLikeClubGatheringDto);
-        likeService.upload(secondLikeClubGatheringDto);
-        likeService.upload(secondLikeClubGatheringDto);
-
-        likeService.upload(thirdLikeClubGatheringDto);
-        likeService.upload(thirdLikeClubGatheringDto);
 
         List<ClubGathering> clubGatheringList = service.findTrendGathering("대전");
 

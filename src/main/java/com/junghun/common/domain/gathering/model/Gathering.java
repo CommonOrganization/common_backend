@@ -1,6 +1,6 @@
-package com.junghun.common.domain.gathering.entity;
+package com.junghun.common.domain.gathering.model;
 
-import com.junghun.common.domain.user.entity.User;
+import com.junghun.common.domain.user.model.User;
 import com.junghun.common.util.ConvertUtils;
 import jakarta.persistence.*;
 import lombok.*;
@@ -42,7 +42,8 @@ public abstract class Gathering {
     protected String mainImage;
 
     @Column(name = "recruit_way", length = 30)
-    protected String recruitWay;
+    @Enumerated(EnumType.STRING)
+    protected RecruitWay recruitWay;
 
     @Column(name = "recruit_question")
     protected String recruitQuestion;

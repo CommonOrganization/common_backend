@@ -1,6 +1,6 @@
-package com.junghun.common.domain.gathering.entity;
+package com.junghun.common.domain.gathering.model;
 
-import com.junghun.common.domain.user.entity.User;
+import com.junghun.common.domain.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 

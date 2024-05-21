@@ -3,7 +3,7 @@ package com.junghun.common.domain.user.service;
 import com.junghun.common.domain.image.service.ImageService;
 import com.junghun.common.domain.user.dto.InformationDto;
 import com.junghun.common.domain.user.dto.RegisterDto;
-import com.junghun.common.domain.user.entity.User;
+import com.junghun.common.domain.user.model.User;
 import com.junghun.common.domain.user.exception.DuplicatedEmailException;
 import com.junghun.common.domain.user.exception.InvalidInputException;
 import com.junghun.common.domain.user.exception.NotFoundUserException;
@@ -19,7 +19,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -55,7 +54,7 @@ public class UserService {
         if(!RegexUtils.isValidPassword(registerDto.getPassword())){
             throw new InvalidInputException("사용할 수 없는 패스워드입니다. ");
         }
-        if(RegexUtils.isValidName(registerDto.getName())){
+        if(!RegexUtils.isValidName(registerDto.getName())){
             throw new InvalidInputException("사용할 수 없는 닉네임입니다.");
         }
         if(registerDto.getCategoryList().isEmpty()){
@@ -64,7 +63,6 @@ public class UserService {
         if (repository.findByEmail(registerDto.getEmail()).isPresent()) {
             throw new DuplicatedEmailException(registerDto.getEmail() + "은 이미 가입된 이메일입니다.");
         }
-        LocalDate birthday = LocalDate.parse(registerDto.getBirthday(), DateTimeFormatter.ISO_DATE);
 
         String encryptedPassword = passwordEncoder.encode(registerDto.getPassword());
 
@@ -73,7 +71,7 @@ public class UserService {
                 .name(registerDto.getName())
                 .password(encryptedPassword)
                 .gender(registerDto.getGender())
-                .birthday(birthday)
+                .birthday(registerDto.getBirthday())
                 .profileImage(registerDto.getProfileImage())
                 .information(registerDto.getInformation())
                 .categoryList(ConvertUtils.getStringByList(registerDto.getCategoryList()))

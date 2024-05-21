@@ -2,11 +2,12 @@ package com.junghun.common.domain.gathering.service;
 
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUpdateDto;
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUploadDto;
-import com.junghun.common.domain.gathering.entity.ClubGathering;
-import com.junghun.common.domain.gathering.entity.OneDayGathering;
+import com.junghun.common.domain.gathering.model.ClubGathering;
+import com.junghun.common.domain.gathering.model.OneDayGathering;
 import com.junghun.common.domain.gathering.exception.NotFoundGatheringException;
+import com.junghun.common.domain.gathering.model.RecruitWay;
 import com.junghun.common.domain.gathering.repository.OneDayGatheringRepository;
-import com.junghun.common.domain.user.entity.User;
+import com.junghun.common.domain.user.model.User;
 import com.junghun.common.domain.user.service.UserService;
 import com.junghun.common.util.ConvertUtils;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +45,7 @@ public class OneDayGatheringService {
                 .title(oneDayGatheringUploadDto.getTitle())
                 .content(oneDayGatheringUploadDto.getContent())
                 .mainImage(oneDayGatheringUploadDto.getMainImage())
-                .recruitWay(oneDayGatheringUploadDto.getRecruitWay())
+                .recruitWay(RecruitWay.valueOf(oneDayGatheringUploadDto.getRecruitWay()))
                 .recruitQuestion(oneDayGatheringUploadDto.getRecruitQuestion())
                 .capacity(oneDayGatheringUploadDto.getCapacity())
                 .timeStamp(writeDate)
@@ -134,7 +135,7 @@ public class OneDayGatheringService {
                 .title(oneDayGatheringUpdateDto.getTitle())
                 .content(oneDayGatheringUpdateDto.getContent())
                 .mainImage(oneDayGatheringUpdateDto.getMainImage())
-                .recruitWay(oneDayGatheringUpdateDto.getRecruitWay())
+                .recruitWay(RecruitWay.valueOf(oneDayGatheringUpdateDto.getRecruitWay()))
                 .recruitQuestion(oneDayGatheringUpdateDto.getRecruitQuestion())
                 .capacity(oneDayGatheringUpdateDto.getCapacity())
                 .timeStamp(writeDate)

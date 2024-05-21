@@ -4,7 +4,7 @@ package com.junghun.common.domain.user.service;
 import com.junghun.common.config.MainConfig;
 import com.junghun.common.domain.user.dto.InformationDto;
 import com.junghun.common.domain.user.dto.RegisterDto;
-import com.junghun.common.domain.user.entity.User;
+import com.junghun.common.domain.user.model.User;
 import com.junghun.common.domain.user.exception.DuplicatedEmailException;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;

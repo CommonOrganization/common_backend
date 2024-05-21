@@ -2,9 +2,9 @@ package com.junghun.common.domain.gathering.service;
 
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUpdateDto;
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUploadDto;
-import com.junghun.common.domain.gathering.entity.OneDayGathering;
+import com.junghun.common.domain.gathering.model.OneDayGathering;
 import com.junghun.common.domain.user.dto.RegisterDto;
-import com.junghun.common.domain.user.entity.User;
+import com.junghun.common.domain.user.model.User;
 import com.junghun.common.domain.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
@@ -112,7 +112,7 @@ class OneDayGatheringServiceTest {
         oneDayGatheringUploadDto.setContent("금요일에 일있어서 마산가는데 오후에 시간이 비어요ㅠㅠ같이 카페나 어디 놀러갈사람 있을까요?!");
         oneDayGatheringUploadDto.setMainImage("https://firebasestorage.googleapis.com/v0/b/common-2fea2.appspot.com/o/gathering%2F1698587984940784?alt=media&token=39a0e6db-8baa-49cf-b0ee-cec47765a327");
         oneDayGatheringUploadDto.setImageList(imageList);
-        oneDayGatheringUploadDto.setRecruitWay("approval");
+        oneDayGatheringUploadDto.setRecruitWay("Approval");
         oneDayGatheringUploadDto.setRecruitQuestion("");
         oneDayGatheringUploadDto.setCapacity(4);
         oneDayGatheringUploadDto.setTagList(tagList);
@@ -161,7 +161,7 @@ class OneDayGatheringServiceTest {
         oneDayGatheringUpdateDto.setContent("배드민턴 땡기는데 같이 목요일 저녁에 칠사람 있나요?");
         oneDayGatheringUpdateDto.setMainImage("https://firebasestorage.googleapis.com/v0/b/common-2fea2.appspot.com/o/gathering%2F1698587984940784?alt=media&token=39a0e6db-8baa-49cf-b0ee-cec47765a327");
         oneDayGatheringUpdateDto.setImageList(oneDayGatheringList.get(0).getImageList());
-        oneDayGatheringUpdateDto.setRecruitWay("firstCome");
+        oneDayGatheringUpdateDto.setRecruitWay("FirstCome");
         oneDayGatheringUpdateDto.setRecruitQuestion("");
         oneDayGatheringUpdateDto.setCapacity(4);
         oneDayGatheringUpdateDto.setTagList(tagList);

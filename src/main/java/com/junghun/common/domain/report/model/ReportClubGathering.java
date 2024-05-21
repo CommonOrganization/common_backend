@@ -1,7 +1,7 @@
 
-package com.junghun.common.domain.report.entity;
+package com.junghun.common.domain.report.model;
 
-import com.junghun.common.domain.gathering.entity.ClubGathering;
+import com.junghun.common.domain.gathering.model.ClubGathering;
 import jakarta.persistence.*;
 import lombok.*;
 

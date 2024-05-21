@@ -1,4 +1,4 @@
-package com.junghun.common.domain.notice.entity;
+package com.junghun.common.domain.notice.model;
 
 import jakarta.persistence.*;
 import lombok.*;

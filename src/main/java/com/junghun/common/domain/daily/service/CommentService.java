@@ -2,11 +2,11 @@ package com.junghun.common.domain.daily.service;
 
 import com.junghun.common.domain.daily.dto.CommentUpdateDto;
 import com.junghun.common.domain.daily.dto.CommentUploadDto;
-import com.junghun.common.domain.daily.entity.Comment;
-import com.junghun.common.domain.daily.entity.Daily;
+import com.junghun.common.domain.daily.model.Comment;
+import com.junghun.common.domain.daily.model.Daily;
 import com.junghun.common.domain.daily.exception.NotFoundCommentsException;
 import com.junghun.common.domain.daily.repository.CommentRepository;
-import com.junghun.common.domain.user.entity.User;
+import com.junghun.common.domain.user.model.User;
 import com.junghun.common.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

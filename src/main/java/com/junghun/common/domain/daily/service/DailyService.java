@@ -2,13 +2,13 @@ package com.junghun.common.domain.daily.service;
 
 import com.junghun.common.domain.daily.dto.DailyUpdateDto;
 import com.junghun.common.domain.daily.dto.DailyUploadDto;
-import com.junghun.common.domain.daily.entity.Daily;
+import com.junghun.common.domain.daily.model.Daily;
 import com.junghun.common.domain.daily.exception.NotFoundDailyException;
 import com.junghun.common.domain.daily.repository.DailyRepository;
-import com.junghun.common.domain.gathering.entity.ClubGathering;
+import com.junghun.common.domain.gathering.model.ClubGathering;
 import com.junghun.common.domain.gathering.exception.NotFoundGatheringException;
 import com.junghun.common.domain.gathering.service.ClubGatheringService;
-import com.junghun.common.domain.user.entity.User;
+import com.junghun.common.domain.user.model.User;
 import com.junghun.common.domain.user.service.UserService;
 import com.junghun.common.util.ConvertUtils;
 import lombok.RequiredArgsConstructor;
