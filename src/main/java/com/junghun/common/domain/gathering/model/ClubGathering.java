@@ -32,10 +32,6 @@ public class ClubGathering extends Gathering {
 
     @Builder.Default
     @OneToMany(mappedBy = "clubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ClubGatheringApplyStatus> applyStatusList = new ArrayList<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "clubGathering", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LikeClubGathering> likeList = new ArrayList<>();
 
     @Builder.Default

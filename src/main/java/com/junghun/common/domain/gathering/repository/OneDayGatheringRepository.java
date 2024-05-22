@@ -1,5 +1,6 @@
 package com.junghun.common.domain.gathering.repository;
 
+import com.junghun.common.domain.gathering.model.GatheringType;
 import com.junghun.common.domain.gathering.model.OneDayGathering;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,17 +17,16 @@ public interface OneDayGatheringRepository extends JpaRepository<OneDayGathering
     List<OneDayGathering> findByClubGatheringIdOrderByTimeStampDesc(Long clubGatheringId);
 
     @Query("SELECT o FROM OneDayGathering o " +
-            "JOIN OneDayGatheringApplyStatus oa on o.id = oa.oneDayGathering.id " +
-            "WHERE oa.applier.id = :applierId " +
+            "JOIN GatheringApplyStatus ga on ga.gatheringType = :gatheringType AND o.id = ga.gatheringId " +
+            "WHERE ga.applierId = :applierId " +
             "ORDER BY o.timeStamp DESC")
-    List<OneDayGathering> findByApplierId(Long applierId);
+    List<OneDayGathering> findByApplierId(Long applierId, GatheringType gatheringType);
 
     @Query("SELECT o FROM OneDayGathering o " +
-            "JOIN OneDayGatheringApplyStatus oa on o.id = oa.oneDayGathering.id " +
-            "WHERE oa.applier.id = :applierId " +
-            "and oa.status = true " +
-            "ORDER BY o.timeStamp DESC")
-    List<OneDayGathering> findParticipateInGatheringByApplierId(Long applierId);
+            "JOIN GatheringApplyStatus ga on ga.gatheringType = :gatheringType AND o.id = ga.gatheringId " +
+            "WHERE ga.applierId = :applierId " +
+            "AND ga.status = true")
+    List<OneDayGathering> findParticipateInGatheringByApplierId(Long applierId,GatheringType gatheringType);
 
     @Query("SELECT o FROM OneDayGathering o " +
             "WHERE o.openingDate >= :now " +

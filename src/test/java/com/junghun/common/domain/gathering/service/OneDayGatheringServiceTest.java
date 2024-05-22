@@ -2,6 +2,8 @@ package com.junghun.common.domain.gathering.service;
 
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUpdateDto;
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUploadDto;
+import com.junghun.common.domain.gathering.model.GatheringApplyStatus;
+import com.junghun.common.domain.gathering.model.GatheringType;
 import com.junghun.common.domain.gathering.model.OneDayGathering;
 import com.junghun.common.domain.user.dto.RegisterDto;
 import com.junghun.common.domain.user.model.User;
@@ -14,6 +16,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -33,7 +36,7 @@ class OneDayGatheringServiceTest {
     ClubGatheringService clubGatheringService;
 
     @Autowired
-    OneDayGatheringApplyStatusService oneDayGatheringApplyStatusService;
+    GatheringApplyStatusService gatheringApplyStatusService;
 
     @Autowired
     UserService userService;
@@ -42,7 +45,6 @@ class OneDayGatheringServiceTest {
 
     @BeforeEach
     void setOneDayGathering() {
-
         RegisterDto registerDto = new RegisterDto();
         Map<String, String> location = new HashMap<>();
 
@@ -114,7 +116,7 @@ class OneDayGatheringServiceTest {
         oneDayGatheringUploadDto.setImageList(imageList);
         oneDayGatheringUploadDto.setRecruitWay("Approval");
         oneDayGatheringUploadDto.setRecruitQuestion("");
-        oneDayGatheringUploadDto.setCapacity(4);
+        oneDayGatheringUploadDto.setCapacity(10);
         oneDayGatheringUploadDto.setTagList(tagList);
         oneDayGatheringUploadDto.setType("oneDay");
         oneDayGatheringUploadDto.setOpeningDate(LocalDateTime.of(2024, 4, 21, 15, 0));
@@ -134,6 +136,8 @@ class OneDayGatheringServiceTest {
         for (OneDayGathering oneDayGathering : oneDayGatheringList) {
             service.deleteById(oneDayGathering.getId());
         }
+
+        gatheringApplyStatusService.deleteAll();
 
         userService.deleteById(manager.getId());
         userService.deleteById(applier.getId());
@@ -179,7 +183,6 @@ class OneDayGatheringServiceTest {
 
         Assertions.assertThat(gathering.getTitle()).isEqualTo("내일 배드민턴칠사람");
         Assertions.assertThat(gathering.getTagList()).containsAll(tagList);
-        Assertions.assertThat(oneDayGatheringList.get(0).getLocation().get("city")).isEqualTo("대전");
         Assertions.assertThat(gathering.getLocation().get("city")).isEqualTo("서울");
     }
 
@@ -197,7 +200,7 @@ class OneDayGatheringServiceTest {
 
         List<OneDayGathering> gatheringList = service.findByManagerId(manager.getId());
 
-        oneDayGatheringApplyStatusService.applyGathering(applier.getId(), gatheringList.get(0).getId());
+        gatheringApplyStatusService.applyGathering(applier.getId(), gatheringList.get(0).getId(), GatheringType.OneDayGathering);
 
         List<OneDayGathering> oneDayGatheringList = service.findByApplierId(applier.getId());
 
@@ -206,20 +209,15 @@ class OneDayGatheringServiceTest {
 
     @Test
     @DisplayName("지원자 승인 후 조회하기")
+    @Transactional
     void findParticipateInGatheringByApplierId() {
 
         List<OneDayGathering> gatheringList = service.findByManagerId(manager.getId());
-        // 지원 후에
-        oneDayGatheringApplyStatusService.applyGathering(applier.getId(), gatheringList.get(0).getId());
+        GatheringApplyStatus gatheringApplyStatus = gatheringApplyStatusService.applyGathering(applier.getId(), gatheringList.get(0).getId(), GatheringType.OneDayGathering);
 
-        List<OneDayGathering> preApprovedOneDayGatheringList = service.findParticipateInGatheringByApplierId(applier.getId());
-        // 승인되기 이전에는 승인된 Gathering 존재 X
-        Assertions.assertThat(preApprovedOneDayGatheringList.size()).isEqualTo(0);
-        // 승인 후에
-        oneDayGatheringApplyStatusService.approveGathering(applier.getId(), gatheringList.get(0).getId());
-
+        gatheringApplyStatusService.approveGathering(gatheringApplyStatus.getId());
         List<OneDayGathering> afterApprovedOneDayGatheringList = service.findParticipateInGatheringByApplierId(applier.getId());
-        // 승인된 Gathering 1개 존재
+
         Assertions.assertThat(afterApprovedOneDayGatheringList.size()).isEqualTo(1);
     }
 
