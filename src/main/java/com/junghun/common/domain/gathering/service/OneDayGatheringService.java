@@ -3,6 +3,7 @@ package com.junghun.common.domain.gathering.service;
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUpdateDto;
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUploadDto;
 import com.junghun.common.domain.gathering.model.ClubGathering;
+import com.junghun.common.domain.gathering.model.GatheringType;
 import com.junghun.common.domain.gathering.model.OneDayGathering;
 import com.junghun.common.domain.gathering.exception.NotFoundGatheringException;
 import com.junghun.common.domain.gathering.model.RecruitWay;
@@ -78,11 +79,11 @@ public class OneDayGatheringService {
     }
 
     public List<OneDayGathering> findByApplierId(Long applierId) {
-        return repository.findByApplierId(applierId);
+        return repository.findByApplierId(applierId, GatheringType.OneDayGathering);
     }
 
     public List<OneDayGathering> findParticipateInGatheringByApplierId(Long applierId) {
-        return repository.findParticipateInGatheringByApplierId(applierId);
+        return repository.findParticipateInGatheringByApplierId(applierId, GatheringType.OneDayGathering);
     }
 
     public List<OneDayGathering> findWithToday() {

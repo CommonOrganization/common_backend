@@ -3,6 +3,7 @@ package com.junghun.common.domain.gathering.service;
 import com.junghun.common.domain.gathering.dto.*;
 import com.junghun.common.domain.gathering.model.ClubGathering;
 import com.junghun.common.domain.gathering.exception.NotFoundGatheringException;
+import com.junghun.common.domain.gathering.model.GatheringType;
 import com.junghun.common.domain.gathering.model.RecruitWay;
 import com.junghun.common.domain.gathering.repository.ClubGatheringRepository;
 import com.junghun.common.domain.user.model.User;
@@ -84,7 +85,7 @@ public class ClubGatheringService {
     }
 
     public List<ClubGathering> findParticipateInGatheringByApplierId(Long applierId) {
-        return repository.findParticipateInGatheringByApplierId(applierId);
+        return repository.findParticipateInGatheringByApplierId(applierId, GatheringType.ClubGathering);
     }
 
     public List<ClubGathering> findByKeyword(String city,String keyword) {

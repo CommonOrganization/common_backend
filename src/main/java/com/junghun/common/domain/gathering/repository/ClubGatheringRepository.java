@@ -1,6 +1,7 @@
 package com.junghun.common.domain.gathering.repository;
 
 import com.junghun.common.domain.gathering.model.ClubGathering;
+import com.junghun.common.domain.gathering.model.GatheringType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -12,11 +13,11 @@ public interface ClubGatheringRepository extends JpaRepository<ClubGathering, Lo
     List<ClubGathering> findByManagerIdOrderByTimeStampDesc(Long managerId);
 
     @Query("SELECT c FROM ClubGathering c " +
-            "JOIN ClubGatheringApplyStatus ca on c.id = ca.clubGathering.id " +
-            "WHERE ca.applier.id = :applierId " +
-            "and ca.status = true " +
+            "JOIN GatheringApplyStatus ga on ga.gatheringType = :gatheringType AND c.id = ga.gatheringId " +
+            "WHERE ga.applierId = :applierId " +
+            "AND ga.status = true " +
             "ORDER BY c.timeStamp DESC")
-    List<ClubGathering> findParticipateInGatheringByApplierId(Long applierId);
+    List<ClubGathering> findParticipateInGatheringByApplierId(Long applierId, GatheringType gatheringType);
 
     @Query("SELECT c, COUNT(lc) AS like_count " +
             "FROM ClubGathering c " +
