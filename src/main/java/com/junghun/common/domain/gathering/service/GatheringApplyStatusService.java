@@ -24,12 +24,59 @@ public class GatheringApplyStatusService {
 
     public GatheringApplyStatus applyGathering(Long applierId, Long gatheringId, GatheringType gatheringType) {
 
-        List<GatheringApplyStatus> gatheringApplyStatusList = repository.findByApplierAndGathering(applierId, gatheringId, gatheringType);
-
-        if (!gatheringApplyStatusList.isEmpty()) {
+        if(alreadyApplied(applierId,gatheringId,gatheringType)){
             throw new AlreadyApplyGatheringException("이미 신청중이거나, 승인된 모임입니다.");
         }
 
+        boolean status = getStatusByGatheringType(applierId,gatheringId,gatheringType);
+
+        GatheringApplyStatus gatheringApplyStatus = GatheringApplyStatus.builder()
+                .applierId(applierId)
+                .gatheringId(gatheringId)
+                .status(status)
+                .gatheringType(gatheringType)
+                .build();
+
+        return repository.save(gatheringApplyStatus);
+    }
+
+    public GatheringApplyStatus findById(Long statusId) {
+        return repository.findById(statusId).orElseThrow(() -> new NotFoundGatheringApplyStatusException(statusId + "을(를) 가진 GatheringApplyStatus 가 존재하지 않습니다."));
+    }
+
+    public void approveGathering(Long statusId) {
+        GatheringApplyStatus gatheringApplyStatus = repository.findById(statusId).orElseThrow();
+
+        GatheringApplyStatus updateGatheringApplyStatus = GatheringApplyStatus.builder()
+                .id(gatheringApplyStatus.getId())
+                .status(true)
+                .applierId(gatheringApplyStatus.getApplierId())
+                .gatheringId(gatheringApplyStatus.getGatheringId())
+                .gatheringType(gatheringApplyStatus.getGatheringType())
+                .build();
+
+        repository.save(updateGatheringApplyStatus);
+    }
+
+    public void refuseApplyGathering(Long id) {
+        repository.deleteById(id);
+    }
+
+
+    public void deleteAll() {
+        List<GatheringApplyStatus> gatheringApplyStatusList = repository.findAll();
+        for (GatheringApplyStatus gatheringApplyStatus : gatheringApplyStatusList) {
+            repository.deleteById(gatheringApplyStatus.getId());
+        }
+    }
+
+    private boolean alreadyApplied(Long applierId,Long gatheringId,GatheringType gatheringType){
+        List<GatheringApplyStatus> gatheringApplyStatusList = repository.findByApplierAndGathering(applierId, gatheringId, gatheringType);
+
+        return !gatheringApplyStatusList.isEmpty();
+    }
+
+    private boolean getStatusByGatheringType(Long applierId,Long gatheringId,GatheringType gatheringType){
         List<GatheringApplyStatus> approvedApplies = repository.findApprovedApplies(gatheringId, gatheringType);
 
         User applier = userService.findById(applierId);
@@ -56,48 +103,6 @@ public class GatheringApplyStatusService {
             throw new FullGatheringException("참여자가 많아 더이상 참여신청을 할 수 없습니다.");
         }
 
-        GatheringApplyStatus gatheringApplyStatus = GatheringApplyStatus.builder()
-                .applierId(applierId)
-                .gatheringId(gatheringId)
-                .status(status)
-                .gatheringType(gatheringType)
-                .build();
-
-        return repository.save(gatheringApplyStatus);
-    }
-
-    public GatheringApplyStatus findById(Long statusId) {
-        return repository.findById(statusId).orElseThrow(() -> new NotFoundGatheringApplyStatusException(statusId + "을(를) 가진 GatheringApplyStatus 가 존재하지 않습니다."));
-    }
-
-    public GatheringApplyStatus approveGathering(Long statusId) {
-        //List가 아닌 하나의 객체만 승인하는 방식으로 수정해야겠네
-        GatheringApplyStatus gatheringApplyStatus = repository.findById(statusId).orElseThrow();
-
-        GatheringApplyStatus updateGatheringApplyStatus = GatheringApplyStatus.builder()
-                .id(gatheringApplyStatus.getId())
-                .status(true)
-                .applierId(gatheringApplyStatus.getApplierId())
-                .gatheringId(gatheringApplyStatus.getGatheringId())
-                .gatheringType(gatheringApplyStatus.getGatheringType())
-                .build();
-
-        return repository.save(updateGatheringApplyStatus);
-    }
-
-    public void refuseApplyGathering(Long id) {
-        repository.deleteById(id);
-    }
-
-    public List<GatheringApplyStatus> findStatus() {
-        List<GatheringApplyStatus> gatheringApplyStatusList = repository.findAll();
-        return gatheringApplyStatusList;
-    }
-
-    public void deleteAll() {
-        List<GatheringApplyStatus> gatheringApplyStatusList = repository.findAll();
-        for (GatheringApplyStatus gatheringApplyStatus : gatheringApplyStatusList) {
-            repository.deleteById(gatheringApplyStatus.getId());
-        }
+        return status;
     }
 }

@@ -21,13 +21,12 @@ public class RecruitAnswer {
     @Column(name = "gathering_id")
     private Long gatheringId;
 
+    @Column(name = "applier_id")
+    private Long applier_id;
+
     @Column(name = "gathering_type")
     @Enumerated(EnumType.STRING)
     private GatheringType gatheringType;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "applier_id", referencedColumnName = "id")
-    private User applier;
 
     @Column(name = "question")
     private String question;
