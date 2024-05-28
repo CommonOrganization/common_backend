@@ -2,8 +2,10 @@ package com.junghun.common.domain.gathering.service;
 
 import com.junghun.common.domain.gathering.dto.ClubGatheringUploadDto;
 import com.junghun.common.domain.gathering.model.ClubGathering;
-import com.junghun.common.domain.like.dto.LikeClubGatheringDto;
-import com.junghun.common.domain.like.service.LikeClubGatheringService;
+import com.junghun.common.domain.like.dto.LikeObjectDto;
+import com.junghun.common.domain.like.exception.AlreadyLikeException;
+import com.junghun.common.domain.like.model.LikeObjectType;
+import com.junghun.common.domain.like.service.LikeObjectService;
 import com.junghun.common.domain.user.dto.RegisterDto;
 import com.junghun.common.domain.user.model.User;
 import com.junghun.common.domain.user.service.UserService;
@@ -37,7 +39,7 @@ class ClubGatheringServiceTest {
     GatheringApplyStatusService applyStatusService;
 
     @Autowired
-    LikeClubGatheringService likeService;
+    LikeObjectService likeService;
 
     User manager;
 
@@ -155,13 +157,20 @@ class ClubGatheringServiceTest {
         ClubGathering secondClubGathering = service.upload(clubGatheringUploadDto2);
         ClubGathering thirdClubGathering = service.upload(clubGatheringUploadDto3);
 
-        LikeClubGatheringDto secondLikeClubGatheringDto = new LikeClubGatheringDto();
+        LikeObjectDto secondLikeClubGatheringDto = new LikeObjectDto();
         secondLikeClubGatheringDto.setUserId(manager.getId());
-        secondLikeClubGatheringDto.setGatheringId(secondClubGathering.getId());
+        secondLikeClubGatheringDto.setObjectId(secondClubGathering.getId());
+        secondLikeClubGatheringDto.setObjectType(LikeObjectType.ClubGathering);
 
-        LikeClubGatheringDto thirdLikeClubGatheringDto = new LikeClubGatheringDto();
+        LikeObjectDto thirdLikeClubGatheringDto = new LikeObjectDto();
         thirdLikeClubGatheringDto.setUserId(manager.getId());
-        thirdLikeClubGatheringDto.setGatheringId(thirdClubGathering.getId());
+        thirdLikeClubGatheringDto.setObjectId(thirdClubGathering.getId());
+        secondLikeClubGatheringDto.setObjectType(LikeObjectType.ClubGathering);
+
+        likeService.like(secondLikeClubGatheringDto);
+        Assertions.assertThatThrownBy(()->likeService.like(secondLikeClubGatheringDto)).isInstanceOf(AlreadyLikeException.class);
+
+        likeService.like(thirdLikeClubGatheringDto);
 
         List<ClubGathering> clubGatheringList = service.findTrendGathering("대전");
 

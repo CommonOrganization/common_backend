@@ -19,12 +19,12 @@ public interface ClubGatheringRepository extends JpaRepository<ClubGathering, Lo
             "ORDER BY c.timeStamp DESC")
     List<ClubGathering> findParticipateInGatheringByApplierId(Long applierId, GatheringType gatheringType);
 
-    @Query("SELECT c, COUNT(lc) AS like_count " +
-            "FROM ClubGathering c " +
-            "JOIN LikeClubGathering lc ON c.id = lc.clubGathering.id " +
-            "WHERE c.cityList LIKE %:city% " +
-            "GROUP BY c " +
-            "ORDER BY like_count DESC")
+    @Query(value = "SELECT c.*, cnt FROM club_gathering c " +
+            "LEFT JOIN (SELECT li.object_id,count(li.object_id) AS cnt from like_object li WHERE li.object_type = 'ClubGathering' GROUP BY li.object_id) AS sli " +
+            "ON c.id = sli.object_id " +
+            "WHERE c.city_list LIKE %:city% " +
+            "GROUP BY c.id " +
+            "ORDER BY cnt DESC, c.id ASC", nativeQuery = true)
     List<ClubGathering> findTrendGathering(String city);
 
     @Query("SELECT c.category FROM ClubGathering c " +

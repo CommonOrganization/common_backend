@@ -5,9 +5,7 @@ import com.junghun.common.domain.daily.model.Daily;
 import com.junghun.common.domain.daily.model.Reply;
 import com.junghun.common.domain.gathering.model.ClubGathering;
 import com.junghun.common.domain.gathering.model.OneDayGathering;
-import com.junghun.common.domain.like.model.LikeClubGathering;
-import com.junghun.common.domain.like.model.LikeDaily;
-import com.junghun.common.domain.like.model.LikeOneDayGathering;
+import com.junghun.common.domain.like.model.LikeObject;
 import com.junghun.common.util.ConvertUtils;
 import jakarta.persistence.*;
 import lombok.*;
@@ -77,19 +75,6 @@ public class User {
     @Builder.Default
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reply> replyList = new ArrayList<>();
-
-    // 즐겨찾기 관련 JOIN 컬럼
-    @Builder.Default
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<LikeOneDayGathering> likeOneDayGatheringList = new ArrayList<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<LikeClubGathering> likeClubGatheringList = new ArrayList<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<LikeDaily> likeDailyList = new ArrayList<>();
 
     public Map<String, String> getLocation() {
         return ConvertUtils.getMapByString(location);

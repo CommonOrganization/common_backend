@@ -1,6 +1,5 @@
 package com.junghun.common.domain.gathering.model;
 
-import com.junghun.common.domain.like.model.LikeOneDayGathering;
 import com.junghun.common.domain.report.model.ReportOneDayGathering;
 import com.junghun.common.util.ConvertUtils;
 import jakarta.persistence.*;
@@ -44,10 +43,6 @@ public class OneDayGathering extends Gathering {
     @Builder.Default
     @Column(name = "show_all_the_people")
     private boolean showAllThePeople = false;
-
-    @Builder.Default
-    @OneToMany(mappedBy = "oneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<LikeOneDayGathering> likeList = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "reportedOneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)

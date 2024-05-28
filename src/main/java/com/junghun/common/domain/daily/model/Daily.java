@@ -1,7 +1,6 @@
 package com.junghun.common.domain.daily.model;
 
 import com.junghun.common.domain.gathering.model.ClubGathering;
-import com.junghun.common.domain.like.model.LikeDaily;
 import com.junghun.common.domain.report.model.ReportDaily;
 import com.junghun.common.domain.user.model.User;
 import com.junghun.common.util.ConvertUtils;
@@ -59,10 +58,6 @@ public class Daily {
     @Builder.Default
     @OneToMany(mappedBy = "daily", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> commentList = new ArrayList<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "daily", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<LikeDaily> likeList = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "reportedDaily", cascade = CascadeType.ALL, orphanRemoval = true)

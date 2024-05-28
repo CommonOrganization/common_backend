@@ -24,11 +24,9 @@ public class GatheringApplyStatusService {
 
     public GatheringApplyStatus applyGathering(Long applierId, Long gatheringId, GatheringType gatheringType) {
 
-        if(alreadyApplied(applierId,gatheringId,gatheringType)){
-            throw new AlreadyApplyGatheringException("이미 신청중이거나, 승인된 모임입니다.");
-        }
+        validAlreadyApplied(applierId, gatheringId, gatheringType);
 
-        boolean status = getStatusByGatheringType(applierId,gatheringId,gatheringType);
+        boolean status = getStatusByGatheringType(applierId, gatheringId, gatheringType);
 
         GatheringApplyStatus gatheringApplyStatus = GatheringApplyStatus.builder()
                 .applierId(applierId)
@@ -70,13 +68,16 @@ public class GatheringApplyStatusService {
         }
     }
 
-    private boolean alreadyApplied(Long applierId,Long gatheringId,GatheringType gatheringType){
+    private void validAlreadyApplied(Long applierId, Long gatheringId, GatheringType gatheringType) {
         List<GatheringApplyStatus> gatheringApplyStatusList = repository.findByApplierAndGathering(applierId, gatheringId, gatheringType);
 
-        return !gatheringApplyStatusList.isEmpty();
+        if (!gatheringApplyStatusList.isEmpty()) {
+            throw new AlreadyApplyGatheringException("이미 신청중이거나, 승인된 모임입니다.");
+        }
+
     }
 
-    private boolean getStatusByGatheringType(Long applierId,Long gatheringId,GatheringType gatheringType){
+    private boolean getStatusByGatheringType(Long applierId, Long gatheringId, GatheringType gatheringType) {
         List<GatheringApplyStatus> approvedApplies = repository.findApprovedApplies(gatheringId, gatheringType);
 
         User applier = userService.findById(applierId);
