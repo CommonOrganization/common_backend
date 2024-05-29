@@ -3,6 +3,7 @@ package com.junghun.common.domain.like.service;
 import com.junghun.common.domain.like.dto.LikeObjectDto;
 import com.junghun.common.domain.like.exception.AlreadyLikeException;
 import com.junghun.common.domain.like.model.LikeObject;
+import com.junghun.common.domain.like.model.LikeObjectType;
 import com.junghun.common.domain.like.repository.LikeObjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,11 @@ import java.util.List;
 public class LikeObjectService {
 
     private final LikeObjectRepository repository;
+
+    public boolean isLike(Long userId, Long objectId, String likeObjectType) {
+        List<LikeObject> likeList = repository.findIsAlreadyLike(userId, objectId, LikeObjectType.valueOf(likeObjectType));
+        return !likeList.isEmpty();
+    }
 
     public LikeObject like(LikeObjectDto likeObjectDto) {
 

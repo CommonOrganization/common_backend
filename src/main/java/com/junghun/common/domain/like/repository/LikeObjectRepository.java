@@ -11,9 +11,9 @@ import java.util.List;
 @Repository
 public interface LikeObjectRepository extends JpaRepository<LikeObject, Long> {
 
-    @Query("SELECT li FROM LikeObject li "+
-            "WHERE li.userId = :userId "+
-            "AND li.objectId = :objectId "+
+    @Query("SELECT li FROM LikeObject li " +
+            "WHERE li.userId = :userId " +
+            "AND li.objectId = :objectId " +
             "AND li.objectType = :objectType")
     List<LikeObject> findIsAlreadyLike(Long userId, Long objectId, LikeObjectType objectType);
 
