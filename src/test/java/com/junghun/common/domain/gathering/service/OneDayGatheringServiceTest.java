@@ -251,44 +251,8 @@ class OneDayGatheringServiceTest {
 
         service.upload(oneDayGatheringUploadDto);
 
-        List<OneDayGathering> todayGatheringList = service.findWithToday();
+        List<OneDayGathering> todayGatheringList = service.findTodayGathering();
         Assertions.assertThat(todayGatheringList.size()).isEqualTo(1);
-    }
-
-    @Test
-    @DisplayName("곧 시작하는 하루모임 조회하기")
-    void findCanParticipateInSoonGathering() {
-        OneDayGatheringUploadDto oneDayGatheringUploadDto = new OneDayGatheringUploadDto();
-
-        List<String> imageList = new ArrayList<>();
-        List<String> tagList = new ArrayList<>();
-        tagList.add("카페");
-        tagList.add("2030");
-
-        oneDayGatheringUploadDto.setManagerId(manager.getId());
-        oneDayGatheringUploadDto.setCategory("coffee");
-        oneDayGatheringUploadDto.setDetailCategory("카페");
-        oneDayGatheringUploadDto.setTitle("카페 갈사람?!");
-        oneDayGatheringUploadDto.setContent("오후에 시간이 비어요ㅠㅠ같이 카페나 어디 놀러갈사람 있을까요?!");
-        oneDayGatheringUploadDto.setMainImage("https://firebasestorage.googleapis.com/v0/b/common-2fea2.appspot.com/o/gathering%2F1698587984940784?alt=media&token=39a0e6db-8baa-49cf-b0ee-cec47765a327");
-        oneDayGatheringUploadDto.setImageList(imageList);
-        oneDayGatheringUploadDto.setRecruitWay("Approval");
-        oneDayGatheringUploadDto.setRecruitQuestion("");
-        oneDayGatheringUploadDto.setCapacity(4);
-        oneDayGatheringUploadDto.setTagList(tagList);
-        oneDayGatheringUploadDto.setType("oneDay");
-        oneDayGatheringUploadDto.setOpeningDate(LocalDateTime.now().plusDays(3));
-        oneDayGatheringUploadDto.setHaveEntryFee(false);
-        oneDayGatheringUploadDto.setEntryFee(0);
-        oneDayGatheringUploadDto.setClubGatheringId(null);
-        oneDayGatheringUploadDto.setShowAllThePeople(true);
-
-        service.upload(oneDayGatheringUploadDto);
-        service.upload(oneDayGatheringUploadDto);
-        service.upload(oneDayGatheringUploadDto);
-
-        List<OneDayGathering> todayGatheringList = service.findWithSoon();
-        Assertions.assertThat(todayGatheringList.size()).isEqualTo(3);
     }
 
     @Test

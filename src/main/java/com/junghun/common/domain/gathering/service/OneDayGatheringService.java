@@ -14,6 +14,7 @@ import com.junghun.common.util.ConvertUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -86,13 +87,12 @@ public class OneDayGatheringService {
         return repository.findParticipateInGatheringByApplierId(applierId, GatheringType.OneDayGathering);
     }
 
-    public List<OneDayGathering> findWithToday() {
-        return repository.findWithDateRange(LocalDateTime.now(), LocalDateTime.now().plusDays(1));
+    public List<OneDayGathering> findTodayGathering() {
+        LocalDateTime nowDate = LocalDateTime.now();
+        LocalDateTime endDate = nowDate.plusDays(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
+        return repository.findTodayGathering(nowDate, endDate);
     }
 
-    public List<OneDayGathering> findWithSoon() {
-        return repository.findWithDateRange(LocalDateTime.now(), LocalDateTime.now().plusDays(7));
-    }
 
     public List<OneDayGathering> findByCategoryIn(String[] categories) {
         return repository.findByCategoriesIn(categories);

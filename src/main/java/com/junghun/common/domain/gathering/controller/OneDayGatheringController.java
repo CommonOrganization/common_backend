@@ -55,13 +55,7 @@ public class OneDayGatheringController {
 
     @GetMapping("/today")
     public ResponseEntity<List<OneDayGathering>> findToday() {
-        List<OneDayGathering> gatheringList = service.findWithToday();
-        return ResponseEntity.ok(gatheringList);
-    }
-
-    @GetMapping("/soon")
-    public ResponseEntity<List<OneDayGathering>> findSoon() {
-        List<OneDayGathering> gatheringList = service.findWithSoon();
+        List<OneDayGathering> gatheringList = service.findTodayGathering();
         return ResponseEntity.ok(gatheringList);
     }
 

@@ -26,13 +26,13 @@ public interface OneDayGatheringRepository extends JpaRepository<OneDayGathering
             "JOIN GatheringApplyStatus ga on ga.gatheringType = :gatheringType AND o.id = ga.gatheringId " +
             "WHERE ga.applierId = :applierId " +
             "AND ga.status = true")
-    List<OneDayGathering> findParticipateInGatheringByApplierId(Long applierId,GatheringType gatheringType);
+    List<OneDayGathering> findParticipateInGatheringByApplierId(Long applierId, GatheringType gatheringType);
 
     @Query("SELECT o FROM OneDayGathering o " +
             "WHERE o.openingDate >= :now " +
             "AND o.openingDate < :endDate " +
             "ORDER BY o.timeStamp DESC")
-    List<OneDayGathering> findWithDateRange(LocalDateTime now, LocalDateTime endDate);
+    List<OneDayGathering> findTodayGathering(LocalDateTime now, LocalDateTime endDate);
 
     @Query("SELECT o FROM OneDayGathering o " +
             "WHERE o.category IN :categories " +
