@@ -17,8 +17,8 @@ public class LikeObjectService {
 
     private final LikeObjectRepository repository;
 
-    public boolean isLike(Long userId, Long objectId, String likeObjectType) {
-        List<LikeObject> likeList = repository.findIsAlreadyLike(userId, objectId, LikeObjectType.valueOf(likeObjectType));
+    public boolean isLike(LikeObjectDto likeObjectDto) {
+        List<LikeObject> likeList = repository.findIsAlreadyLike(likeObjectDto.getUserId(), likeObjectDto.getObjectId(), likeObjectDto.getObjectType());
         return !likeList.isEmpty();
     }
 
