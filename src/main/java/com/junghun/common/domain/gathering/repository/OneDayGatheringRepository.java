@@ -34,11 +34,14 @@ public interface OneDayGatheringRepository extends JpaRepository<OneDayGathering
             "ORDER BY o.timeStamp DESC")
     List<OneDayGathering> findTodayGathering(LocalDateTime now, LocalDateTime endDate);
 
-    @Query("SELECT o FROM OneDayGathering o " +
-            "WHERE o.category IN :categories " +
-            "OR o.detailCategory IN :categories " +
-            "ORDER BY o.timeStamp DESC")
-    List<OneDayGathering> findByCategoriesIn(String[] categories);
+    @Query(value = "SELECT o.* FROM one_day_gathering o " +
+            "LEFT JOIN (SELECT li.object_id,count(li.object_id) AS cnt from like_object li WHERE li.object_type = 'OneDayGathering' GROUP BY li.object_id) AS sli " +
+            "ON o.id = sli.object_id " +
+            "WHERE o.category = :category " +
+            "OR o.detail_category = :category " +
+            "GROUP BY o.id " +
+            "ORDER BY cnt DESC, o.id ASC", nativeQuery = true)
+    List<OneDayGathering> recommendGatheringByCategory(String category);
 
     @Query("SELECT o FROM OneDayGathering o " +
             "WHERE o.category = :category " +

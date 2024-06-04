@@ -60,9 +60,9 @@ public class OneDayGatheringController {
     }
 
     // 요청 : /categories?categories=a&categories=b&categories=c => categories = [a,b,c] 의 형식으로 들어온다.
-    @GetMapping("/categories")
-    public ResponseEntity<List<OneDayGathering>> findByCategoriesIn(@RequestParam String[] categories) {
-        List<OneDayGathering> gatheringList = service.findByCategoryIn(categories);
+    @GetMapping("/recommend")
+    public ResponseEntity<List<OneDayGathering>> findRecommendGatheringWithCategories(@RequestParam String[] categories) {
+        List<OneDayGathering> gatheringList = service.findRecommendGatheringWithCategories(categories);
         return ResponseEntity.ok(gatheringList);
     }
 

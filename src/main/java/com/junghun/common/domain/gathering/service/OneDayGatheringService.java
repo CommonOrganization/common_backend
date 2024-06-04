@@ -11,6 +11,7 @@ import com.junghun.common.domain.gathering.repository.OneDayGatheringRepository;
 import com.junghun.common.domain.user.model.User;
 import com.junghun.common.domain.user.service.UserService;
 import com.junghun.common.util.ConvertUtils;
+import com.junghun.common.util.RandomUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -94,8 +95,9 @@ public class OneDayGatheringService {
     }
 
 
-    public List<OneDayGathering> findByCategoryIn(String[] categories) {
-        return repository.findByCategoriesIn(categories);
+    public List<OneDayGathering> findRecommendGatheringWithCategories(String[] categories) {
+        String randomCategory = categories[RandomUtils.getRandomIndex(categories.length)];
+        return repository.recommendGatheringByCategory(randomCategory);
     }
 
     public List<OneDayGathering> findByCity(String city) {

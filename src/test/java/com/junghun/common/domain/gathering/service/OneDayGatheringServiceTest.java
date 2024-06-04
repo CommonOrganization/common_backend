@@ -285,14 +285,10 @@ class OneDayGatheringServiceTest {
 
         service.upload(oneDayGatheringUploadDto);
 
-        String[] strings = new String[2];
-        strings[0] = "hello";
-        List<OneDayGathering> preGatheringList = service.findByCategoryIn(strings);
-        Assertions.assertThat(preGatheringList.size()).isEqualTo(0);
-
-        strings[1] = "game";
-        List<OneDayGathering> afterGatheringList = service.findByCategoryIn(strings);
-        Assertions.assertThat(afterGatheringList.size()).isEqualTo(1);
+        String[] strings = new String[1];
+        strings[0] = "game";
+        List<OneDayGathering> preGatheringList = service.findRecommendGatheringWithCategories(strings);
+        Assertions.assertThat(preGatheringList.size()).isEqualTo(1);
     }
 
     @Test
