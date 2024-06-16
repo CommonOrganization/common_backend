@@ -1,6 +1,5 @@
 package com.junghun.common.domain.gathering.model;
 
-import com.junghun.common.domain.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,8 +27,4 @@ public class GatheringApplyStatus {
     @Column(name = "gathering_type")
     @Enumerated(EnumType.STRING)
     private GatheringType gatheringType;
-
-    public boolean getStatus(){
-        return this.status;
-    }
 }

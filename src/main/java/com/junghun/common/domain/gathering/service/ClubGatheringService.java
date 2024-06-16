@@ -22,7 +22,7 @@ public class ClubGatheringService {
     private final UserService userService;
 
     public ClubGathering upload(ClubGatheringUploadDto clubGatheringUploadDto) {
-        User manager = userService.referenceById(clubGatheringUploadDto.getManagerId());
+        User manager = userService.findById(clubGatheringUploadDto.getManagerId());
         LocalDateTime writeDate = LocalDateTime.now();
 
         ClubGathering gathering = ClubGathering.builder()
@@ -76,10 +76,6 @@ public class ClubGatheringService {
                 .orElseThrow(() -> new NotFoundGatheringException(id + "을(를) 가진 ClubGathering 이(가) 존재하지 않습니다."));
     }
 
-    public ClubGathering referenceById(Long id) {
-        return repository.getReferenceById(id);
-    }
-
     public List<ClubGathering> findByManagerId(Long managerId) {
         return repository.findByManagerIdOrderByTimeStampDesc(managerId);
     }
@@ -92,17 +88,17 @@ public class ClubGatheringService {
         return repository.findParticipateInGatheringByApplierId(applierId, GatheringType.ClubGathering);
     }
 
-    public List<ClubGathering> findByKeyword(String city, String keyword) {
-        return repository.findByKeyword(city, keyword);
+    public List<ClubGathering> findByKeyword(String city,String keyword) {
+        return repository.findByKeyword(city,keyword);
     }
 
-    public List<ClubGathering> findByCategory(String city, String category) {
-        return repository.findByCategory(city, category);
+    public List<ClubGathering> findByCategory(String city,String category) {
+        return repository.findByCategory(city,category);
     }
 
-    public List<String> filterRankingCategories(String city, List<String> categoryList) {
+    public List<String> filterRankingCategories(String city,List<String> categoryList) {
         String categoryListString = ConvertUtils.getStringByList(categoryList);
-        return repository.filterRankingCategories(city, categoryListString);
+        return repository.filterRankingCategories(city,categoryListString);
     }
 
     public void deleteById(Long id) {
