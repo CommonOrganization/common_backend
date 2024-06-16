@@ -33,6 +33,10 @@ public class UserService {
         return repository.findById(id).orElseThrow(() -> new NotFoundUserException(id + "을(를) 가진 User 가 존재하지 않습니다."));
     }
 
+    public User referenceById(Long id) {
+        return repository.getReferenceById(id);
+    }
+
     public User findByEmail(String email) {
         return repository.findByEmail(email).orElseThrow(() -> new NotFoundUserException(email + "을(를) 가진 User 가 존재하지 않습니다."));
     }
@@ -48,16 +52,16 @@ public class UserService {
 
     // CREATE
     public User register(RegisterDto registerDto) {
-        if(!RegexUtils.isValidEmail(registerDto.getEmail())){
+        if (!RegexUtils.isValidEmail(registerDto.getEmail())) {
             throw new InvalidInputException("사용할 수 없는 이메일입니다. ");
         }
-        if(!RegexUtils.isValidPassword(registerDto.getPassword())){
+        if (!RegexUtils.isValidPassword(registerDto.getPassword())) {
             throw new InvalidInputException("사용할 수 없는 패스워드입니다. ");
         }
-        if(!RegexUtils.isValidName(registerDto.getName())){
+        if (!RegexUtils.isValidName(registerDto.getName())) {
             throw new InvalidInputException("사용할 수 없는 닉네임입니다.");
         }
-        if(registerDto.getCategoryList().isEmpty()){
+        if (registerDto.getCategoryList().isEmpty()) {
             throw new InvalidInputException("카테고리는 최소 한개 이상 설정해야합니다.");
         }
         if (repository.findByEmail(registerDto.getEmail()).isPresent()) {
@@ -96,7 +100,7 @@ public class UserService {
     // UPDATE
     public User resetPassword(String email, String newPassword) {
 
-        if(!RegexUtils.isValidPassword(newPassword)){
+        if (!RegexUtils.isValidPassword(newPassword)) {
             throw new InvalidInputException("사용할 수 없는 패스워드입니다. ");
         }
 
@@ -123,7 +127,7 @@ public class UserService {
     }
 
     public User updatePassword(Long id, String newPassword) {
-        if(!RegexUtils.isValidPassword(newPassword)){
+        if (!RegexUtils.isValidPassword(newPassword)) {
             throw new InvalidInputException("사용할 수 없는 패스워드입니다. ");
         }
 
@@ -150,7 +154,7 @@ public class UserService {
 
     public User updateCategory(Long id, List<String> categoryList) {
 
-        if(categoryList.isEmpty()){
+        if (categoryList.isEmpty()) {
             throw new InvalidInputException("카테고리는 최소 한개 이상 설정해야합니다.");
         }
 
@@ -198,7 +202,7 @@ public class UserService {
         User user = repository.findById(id)
                 .orElseThrow(() -> new NotFoundUserException(id + "을(를) 가진 User 가 존재하지 않습니다."));
 
-        String profileImage = imageService.uploadImage(image,"profileImage");
+        String profileImage = imageService.uploadImage(image, "profileImage");
 
         User updateUser = User.builder()
                 .id(user.getId())
@@ -217,7 +221,7 @@ public class UserService {
     }
 
     public User updateInformation(Long id, InformationDto informationDto) {
-        if(!RegexUtils.isValidName(informationDto.getName())){
+        if (!RegexUtils.isValidName(informationDto.getName())) {
             throw new InvalidInputException("사용할 수 없는 닉네임입니다. ");
         }
 

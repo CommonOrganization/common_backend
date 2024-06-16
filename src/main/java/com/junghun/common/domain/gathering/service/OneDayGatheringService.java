@@ -29,17 +29,10 @@ public class OneDayGatheringService {
     // CREATE
     public OneDayGathering upload(OneDayGatheringUploadDto oneDayGatheringUploadDto) {
 
-        User manager = userService.findById(oneDayGatheringUploadDto.getManagerId());
+        User manager = userService.referenceById(oneDayGatheringUploadDto.getManagerId());
         LocalDateTime writeDate = LocalDateTime.now();
 
-        ClubGathering clubGathering = null;
-        if (oneDayGatheringUploadDto.getClubGatheringId() != null) {
-            try {
-                clubGathering = clubGatheringService.findById(oneDayGatheringUploadDto.getClubGatheringId());
-            } catch (NotFoundGatheringException exception) {
-                throw new NotFoundGatheringException(oneDayGatheringUploadDto.getClubGatheringId() + " 을(를) 가진 Gathering 이 존재하지 않습니다.");
-            }
-        }
+        ClubGathering clubGathering = clubGatheringService.referenceById(oneDayGatheringUploadDto.getClubGatheringId());
 
         OneDayGathering gathering = OneDayGathering.builder()
                 .manager(manager)
