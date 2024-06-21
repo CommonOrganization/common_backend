@@ -1,6 +1,7 @@
 package com.junghun.common.domain.report.model;
 
 import com.junghun.common.domain.gathering.model.OneDayGathering;
+import com.junghun.common.domain.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,8 +19,9 @@ public class ReportOneDayGathering {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "reporter_id")
-    private Long reporterId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reporter__id", referencedColumnName = "id")
+    private User reporter;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reported_one_day_gathering_id", referencedColumnName = "id")
