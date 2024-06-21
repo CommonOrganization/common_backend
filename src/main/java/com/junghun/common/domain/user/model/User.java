@@ -54,28 +54,6 @@ public class User {
     @Column(name = "category_list")
     private String categoryList;
 
-    // 모임 관련 JOIN 컬럼
-    @Builder.Default
-    @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OneDayGathering> oneDayGatheringList = new ArrayList<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ClubGathering> clubGatheringList = new ArrayList<>();
-
-    // 데일리, 댓글, 대댓글 관련 JOIN 컬럼
-    @Builder.Default
-    @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Daily> dailyList = new ArrayList<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> commentList = new ArrayList<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Reply> replyList = new ArrayList<>();
-
     public Map<String, String> getLocation() {
         return ConvertUtils.getMapByString(location);
     }

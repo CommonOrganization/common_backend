@@ -55,14 +55,6 @@ public class Daily {
     @Column(name = "image_list")
     private String imageList;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "daily", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> commentList = new ArrayList<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "reportedDaily", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ReportDaily> reportedList = new ArrayList<>();
-
     public List<String> getTagList(){
         return ConvertUtils.getListByString(tagList);
     }

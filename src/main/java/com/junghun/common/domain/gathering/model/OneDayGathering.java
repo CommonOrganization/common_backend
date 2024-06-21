@@ -44,10 +44,6 @@ public class OneDayGathering extends Gathering {
     @Column(name = "show_all_the_people")
     private boolean showAllThePeople = false;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "reportedOneDayGathering", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ReportOneDayGathering> reportedList = new ArrayList<>();
-
     public Map<String, String> getLocation() {
         return ConvertUtils.getMapByString(location);
     }
