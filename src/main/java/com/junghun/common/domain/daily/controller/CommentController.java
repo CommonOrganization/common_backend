@@ -3,7 +3,6 @@ package com.junghun.common.domain.daily.controller;
 import com.junghun.common.domain.daily.dto.CommentUpdateDto;
 import com.junghun.common.domain.daily.dto.CommentUploadDto;
 import com.junghun.common.domain.daily.model.Comment;
-import com.junghun.common.domain.daily.model.Reply;
 import com.junghun.common.domain.daily.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

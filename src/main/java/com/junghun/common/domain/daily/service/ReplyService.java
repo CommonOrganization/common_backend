@@ -11,7 +11,6 @@ import com.junghun.common.domain.daily.repository.ReplyRepository;
 import com.junghun.common.domain.user.exception.NotFoundUserException;
 import com.junghun.common.domain.user.model.User;
 import com.junghun.common.domain.user.repository.UserRepository;
-import com.junghun.common.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

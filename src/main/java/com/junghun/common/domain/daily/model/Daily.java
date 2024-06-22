@@ -1,14 +1,11 @@
 package com.junghun.common.domain.daily.model;
 
 import com.junghun.common.domain.gathering.model.ClubGathering;
-import com.junghun.common.domain.report.model.ReportDaily;
 import com.junghun.common.domain.user.model.User;
 import com.junghun.common.util.ConvertUtils;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity

@@ -3,10 +3,7 @@ package com.junghun.common.domain.daily.model;
 import com.junghun.common.domain.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "comments")

@@ -1,7 +1,6 @@
 package com.junghun.common.domain.daily.controller;
 
 import com.junghun.common.domain.daily.dto.*;
-import com.junghun.common.domain.daily.model.Comment;
 import com.junghun.common.domain.daily.model.Daily;
 import com.junghun.common.domain.daily.service.DailyService;
 import lombok.RequiredArgsConstructor;
