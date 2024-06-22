@@ -94,7 +94,6 @@ class CommentServiceTest {
             dailyService.deleteById(daily.getId());
         }
 
-        User user = userService.findByEmail("test@naver.com");
         userService.deleteById(user.getId());
     }
 

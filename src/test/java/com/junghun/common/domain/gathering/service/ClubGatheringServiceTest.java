@@ -36,7 +36,7 @@ class ClubGatheringServiceTest {
     UserService userService;
 
     @Autowired
-    GatheringApplyStatusService applyStatusService;
+    ClubGatheringApplyStatusService applyStatusService;
 
     @Autowired
     LikeObjectService likeService;

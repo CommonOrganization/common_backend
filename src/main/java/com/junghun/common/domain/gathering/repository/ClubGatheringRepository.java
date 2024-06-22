@@ -13,11 +13,11 @@ public interface ClubGatheringRepository extends JpaRepository<ClubGathering, Lo
     List<ClubGathering> findByManagerIdOrderByTimeStampDesc(Long managerId);
 
     @Query("SELECT c FROM ClubGathering c " +
-            "JOIN GatheringApplyStatus ga on ga.gatheringType = :gatheringType AND c.id = ga.gatheringId " +
-            "WHERE ga.applierId = :applierId " +
-            "AND ga.status = true " +
+            "JOIN ClubGatheringApplyStatus cga on c.id = cga.clubGathering.id " +
+            "WHERE cga.applier.id = :applierId " +
+            "AND cga.status = true " +
             "ORDER BY c.timeStamp DESC")
-    List<ClubGathering> findParticipateInGatheringByApplierId(Long applierId, GatheringType gatheringType);
+    List<ClubGathering> findParticipateInGatheringByApplierId(Long applierId);
 
     @Query(value = "SELECT c.*, cnt FROM club_gathering c " +
             "LEFT JOIN (SELECT li.object_id,count(li.object_id) AS cnt from like_object li WHERE li.object_type = 'ClubGathering' GROUP BY li.object_id) AS sli " +

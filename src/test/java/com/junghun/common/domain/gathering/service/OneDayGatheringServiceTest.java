@@ -2,9 +2,9 @@ package com.junghun.common.domain.gathering.service;
 
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUpdateDto;
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUploadDto;
-import com.junghun.common.domain.gathering.model.GatheringApplyStatus;
 import com.junghun.common.domain.gathering.model.GatheringType;
 import com.junghun.common.domain.gathering.model.OneDayGathering;
+import com.junghun.common.domain.gathering.model.OneDayGatheringApplyStatus;
 import com.junghun.common.domain.user.dto.RegisterDto;
 import com.junghun.common.domain.user.model.User;
 import com.junghun.common.domain.user.service.UserService;
@@ -36,7 +36,7 @@ class OneDayGatheringServiceTest {
     ClubGatheringService clubGatheringService;
 
     @Autowired
-    GatheringApplyStatusService gatheringApplyStatusService;
+    OneDayGatheringApplyStatusService gatheringApplyStatusService;
 
     @Autowired
     UserService userService;
@@ -133,11 +133,11 @@ class OneDayGatheringServiceTest {
     void clearOneDayGathering() {
         List<OneDayGathering> oneDayGatheringList = service.findByManagerId(manager.getId());
 
+        gatheringApplyStatusService.deleteAll();
+
         for (OneDayGathering oneDayGathering : oneDayGatheringList) {
             service.deleteById(oneDayGathering.getId());
         }
-
-        gatheringApplyStatusService.deleteAll();
 
         userService.deleteById(manager.getId());
         userService.deleteById(applier.getId());
@@ -200,7 +200,7 @@ class OneDayGatheringServiceTest {
 
         List<OneDayGathering> gatheringList = service.findByManagerId(manager.getId());
 
-        gatheringApplyStatusService.applyGathering(applier.getId(), gatheringList.get(0).getId(), GatheringType.OneDayGathering);
+        gatheringApplyStatusService.applyGathering(applier.getId(), gatheringList.get(0).getId());
 
         List<OneDayGathering> oneDayGatheringList = service.findByApplierId(applier.getId());
 
@@ -213,7 +213,7 @@ class OneDayGatheringServiceTest {
     void findParticipateInGatheringByApplierId() {
 
         List<OneDayGathering> gatheringList = service.findByManagerId(manager.getId());
-        GatheringApplyStatus gatheringApplyStatus = gatheringApplyStatusService.applyGathering(applier.getId(), gatheringList.get(0).getId(), GatheringType.OneDayGathering);
+        OneDayGatheringApplyStatus gatheringApplyStatus = gatheringApplyStatusService.applyGathering(applier.getId(), gatheringList.get(0).getId());
 
         gatheringApplyStatusService.approveGathering(gatheringApplyStatus.getId());
         List<OneDayGathering> afterApprovedOneDayGatheringList = service.findParticipateInGatheringByApplierId(applier.getId());

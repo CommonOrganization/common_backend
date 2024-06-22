@@ -85,7 +85,7 @@ public class ClubGatheringService {
     }
 
     public List<ClubGathering> findParticipateInGatheringByApplierId(Long applierId) {
-        return repository.findParticipateInGatheringByApplierId(applierId, GatheringType.ClubGathering);
+        return repository.findParticipateInGatheringByApplierId(applierId);
     }
 
     public List<ClubGathering> findByKeyword(String city,String keyword) {

@@ -81,11 +81,11 @@ public class OneDayGatheringService {
     }
 
     public List<OneDayGathering> findByApplierId(Long applierId) {
-        return repository.findByApplierId(applierId, GatheringType.OneDayGathering);
+        return repository.findByApplierId(applierId);
     }
 
     public List<OneDayGathering> findParticipateInGatheringByApplierId(Long applierId) {
-        return repository.findParticipateInGatheringByApplierId(applierId, GatheringType.OneDayGathering);
+        return repository.findParticipateInGatheringByApplierId(applierId);
     }
 
     public List<OneDayGathering> findTodayGathering() {

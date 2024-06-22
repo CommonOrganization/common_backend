@@ -17,16 +17,16 @@ public interface OneDayGatheringRepository extends JpaRepository<OneDayGathering
     List<OneDayGathering> findByClubGatheringIdOrderByTimeStampDesc(Long clubGatheringId);
 
     @Query("SELECT o FROM OneDayGathering o " +
-            "JOIN GatheringApplyStatus ga on ga.gatheringType = :gatheringType AND o.id = ga.gatheringId " +
-            "WHERE ga.applierId = :applierId " +
+            "JOIN OneDayGatheringApplyStatus oga on o.id = oga.oneDayGathering.id " +
+            "WHERE oga.applier.id = :applierId " +
             "ORDER BY o.timeStamp DESC")
-    List<OneDayGathering> findByApplierId(Long applierId, GatheringType gatheringType);
+    List<OneDayGathering> findByApplierId(Long applierId);
 
     @Query("SELECT o FROM OneDayGathering o " +
-            "JOIN GatheringApplyStatus ga on ga.gatheringType = :gatheringType AND o.id = ga.gatheringId " +
-            "WHERE ga.applierId = :applierId " +
-            "AND ga.status = true")
-    List<OneDayGathering> findParticipateInGatheringByApplierId(Long applierId, GatheringType gatheringType);
+            "JOIN OneDayGatheringApplyStatus oga on o.id = oga.oneDayGathering.id " +
+            "WHERE oga.applier.id = :applierId " +
+            "AND oga.status = true ")
+    List<OneDayGathering> findParticipateInGatheringByApplierId(Long applierId);
 
     @Query("SELECT o FROM OneDayGathering o " +
             "WHERE o.openingDate >= :now " +

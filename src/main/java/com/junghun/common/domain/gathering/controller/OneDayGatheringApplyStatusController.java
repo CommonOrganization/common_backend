@@ -1,28 +1,27 @@
 package com.junghun.common.domain.gathering.controller;
 
-import com.junghun.common.domain.gathering.model.GatheringApplyStatus;
-import com.junghun.common.domain.gathering.model.GatheringType;
-import com.junghun.common.domain.gathering.service.GatheringApplyStatusService;
+import com.junghun.common.domain.gathering.model.OneDayGatheringApplyStatus;
+import com.junghun.common.domain.gathering.service.OneDayGatheringApplyStatusService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/GatheringApplyStatus")
+@RequestMapping("/api/apply/oneDay")
 @RequiredArgsConstructor
-public class GatheringApplyStatusController {
-    private final GatheringApplyStatusService service;
+public class OneDayGatheringApplyStatusController {
+    private final OneDayGatheringApplyStatusService service;
 
-    @PutMapping("/apply/{gatheringId}")
-    public ResponseEntity<Void> applyGathering(@PathVariable Long gatheringId, @RequestParam Long applierId, @RequestParam GatheringType gatheringType) {
-        service.applyGathering(applierId, gatheringId,gatheringType);
+    @PutMapping("/{gatheringId}")
+    public ResponseEntity<Void> applyGathering(@PathVariable Long gatheringId, @RequestParam Long applierId) {
+        service.applyGathering(applierId, gatheringId);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{statusId}")
-    public ResponseEntity<GatheringApplyStatus> getStatus(@PathVariable Long statusId) {
-        GatheringApplyStatus status = service.findById(statusId);
+    public ResponseEntity<OneDayGatheringApplyStatus> findStatus(@PathVariable Long statusId) {
+        OneDayGatheringApplyStatus status = service.findStatus(statusId);
         return new ResponseEntity<>(status, HttpStatus.OK);
     }
 

@@ -60,12 +60,6 @@ public class DailyController {
         return ResponseEntity.ok(dailyList);
     }
 
-    @GetMapping("/{dailyId}/comments")
-    public ResponseEntity<List<Comment>> findCommentsById(@PathVariable Long dailyId) {
-        Daily daily = service.findById(dailyId);
-        return ResponseEntity.ok(daily.getCommentList());
-    }
-
     @PatchMapping("/{id}")
     public ResponseEntity<Daily> update(@PathVariable Long id, @RequestBody DailyUpdateDto dailyUpdateDto) {
         Daily daily = service.update(id, dailyUpdateDto);

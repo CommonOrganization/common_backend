@@ -21,7 +21,7 @@ public class ReportClubGathering {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reporter__id", referencedColumnName = "id")
+    @JoinColumn(name = "reporter_id", referencedColumnName = "id")
     private User reporter;
 
     @ManyToOne(fetch = FetchType.LAZY)
