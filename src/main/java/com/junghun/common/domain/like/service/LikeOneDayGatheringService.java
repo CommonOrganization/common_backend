@@ -25,7 +25,7 @@ public class LikeOneDayGatheringService {
     private final OneDayGatheringRepository oneDayGatheringRepository;
 
     public boolean isLike(LikeOneDayGatheringDto likeOneDayGatheringDto) {
-        List<LikeOneDayGathering> likeList = repository.findIsAlreadyLike(likeOneDayGatheringDto.getUserId(), likeOneDayGatheringDto.getGatheringId());
+        List<LikeOneDayGathering> likeList = repository.findIsAlreadyLike(likeOneDayGatheringDto.getUserId(), likeOneDayGatheringDto.getOneDayGatheringId());
         return !likeList.isEmpty();
     }
 
@@ -38,8 +38,8 @@ public class LikeOneDayGatheringService {
         User user = userRepository.findById(likeOneDayGatheringDto.getUserId())
                 .orElseThrow(() -> new NotFoundUserException(likeOneDayGatheringDto.getUserId() + "를 가진 이용자가 존재하지 않습니다."));
 
-        OneDayGathering oneDayGathering = oneDayGatheringRepository.findById(likeOneDayGatheringDto.getGatheringId())
-                .orElseThrow(() -> new NotFoundGatheringException(likeOneDayGatheringDto.getGatheringId() + "를 가진 하루모임이 존재하지 않습니다."));
+        OneDayGathering oneDayGathering = oneDayGatheringRepository.findById(likeOneDayGatheringDto.getOneDayGatheringId())
+                .orElseThrow(() -> new NotFoundGatheringException(likeOneDayGatheringDto.getOneDayGatheringId() + "를 가진 하루모임이 존재하지 않습니다."));
 
         LikeOneDayGathering likeGathering = LikeOneDayGathering.builder()
                 .user(user)
@@ -55,7 +55,7 @@ public class LikeOneDayGatheringService {
     }
 
     public void validAlreadyLike(LikeOneDayGatheringDto likeOneDayGatheringDto) {
-        List<LikeOneDayGathering> likeList = repository.findIsAlreadyLike(likeOneDayGatheringDto.getUserId(), likeOneDayGatheringDto.getGatheringId());
+        List<LikeOneDayGathering> likeList = repository.findIsAlreadyLike(likeOneDayGatheringDto.getUserId(), likeOneDayGatheringDto.getOneDayGatheringId());
         if (!likeList.isEmpty()) throw new AlreadyLikeException("이미 즐겨찾기 중입니다.");
     }
 }

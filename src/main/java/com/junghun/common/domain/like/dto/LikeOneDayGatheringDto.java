@@ -7,6 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LikeOneDayGatheringDto {
-    private Long gatheringId;
+    private Long oneDayGatheringId;
     private Long userId;
 }

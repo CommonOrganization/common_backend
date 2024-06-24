@@ -12,7 +12,7 @@ public interface LikeOneDayGatheringRepository extends JpaRepository<LikeOneDayG
 
     @Query("SELECT lo FROM LikeOneDayGathering lo " +
             "WHERE lo.user.id = :userId " +
-            "AND lo.oneDayGathering.id = :gatheringId ")
-    List<LikeOneDayGathering> findIsAlreadyLike(Long userId, Long gatheringId);
+            "AND lo.oneDayGathering.id = :oneDayGatheringId ")
+    List<LikeOneDayGathering> findIsAlreadyLike(Long userId, Long oneDayGatheringId);
 
 }
