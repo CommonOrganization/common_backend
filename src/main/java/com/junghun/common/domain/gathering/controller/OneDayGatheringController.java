@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/oneDayGathering")
+@RequestMapping("/api/oneDay")
 @RequiredArgsConstructor
 public class OneDayGatheringController {
     private final OneDayGatheringService service;

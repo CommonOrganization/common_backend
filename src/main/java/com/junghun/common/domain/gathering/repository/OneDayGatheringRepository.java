@@ -1,6 +1,5 @@
 package com.junghun.common.domain.gathering.repository;
 
-import com.junghun.common.domain.gathering.model.GatheringType;
 import com.junghun.common.domain.gathering.model.OneDayGathering;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

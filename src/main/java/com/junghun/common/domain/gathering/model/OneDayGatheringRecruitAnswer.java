@@ -7,26 +7,24 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "recruit_answer")
+@Table(name = "one_day_gathering_recruit_answer")
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class RecruitAnswer {
+public class OneDayGatheringRecruitAnswer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "gathering_id")
-    private Long gatheringId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "one_day_gathering_id", referencedColumnName = "id")
+    private OneDayGathering gathering;
 
-    @Column(name = "applier_id")
-    private Long applier_id;
-
-    @Column(name = "gathering_type")
-    @Enumerated(EnumType.STRING)
-    private GatheringType gatheringType;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "applier_id", referencedColumnName = "id")
+    private User applier;
 
     @Column(name = "question")
     private String question;

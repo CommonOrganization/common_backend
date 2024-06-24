@@ -1,16 +1,20 @@
 package com.junghun.common.domain.gathering.service;
 
+import com.junghun.common.domain.daily.repository.DailyRepository;
 import com.junghun.common.domain.gathering.dto.*;
 import com.junghun.common.domain.gathering.model.ClubGathering;
 import com.junghun.common.domain.gathering.exception.NotFoundGatheringException;
-import com.junghun.common.domain.gathering.model.GatheringType;
 import com.junghun.common.domain.gathering.model.RecruitWay;
+import com.junghun.common.domain.gathering.repository.ClubGatheringApplyStatusRepository;
 import com.junghun.common.domain.gathering.repository.ClubGatheringRepository;
+import com.junghun.common.domain.user.exception.NotFoundUserException;
 import com.junghun.common.domain.user.model.User;
+import com.junghun.common.domain.user.repository.UserRepository;
 import com.junghun.common.domain.user.service.UserService;
 import com.junghun.common.util.ConvertUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,10 +23,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClubGatheringService {
     private final ClubGatheringRepository repository;
-    private final UserService userService;
+    private final UserRepository userRepository;
+    private final DailyRepository dailyRepository;
+    private final ClubGatheringApplyStatusRepository clubGatheringApplyStatusRepository;
 
     public ClubGathering upload(ClubGatheringUploadDto clubGatheringUploadDto) {
-        User manager = userService.findById(clubGatheringUploadDto.getManagerId());
+        User manager = userRepository.findById(clubGatheringUploadDto.getManagerId())
+                .orElseThrow(()->new NotFoundUserException(clubGatheringUploadDto.getManagerId()+"를 가진 이용자가 존재하지 않습니다."));
         LocalDateTime writeDate = LocalDateTime.now();
 
         ClubGathering gathering = ClubGathering.builder()
@@ -101,7 +108,10 @@ public class ClubGatheringService {
         return repository.filterRankingCategories(city,categoryListString);
     }
 
+    @Transactional
     public void deleteById(Long id) {
+        dailyRepository.deleteDailiesByClubGathering(id);
+        clubGatheringApplyStatusRepository.deleteApplyStatusByClubGathering(id);
         repository.deleteById(id);
     }
 }

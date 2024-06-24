@@ -2,7 +2,6 @@ package com.junghun.common.domain.gathering.service;
 
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUpdateDto;
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUploadDto;
-import com.junghun.common.domain.gathering.model.GatheringType;
 import com.junghun.common.domain.gathering.model.OneDayGathering;
 import com.junghun.common.domain.gathering.model.OneDayGatheringApplyStatus;
 import com.junghun.common.domain.user.dto.RegisterDto;

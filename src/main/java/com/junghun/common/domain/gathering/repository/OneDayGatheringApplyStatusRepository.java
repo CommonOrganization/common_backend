@@ -1,8 +1,8 @@
 package com.junghun.common.domain.gathering.repository;
 
-import com.junghun.common.domain.gathering.model.GatheringType;
 import com.junghun.common.domain.gathering.model.OneDayGatheringApplyStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -26,4 +26,8 @@ public interface OneDayGatheringApplyStatusRepository extends JpaRepository<OneD
             "WHERE oga.id = :gatheringId " +
             "AND oga.status = true")
     List<OneDayGatheringApplyStatus> findApprovedApplies(Long gatheringId);
+
+    @Modifying
+    @Query("DELETE FROM OneDayGatheringApplyStatus oga WHERE oga.oneDayGathering.id = :oneDayGatheringId")
+    void deleteApplyStatusByOneDayGathering(Long oneDayGatheringId);
 }

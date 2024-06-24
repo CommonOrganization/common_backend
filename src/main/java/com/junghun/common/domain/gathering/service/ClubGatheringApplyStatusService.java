@@ -4,8 +4,6 @@ import com.junghun.common.domain.gathering.exception.*;
 import com.junghun.common.domain.gathering.model.*;
 import com.junghun.common.domain.gathering.repository.ClubGatheringApplyStatusRepository;
 import com.junghun.common.domain.gathering.repository.ClubGatheringRepository;
-import com.junghun.common.domain.gathering.repository.OneDayGatheringApplyStatusRepository;
-import com.junghun.common.domain.gathering.repository.OneDayGatheringRepository;
 import com.junghun.common.domain.user.exception.NotFoundUserException;
 import com.junghun.common.domain.user.model.User;
 import com.junghun.common.domain.user.repository.UserRepository;

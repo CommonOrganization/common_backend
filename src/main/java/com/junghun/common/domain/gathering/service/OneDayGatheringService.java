@@ -3,19 +3,21 @@ package com.junghun.common.domain.gathering.service;
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUpdateDto;
 import com.junghun.common.domain.gathering.dto.OneDayGatheringUploadDto;
 import com.junghun.common.domain.gathering.model.ClubGathering;
-import com.junghun.common.domain.gathering.model.GatheringType;
 import com.junghun.common.domain.gathering.model.OneDayGathering;
 import com.junghun.common.domain.gathering.exception.NotFoundGatheringException;
 import com.junghun.common.domain.gathering.model.RecruitWay;
+import com.junghun.common.domain.gathering.repository.ClubGatheringRepository;
+import com.junghun.common.domain.gathering.repository.OneDayGatheringApplyStatusRepository;
 import com.junghun.common.domain.gathering.repository.OneDayGatheringRepository;
+import com.junghun.common.domain.user.exception.NotFoundUserException;
 import com.junghun.common.domain.user.model.User;
-import com.junghun.common.domain.user.service.UserService;
+import com.junghun.common.domain.user.repository.UserRepository;
 import com.junghun.common.util.ConvertUtils;
 import com.junghun.common.util.RandomUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -23,22 +25,21 @@ import java.util.*;
 @RequiredArgsConstructor
 public class OneDayGatheringService {
     private final OneDayGatheringRepository repository;
-    private final UserService userService;
-    private final ClubGatheringService clubGatheringService;
+    private final UserRepository userRepository;
+    private final ClubGatheringRepository clubGatheringRepository;
+    private final OneDayGatheringApplyStatusRepository oneDayGatheringApplyStatusRepository;
 
     // CREATE
     public OneDayGathering upload(OneDayGatheringUploadDto oneDayGatheringUploadDto) {
 
-        User manager = userService.findById(oneDayGatheringUploadDto.getManagerId());
+        User manager = userRepository.findById(oneDayGatheringUploadDto.getManagerId())
+                .orElseThrow(()->new NotFoundUserException(oneDayGatheringUploadDto.getManagerId()+"를 가진 이용자가 존재하지 않습니다."));
         LocalDateTime writeDate = LocalDateTime.now();
 
         ClubGathering clubGathering = null;
         if (oneDayGatheringUploadDto.getClubGatheringId() != null) {
-            try {
-                clubGathering = clubGatheringService.findById(oneDayGatheringUploadDto.getClubGatheringId());
-            } catch (NotFoundGatheringException exception) {
-                throw new NotFoundGatheringException(oneDayGatheringUploadDto.getClubGatheringId() + " 을(를) 가진 Gathering 이 존재하지 않습니다.");
-            }
+            clubGathering = clubGatheringRepository.findById(oneDayGatheringUploadDto.getClubGatheringId())
+                    .orElseThrow(()->new NotFoundGatheringException(oneDayGatheringUploadDto.getClubGatheringId()+"를 가진 소모임이 존재하지 않습니다."));
         }
 
         OneDayGathering gathering = OneDayGathering.builder()
@@ -122,11 +123,8 @@ public class OneDayGatheringService {
 
         ClubGathering clubGathering = null;
         if (oneDayGatheringUpdateDto.getClubGatheringId() != null) {
-            try {
-                clubGathering = clubGatheringService.findById(oneDayGatheringUpdateDto.getClubGatheringId());
-            } catch (NotFoundGatheringException exception) {
-                throw new NotFoundGatheringException(oneDayGatheringUpdateDto.getClubGatheringId() + " 을(를) 가진 Gathering 이 존재하지 않습니다.");
-            }
+            clubGathering = clubGatheringRepository.findById(oneDayGatheringUpdateDto.getClubGatheringId())
+                    .orElseThrow(()->new NotFoundGatheringException(oneDayGatheringUpdateDto.getClubGatheringId()+"를 가진 소모임이 존재하지 않습니다."));
         }
 
 
@@ -159,7 +157,9 @@ public class OneDayGatheringService {
     }
 
     // DELETE
+    @Transactional
     public void deleteById(Long id) {
+        oneDayGatheringApplyStatusRepository.deleteApplyStatusByOneDayGathering(id);
         repository.deleteById(id);
     }
 }
