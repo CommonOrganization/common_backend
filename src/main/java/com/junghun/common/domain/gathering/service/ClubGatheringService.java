@@ -10,7 +10,6 @@ import com.junghun.common.domain.gathering.repository.ClubGatheringRepository;
 import com.junghun.common.domain.user.exception.NotFoundUserException;
 import com.junghun.common.domain.user.model.User;
 import com.junghun.common.domain.user.repository.UserRepository;
-import com.junghun.common.domain.user.service.UserService;
 import com.junghun.common.util.ConvertUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

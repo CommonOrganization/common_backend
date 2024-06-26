@@ -1,7 +1,6 @@
 package com.junghun.common.domain.gathering.repository;
 
 import com.junghun.common.domain.gathering.model.ClubGatheringApplyStatus;
-import com.junghun.common.domain.gathering.model.OneDayGatheringApplyStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

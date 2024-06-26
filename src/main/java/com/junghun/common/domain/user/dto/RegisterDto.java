@@ -1,6 +1,5 @@
 package com.junghun.common.domain.user.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 

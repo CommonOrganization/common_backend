@@ -1,13 +1,10 @@
 package com.junghun.common.domain.gathering.model;
 
-import com.junghun.common.domain.daily.model.Daily;
-import com.junghun.common.domain.report.model.ReportClubGathering;
 import com.junghun.common.util.ConvertUtils;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity

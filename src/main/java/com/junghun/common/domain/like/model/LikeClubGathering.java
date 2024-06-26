@@ -1,7 +1,6 @@
 package com.junghun.common.domain.like.model;
 
 import com.junghun.common.domain.gathering.model.ClubGathering;
-import com.junghun.common.domain.gathering.model.OneDayGathering;
 import com.junghun.common.domain.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;

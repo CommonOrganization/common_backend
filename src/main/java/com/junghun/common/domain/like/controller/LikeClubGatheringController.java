@@ -1,11 +1,8 @@
 package com.junghun.common.domain.like.controller;
 
 import com.junghun.common.domain.like.dto.LikeClubGatheringDto;
-import com.junghun.common.domain.like.dto.LikeOneDayGatheringDto;
 import com.junghun.common.domain.like.model.LikeClubGathering;
-import com.junghun.common.domain.like.model.LikeOneDayGathering;
 import com.junghun.common.domain.like.service.LikeClubGatheringService;
-import com.junghun.common.domain.like.service.LikeOneDayGatheringService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

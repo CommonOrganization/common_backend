@@ -1,7 +1,6 @@
 package com.junghun.common.domain.like.repository;
 
 import com.junghun.common.domain.like.model.LikeClubGathering;
-import com.junghun.common.domain.like.model.LikeOneDayGathering;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

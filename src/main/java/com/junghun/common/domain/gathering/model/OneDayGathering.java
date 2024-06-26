@@ -1,14 +1,11 @@
 package com.junghun.common.domain.gathering.model;
 
-import com.junghun.common.domain.report.model.ReportOneDayGathering;
 import com.junghun.common.util.ConvertUtils;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 @Entity
