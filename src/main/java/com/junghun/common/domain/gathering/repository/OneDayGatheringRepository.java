@@ -34,8 +34,8 @@ public interface OneDayGatheringRepository extends JpaRepository<OneDayGathering
     List<OneDayGathering> findTodayGathering(LocalDateTime now, LocalDateTime endDate);
 
     @Query(value = "SELECT o.* FROM one_day_gathering o " +
-            "LEFT JOIN (SELECT li.object_id,count(li.object_id) AS cnt from like_object li WHERE li.object_type = 'OneDayGathering' GROUP BY li.object_id) AS sli " +
-            "ON o.id = sli.object_id " +
+            "LEFT JOIN (SELECT lo.id,count(lo.id) AS cnt from like_one_day_gathering lo GROUP BY lo.id) AS slo " +
+            "ON o.id = slo.id " +
             "WHERE o.category = :category " +
             "OR o.detail_category = :category " +
             "GROUP BY o.id " +

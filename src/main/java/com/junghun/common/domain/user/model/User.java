@@ -1,17 +1,10 @@
 package com.junghun.common.domain.user.model;
 
-import com.junghun.common.domain.daily.model.Comment;
-import com.junghun.common.domain.daily.model.Daily;
-import com.junghun.common.domain.daily.model.Reply;
-import com.junghun.common.domain.gathering.model.ClubGathering;
-import com.junghun.common.domain.gathering.model.OneDayGathering;
-import com.junghun.common.domain.like.model.LikeObject;
 import com.junghun.common.util.ConvertUtils;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

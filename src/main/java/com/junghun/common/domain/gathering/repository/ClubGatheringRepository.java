@@ -19,8 +19,8 @@ public interface ClubGatheringRepository extends JpaRepository<ClubGathering, Lo
     List<ClubGathering> findParticipateInGatheringByApplierId(Long applierId);
 
     @Query(value = "SELECT c.*, cnt FROM club_gathering c " +
-            "LEFT JOIN (SELECT li.object_id,count(li.object_id) AS cnt from like_object li WHERE li.object_type = 'ClubGathering' GROUP BY li.object_id) AS sli " +
-            "ON c.id = sli.object_id " +
+            "LEFT JOIN (SELECT lc.id,count(lc.id) AS cnt from like_club_gathering lc GROUP BY lc.id) AS slc " +
+            "ON c.id = slc.id " +
             "WHERE c.city_list LIKE %:city% " +
             "GROUP BY c.id " +
             "ORDER BY cnt DESC, c.id ASC", nativeQuery = true)

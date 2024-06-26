@@ -242,7 +242,7 @@ class OneDayGatheringServiceTest {
         oneDayGatheringUploadDto.setCapacity(4);
         oneDayGatheringUploadDto.setTagList(tagList);
         oneDayGatheringUploadDto.setType("oneDay");
-        oneDayGatheringUploadDto.setOpeningDate(LocalDateTime.now().plusHours(1));
+        oneDayGatheringUploadDto.setOpeningDate(LocalDateTime.now().plusSeconds(1));
         oneDayGatheringUploadDto.setHaveEntryFee(false);
         oneDayGatheringUploadDto.setEntryFee(0);
         oneDayGatheringUploadDto.setClubGatheringId(null);
