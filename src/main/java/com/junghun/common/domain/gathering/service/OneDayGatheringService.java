@@ -152,12 +152,9 @@ public class OneDayGatheringService {
                 .build();
 
         return repository.save(updateGathering);
-
-
     }
 
     // DELETE
-    @Transactional
     public void deleteById(Long id) {
         oneDayGatheringApplyStatusRepository.deleteApplyStatusByOneDayGathering(id);
         repository.deleteById(id);

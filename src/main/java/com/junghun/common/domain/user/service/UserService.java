@@ -81,7 +81,8 @@ public class UserService {
 
     public User login(String email, String password) {
 
-        User user = repository.findByEmail(email).orElseThrow(() -> new NotFoundUserException(email + "을(를) 가진 User 가 존재하지 않습니다."));
+        User user = repository.findByEmail(email)
+                              .orElseThrow(() -> new NotFoundUserException(email + "을(를) 가진 User 가 존재하지 않습니다."));
 
         if (user != null && passwordEncoder.matches(password, user.getPassword())) {
             return user;

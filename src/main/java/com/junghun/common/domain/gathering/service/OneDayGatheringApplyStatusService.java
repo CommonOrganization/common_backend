@@ -22,8 +22,10 @@ public class OneDayGatheringApplyStatusService {
 
     public OneDayGatheringApplyStatus applyGathering(Long applierId, Long gatheringId) {
 
-        User applier = userRepository.findById(applierId).orElseThrow(() -> new NotFoundUserException(applierId + "를 가진 이용자가 없습니다."));
-        OneDayGathering oneDayGathering = oneDayGatheringRepository.findById(gatheringId).orElseThrow(() -> new NotFoundGatheringException(gatheringId + "를 가진 하루모임이 존재하지 않습니다."));
+        User applier = userRepository.findById(applierId)
+                                     .orElseThrow(() -> new NotFoundUserException(applierId + "를 가진 이용자가 없습니다."));
+        OneDayGathering oneDayGathering = oneDayGatheringRepository.findById(gatheringId)
+                                                                   .orElseThrow(() -> new NotFoundGatheringException(gatheringId + "를 가진 하루모임이 존재하지 않습니다."));
 
         validAlreadyApplied(applierId, gatheringId);
 
@@ -39,7 +41,8 @@ public class OneDayGatheringApplyStatusService {
     }
 
     public void approveGathering(Long statusId) {
-        OneDayGatheringApplyStatus gatheringApplyStatus = repository.findById(statusId).orElseThrow(() -> new NotFoundGatheringApplyStatusException(statusId + "를 가진 신청이 존재하지 않습니다."));
+        OneDayGatheringApplyStatus gatheringApplyStatus = repository.findById(statusId)
+                                                                    .orElseThrow(() -> new NotFoundGatheringApplyStatusException(statusId + "를 가진 신청이 존재하지 않습니다."));
 
         OneDayGatheringApplyStatus updateGatheringApplyStatus = OneDayGatheringApplyStatus.builder()
                 .id(gatheringApplyStatus.getId())

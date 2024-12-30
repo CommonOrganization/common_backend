@@ -1,24 +1,23 @@
-## 커먼 Backend
+<h1 align="center"><img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Milky%20Way.png" alt="Milky Way" width="25" height="25" /> COMMON <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Milky%20Way.png" alt="Milky Way" width="25" height="25" /></h1>
 
-## 🚀 Latest Version : 0.0.0 (현재 개발중인 서버)
+<div align="center">  
+스포츠 입문자들을 위한 커뮤니티 플랫폼으로, 하루모임과 소모임을 통해 함께 성장하는 공간을 만듭니다.
+</div>
 
-## Description
-커먼은 배드민턴 동호회와 같은 취미 활동을 지역 사람들이 즐기는데 겪은 어려움을 해결하기 위해 시작된 프로젝트입니다. 
-많은 사람들이 초보자일지라도 다양한 취미 활동을 즐길 수 있는 세상을 만드는 것을 목표로 합니다.
-메인 컨텐츠는 하루모임과 소모임이며, 채팅과 데일리 등의 기능이 있습니다.
+## 📌 프로젝트 소개
 
-## Tech
+Common은 스포츠 초보자들의 진입장벽을 낮추고 지속적인 참여를 도모하기 위한 모바일 플랫폼입니다.<br/>
+기존 스포츠 커뮤니티에서 초보자들이 겪는 어려움을 해소하고, 함께 성장할 수 있는 환경을 제공합니다.
+
+## 🚀 최신 버전
+
+스토어 업로드 버전 : **0.0.1**
+
+## 🛠️ 기술 스택
 - Spring : 3.2.4
 - JPA : 3.2.4
 - Security-Crypto : 6.2.3
 - MySQL : 8.3.0
-
-## Rule
-- 연관관계는 불필요한 양방향 관계 설정은 최소화하고, 최대한 단방향 관계만으로 구성될 수 있도록 설계한다.
-- 삭제는 Soft Delete 를 기본으로 한다.
-- DB 에 저장하는 모든 데이터는 기본 정보를 갖는 Base Entity 를 상속받는다.
-- boolean 에 해당하는 값은 isDeleted 대신 deleted, isYesterday 대신 yesterday 와 같이 is 를 사용하지 않는다.
-- 직접 native 쿼리를 사용하는 경우 반드시 deleted = false 를 주어 필요한 정보만 가져올 수 있도록 한다.
 
 ## Contact
 Author : [YunJungHun](https://github.com/yunjunghun0116)
